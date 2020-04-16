@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import './Notifications.css'
 
-import biddingData from '../../../../../../../TestData/biddingData'
+import biddingData from '../../../../../../../TestData/Student/biddingData'
 
 interface Props{
     isCritic?: boolean,
@@ -31,7 +31,7 @@ class Notifications extends Component<Props,State>{
                             className='more'
                             value={biddingData[0].id}
                             onClick={this.props.changePage}
-                        >Подробнее</button>
+                        ><Typography variant='button'>Подробнее</Typography></button>
                     </Gapped></div>
                 : null}
 

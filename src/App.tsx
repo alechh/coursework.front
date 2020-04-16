@@ -35,8 +35,18 @@ class App extends Component<Props,State> {
     
     changePage = (event : React.MouseEvent<HTMLButtonElement>) => {
         const newPage = event.currentTarget.value
-        if(newPage === 'Мои курсовые')
-            return(this.setState({page:'Активные'}))
+        switch(this.state.user.role){
+            case 'student':{
+                if(newPage === 'Мои курсовые')
+                    return(this.setState({page:'Активные'}))
+                break;
+            }
+            case 'teacher':{
+                if(newPage === 'Мои курсовые')
+                    return(this.setState({page : 'Занятые темы'}))
+                break
+            }
+        }
         return(this.setState({page:newPage}))
     }
 
@@ -53,8 +63,8 @@ class App extends Component<Props,State> {
     render() {
         return (
         <div className='page'>
-                <div className='topBar'><ServiceTopBar/></div>
-                <div className='mainContent'>
+            <div className='mainContent'>
+                    <div className='topBar'><ServiceTopBar/></div>
                     <Menu 
                         role={userData.role}
                         page={this.state.page} 
@@ -68,8 +78,8 @@ class App extends Component<Props,State> {
                         handleCritic = {this.handleCritic}
                         isCritic = {this.state.user.isCritic}
                     />
-                </div>
-                <Footer/>
+            </div>
+                <div className='footer'><Footer/></div>
         </div>
         )}
 }

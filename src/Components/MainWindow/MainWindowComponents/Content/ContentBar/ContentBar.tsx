@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import './ContentBar.css'
-import contentBarData from '../../../../../TestData/ContentBarData';
 
+import studentContentBarData from '../../../../../TestData/Student/ContentBarData'
+import teacherContentBarData from '../../../../../TestData/Teacher/ContentBarData'
 
 interface Props{
     page?: string,
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void
+    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    role?: string
 }
 
 interface State{
@@ -15,8 +17,9 @@ interface State{
 class ContentBar extends Component<Props,State>{
     constructor(props : Props){
         super(props);
-        this.state={
-            items: contentBarData
+        switch(this.props.role){
+            case 'student':{this.state = {items : studentContentBarData}; break}
+            case 'teacher':{this.state = {items : teacherContentBarData}; break}
         }
     }
 

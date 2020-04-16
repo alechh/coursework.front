@@ -18,12 +18,15 @@ interface Idata{
     consultantContacts?: string,
     critic?: string,
     status?: string,
-    id?: string
+    id?: string,
+    student?: string,
+    course?: number
 }
 
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     data : Idata,
+    role?: string
 }
 
 interface State{
@@ -44,7 +47,9 @@ class CourseWork extends Component<Props,State>{
         return (
             !this.isEmpty(this.props.data)?
             <div className='courseWork'>
-                <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.teacher}</p>
+                {this.props.role !== 'teacher'?
+                    <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.teacher}</p>
+                :   <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.student}, {this.props.data.course} курс</p>}
                 <p className='courseWorkDescription'>{this.props.data.description}</p>
                 <Gapped>
                     <button 

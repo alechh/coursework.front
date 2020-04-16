@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography'
 
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
-    data :{}[]
+    data :{}[],
+    role?: string
 }
 
 interface State{
@@ -34,7 +35,7 @@ class WorksList extends Component<Props,State>{
     private renderCourseWork(work : {}){
         return (
             <div style={this.styles}>
-                <CourseWork data={work} changePage={this.props.changePage}/>
+                <CourseWork data={work} changePage={this.props.changePage} role={this.props.role}/>
             </div>
         )
     }

@@ -5,9 +5,7 @@ import Typography from '@material-ui/core/Typography'
 function Footer(){
 
     return(
-        <div className='footer'>
-            <p><Typography variant='subtitle1'>HwProj Course Work</Typography></p>
-        </div>
+        <p><Typography variant='caption'>HwProj Course Work</Typography></p>
     )
 }
 

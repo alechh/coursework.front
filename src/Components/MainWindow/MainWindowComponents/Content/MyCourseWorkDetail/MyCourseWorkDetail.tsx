@@ -1,5 +1,5 @@
 import React, { Component, RefObject } from 'react'
-import courseWorkData from '../../../../../TestData/activeWorkData'
+import courseWorkData from '../../../../../TestData/Student/activeWorkData'
 import './MyCourseWorkDetail.css'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import Toast from '@skbkontur/react-ui/Toast'

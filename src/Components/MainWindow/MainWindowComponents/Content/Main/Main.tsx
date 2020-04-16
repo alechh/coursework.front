@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import './Main.css'
 import Notifications from './Components/Notifications/Notifications'
 import NewWorks from './Components/NewWorks/NewWorks'
-import { Typography } from '@material-ui/core';
-import AddWork from './Components/SidePage'
+import AddWork from './Components/SidePage/SidePage'
+import Button from '@skbkontur/react-ui/Button'
+import Gapped from '@skbkontur/react-ui/Gapped'
+import AddIcon from '@skbkontur/react-icons/Add'
 
 interface Props{
     isCritic?: boolean,
@@ -47,29 +49,35 @@ class Main extends Component<Props,State>{
             <div>
                 <Notifications isCritic={this.props.isCritic} changePage={this.props.changePage}/>
                 <NewWorks/>
-                {this.props.role === 'teacher'?
-                    <div>
-                        {this.state.opened?
-                          <AddWork
-                            closeSidePage={this.closeSidePage}
-                          />
+                <div className='ml20'>
+                    <Gapped>
+                        {this.props.role === 'teacher'?
+                            <div>
+                                {this.state.opened?
+                                <AddWork
+                                    closeSidePage={this.closeSidePage}
+                                />
+                                :null}
+                                <Button
+                                    onClick={this.openSidePage}
+                                    icon={<AddIcon/>}
+                                >Предложить тему курсовой работы</Button>
+                            </div>  
                         :null}
-                        <button
-                            className='mainButton'
-                            onClick={this.openSidePage}
-                        ><Typography variant='button'>Предложить тему курсовой работы</Typography></button>  
-                    </div>  
-                :null}
-                
-                {!this.state.isCritic?
-                    <button
-                        className='mainButton critic'
-                        onClick = {this.changeCriticStatus}
-                    ><Typography variant='button'>Стать рецензентом</Typography></button>
-                : <button
-                    className='criticButton noCritic'
-                    onClick = {this.changeCriticStatus}
-                ><Typography variant='button'>Перестать быть рецензентом</Typography></button>}
+                        
+                        {!this.state.isCritic?
+                            <Button
+                                onClick={this.changeCriticStatus}
+                                use='success'
+                            >Стать рецензентом</Button>
+                        : 
+                            <Button
+                                onClick={this.changeCriticStatus}
+                                use='danger'
+                            >Перестать быть рецензентом</Button>
+                        }
+                    </Gapped>
+                </div>
             </div>
         )
     }

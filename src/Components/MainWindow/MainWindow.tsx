@@ -25,7 +25,10 @@ class MainWindow extends Component<Props,State>{
     private main() {
         return(
             <div className='mainWindow'>
-                <Title page={this.props.page}/>
+                <Title 
+                    page={this.props.page}
+                    role={this.props.role}    
+                />
                 <Content 
                     role = {this.props.role}
                     page = {this.props.page} 

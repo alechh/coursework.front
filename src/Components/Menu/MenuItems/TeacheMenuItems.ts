@@ -4,7 +4,7 @@ const menuItems = [
         enabled: true
     },
     {   
-        title: 'Студенты',
+        title: 'Мои курсовые',
         enabled: false
     },
     {
