@@ -1,0 +1,15 @@
+.mainWindow{
+    position: relative;
+    width: 70vw;
+    height: auto;
+    min-height: 70vh;
+    left: 20vw;
+    top: 16vh;
+    padding-bottom: 10px;
+    background: #F5F5F5;
+    border: 1px solid #BDBDBD;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+    margin-left: 0px;
+    
+  }

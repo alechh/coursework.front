@@ -1,0 +1,39 @@
+.menu{
+    position: fixed;
+        width : 15vw;
+    height: auto;
+    left: 2vw;
+    top: 16vh;
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin-left: 0px;
+}
+
+.menuItem{
+    position: static;
+    width: 15vw;
+    height: 8vh;
+    margin-bottom: 1vh;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    border-radius: 15px 0px;
+    text-align: center;
+    padding: 1vh;
+    text-decoration: underline;
+    font-size: 1.3vw;
+    
+}
+
+.menuItem:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.selected{
+    background: #F1EBEB;
+    box-shadow: inset 0px 4px 5px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+
+}

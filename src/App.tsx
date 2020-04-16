@@ -1,0 +1,77 @@
+import React, {Component} from "react";
+import ServiceTopBar from "./Components/TopBar/ServiceTopBar";
+import Menu from './Components/Menu/Menu'
+import MainWindow from './Components/MainWindow/MainWindow'
+import Footer from './Components/Footer/Footer'
+import Toast from '@skbkontur/react-ui/Toast'
+
+import userData from './TestData/userData'
+
+interface Props{
+
+}
+
+interface IUser{
+    firstName?: string,
+    lastName?: string,
+    isCritic?: boolean,
+    role?: string
+}
+
+interface State{
+    page?: string,
+    user : IUser
+}
+
+
+class App extends Component<Props,State> {
+    constructor(props : Props){
+        super(props);
+        this.state = {
+            page : 'Главная',
+            user : userData
+        }
+    }
+    
+    changePage = (event : React.MouseEvent<HTMLButtonElement>) => {
+        const newPage = event.currentTarget.value
+        if(newPage === 'Мои курсовые')
+            return(this.setState({page:'Активные'}))
+        return(this.setState({page:newPage}))
+    }
+
+    handleCritic = () => {
+        let newUserData =  this.state.user
+        newUserData.isCritic = !newUserData.isCritic
+        this.setState({user : newUserData})
+        this.state.user.isCritic? 
+            Toast.push('Теперь Вы - рецензент') 
+        :   
+            Toast.push('Вы больше не рецензент')
+    }
+
+    render() {
+        return (
+        <div className='page'>
+                <div className='topBar'><ServiceTopBar/></div>
+                <div className='mainContent'>
+                    <Menu 
+                        role={userData.role}
+                        page={this.state.page} 
+                        changePage={this.changePage} 
+                        isCritic={this.state.user.isCritic}
+                    />
+                    <MainWindow
+                        role={userData.role}
+                        page={this.state.page} 
+                        changePage={this.changePage} 
+                        handleCritic = {this.handleCritic}
+                        isCritic = {this.state.user.isCritic}
+                    />
+                </div>
+                <Footer/>
+        </div>
+        )}
+}
+
+export default App;

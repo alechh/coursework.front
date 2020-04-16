@@ -1,0 +1,16 @@
+.footer{
+    position: relative;
+    height: 2vh;
+    width: 100vw;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 40px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 30px;
+
+    background: rgba(189, 189, 189, 0.267);
+    border-top: rgba(0, 0, 0, 0.267) 1px solid;
+
+}
