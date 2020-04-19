@@ -15,7 +15,7 @@ const data = [
         switcher:'Да',
         student: 'Вольфганг Амадей Моцарт',
         course :1,
-        id : 'e1'
+        id : 1
     },
     {
         title:'Поисковик научных статей',
@@ -33,7 +33,7 @@ const data = [
         switcher:'Нет',
         student: 'Петр Ильич Чайковский',
         course :2,
-        id : 'e2'
+        id : 2
     },
     {
         title:'Видеохостинг',
@@ -51,7 +51,7 @@ const data = [
         switcher:'Мб',
         student: 'Иоган Себестьян Бах',
         course :4,
-        id : 'e3'
+        id : 3
         }
 ]
 

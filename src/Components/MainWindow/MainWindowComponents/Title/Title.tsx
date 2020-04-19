@@ -10,7 +10,8 @@ import requireData from '../../../../TestData/Student/requireCriticData'
 import biddingData from '../../../../TestData/Student/biddingData'
 
 //teacher
-import myBusyWorks from '../../../../TestData/Teacher/myBusyWorks'
+import teacherCurrentWorks from '../../../../TestData/Teacher/currentWorks'
+import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
 
 interface Idata{
     title?: string,
@@ -27,7 +28,7 @@ interface Idata{
     consultantContacts?: string,
     critic?: string,
     status?: string,
-    id?: string
+    id?: number
 }
 
 interface Props{
@@ -57,49 +58,51 @@ class Title extends Component<Props,State>{
     }
 
     private whichTitle(){
-        /**
-         * r - request
-         * f - freeWorks
-         * c - completedWorkd
-         * e - requireCritic
-         * b - bidding
-         */
         switch(this.props.role){
             case 'student':{
                 if(this.props.page === 'Моя курсовая детально')
                     return this.renderTitle(this.state.activeWorkData.title)
 
-                else if (Number(this.props.page))
-                    return this.renderTitle(this.state.completedWorksData[Number(this.props.page?.substr(1))-1].title)
+                if(this.props.page!.indexOf('completed_') + 1)
+                    return this.renderTitle(completedWorksData[Number(this.props.page?.substr(10))-1].title)
 
-                else if(this.props.page?.substr(0,1) === 'r')
+                if(this.props.page!.indexOf('request') + 1)
                     return this.renderTitle('Моя заявка')
 
-                else if(this.props.page?.substr(0,1) === 'f')
-                    return  this.renderTitle(freeWorksData[Number(this.props.page.substr(1))-1].title)
+                if(this.props.page!.indexOf('free') + 1)
+                    return  this.renderTitle(freeWorksData[Number(this.props.page!.substr(5))-1].title)
 
-                else if(this.props.page?.substr(0,1) === 'c')
-                    return  this.renderTitle(completedWorksData[Number(this.props.page.substr(1))-1].title)
+                if(this.props.page!.indexOf('bidding') + 1)
+                    return  this.renderTitle(biddingData[Number(this.props.page!.substr(8))-1].title)
 
-                else if(this.props.page?.substr(0,1) === 'e')
-                    return  this.renderTitle(requireData[Number(this.props.page.substr(1))-1].title)
+                if(this.props.page!.indexOf('requireCritic') + 1)
+                    return  this.renderTitle(requireData[Number(this.props.page!.substr(14))-1].title)
 
-                else if(this.props.page?.substr(0,1) === 'b')
-                    return  this.renderTitle(biddingData[Number(this.props.page.substr(1))-1].title)
-
-                return  this.renderTitle(this.props.page)
+                return  this.renderTitle(this.props.page)   
             }
             case 'teacher':{
-                if(this.props.page === 'Занятые темы')
-                    return this.renderTitle('Студенты, у которых я научный руководитель')
-                if(this.props.page === 'Свободные темы')
-                    return this.renderTitle('Предложенные мной курсовые')
-                if(this.props.page === 'Заявки')
-                    return this.renderTitle('Текущие заявки')
-                if(this.props.page?.substr(0,1) === 'm')
-                    return this.renderTitle(myBusyWorks[Number(this.props.page.substr(1))-1].title)
-                return  this.renderTitle(this.props.page)
+                switch(this.props.page){
+                    case 'Занятые':
+                        return this.renderTitle('Студенты, у которых я научный руководитель')
 
+                    case 'Свободные':
+                        return this.renderTitle('Предложенные мной курсовые')
+
+                    case 'Заявки':
+                        return this.renderTitle('Текущие заявки')
+
+                    case 'Завершенные':
+                        return this.renderTitle('Завершенные работы')
+
+                    default:{
+                        if(this.props.page!.indexOf('current') + 1)
+                            return this.renderTitle(teacherCurrentWorks[Number(this.props.page!.substr(8))-1].title)
+
+                        if(this.props.page!.indexOf('free') + 1)
+                            return this.renderTitle(teacherFreeWorks[Number(this.props.page!.substr(5))-1].title)
+                        return  this.renderTitle(this.props.page)
+                    }
+                }
             }
         }
 

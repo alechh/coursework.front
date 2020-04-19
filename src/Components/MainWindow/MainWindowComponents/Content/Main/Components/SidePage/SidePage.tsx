@@ -8,6 +8,8 @@ import TextArea from '@skbkontur/react-ui/Textarea'
 import Select from '@skbkontur/react-ui/Select'
 import Toast from '@skbkontur/react-ui/Toast'
 import Spinner from '@skbkontur/react-ui/Spinner'
+import {Ok, Delete} from '@skbkontur/react-icons'
+
 import './SidePage.css'
 
 
@@ -99,15 +101,17 @@ private clickButton = () => {
             </SidePage.Body>
             <SidePage.Footer panel>
               <Gapped>
-                <Button 
+                <Button
+                  icon={<Ok/>} 
                   use='success' 
                   size='large'
                   onClick={this.clickButton}
                 >Отправить</Button>
-                <Button 
+                <Button
+                  icon={<Delete/>} 
                   onClick={this.props.closeSidePage} 
                   size='large'
-                >Close</Button>
+                >Отмена</Button>
                 {this.state.isSending && <Spinner type='mini'/>}
               </Gapped>
             </SidePage.Footer>

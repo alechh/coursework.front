@@ -16,7 +16,7 @@ const data = [
         student: 'Вольфганг Амадей Моцарт',
         course :1,
         criticReview:'',
-        id : 'b1'
+        id : 1
     }
 ]
 

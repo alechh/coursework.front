@@ -43,7 +43,7 @@ class App extends Component<Props,State> {
             }
             case 'teacher':{
                 if(newPage === 'Мои курсовые')
-                    return(this.setState({page : 'Занятые темы'}))
+                    return(this.setState({page : 'Занятые'}))
                 break
             }
         }

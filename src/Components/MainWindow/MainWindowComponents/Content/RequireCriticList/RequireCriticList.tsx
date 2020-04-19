@@ -39,7 +39,10 @@ class RequireCriticList extends Component<Props,State>{
     private renderRequireCriticList(){
         return(
             <div>
-                {this.props.data?.map(item => <RequireCriticItem data={item} changePage={this.props.changePage}/>)}
+                {this.props.data?.map(item => 
+                    <RequireCriticItem 
+                        data={item} 
+                        changePage={this.props.changePage}/>)}
                 <hr/>
             </div>
         )

@@ -29,7 +29,7 @@ class Notifications extends Component<Props,State>{
                         <Typography variant='h5'>-результат биддинга: {biddingData[0].title}</Typography>
                         <button
                             className='more'
-                            value={biddingData[0].id}
+                            value={'bidding_'+biddingData[0].id.toString()}
                             onClick={this.props.changePage}
                         ><Typography variant='button'>Подробнее</Typography></button>
                     </Gapped></div>

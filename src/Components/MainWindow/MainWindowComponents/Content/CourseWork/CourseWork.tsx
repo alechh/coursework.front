@@ -3,6 +3,9 @@ import './CourseWork.css'
 import Typography from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
 
+type WorkType = 'current' | 'completed' | 'free' | 'request' 
+
+
 interface Idata{
     title?: string,
     teacher?: string,
@@ -18,7 +21,7 @@ interface Idata{
     consultantContacts?: string,
     critic?: string,
     status?: string,
-    id?: string,
+    id?: number,
     student?: string,
     course?: number
 }
@@ -26,7 +29,8 @@ interface Idata{
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     data : Idata,
-    role?: string
+    role?: string,
+    type?: WorkType
 }
 
 interface State{
@@ -43,21 +47,60 @@ class CourseWork extends Component<Props,State>{
         return Object.keys(obj).length === 0;
     }
 
+    private courseWorkTitle(){
+        switch(this.props.role){
+            case 'teacher':{
+                switch(this.props.type){
+                    case 'current':
+                        return <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.student}, {this.props.data.course} курс</p>
+                    case 'free':
+                        return <p className='courseWorkTitle'><b>{this.props.data.title}</b>, {this.props.data.course} курс</p>
+                }
+                break
+            }
+            case 'student':{
+                return <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.teacher}</p>
+               
+            }
+        }
+    }
+
+    private renderDeadline(){
+        return (this.props.data.deadline !== '' && this.props.type !== 'free')? 
+            <div style={{marginLeft:'30px'}}>
+                <Typography variant='overline'>Дедлайн: {this.props.data.deadline}</Typography>
+            </div> 
+        :   null
+    }
+
+    private buttonValue(id?: number):string{
+        switch(this.props.role){
+            case 'student':{
+               if(this.props.type === 'current')
+                    return 'Моя курсовая детально'
+                else
+                    return (this.props.type + '_' + id?.toString())
+            }
+            case 'teacher':
+                return (this.props.type + '_' + id?.toString())
+            
+        }
+        return 'null'
+    }
+
     private renderCourseWork(){
         return (
             !this.isEmpty(this.props.data)?
             <div className='courseWork'>
-                {this.props.role !== 'teacher'?
-                    <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.teacher}</p>
-                :   <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.student}, {this.props.data.course} курс</p>}
+                {this.courseWorkTitle()} 
                 <p className='courseWorkDescription'>{this.props.data.description}</p>
                 <Gapped>
                     <button 
-                        value={Number(this.props.data.id) === 0? 'Моя курсовая детально' : this.props.data.id} 
+                        value={this.buttonValue(this.props.data.id)}
                         onClick={this.props.changePage} 
                         className='courseWorkMore'
                     ><Typography variant='button'>Подробнее</Typography></button>
-                    {this.props.data.deadline !== ''? <div style={{marginLeft:'30px'}}><Typography variant='overline'>Дедлайн: {this.props.data.deadline}</Typography></div> : null}
+                    {this.renderDeadline()}
                 </Gapped>
             </div>
             :             

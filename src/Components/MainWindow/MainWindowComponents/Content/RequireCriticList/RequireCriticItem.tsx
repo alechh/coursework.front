@@ -18,7 +18,7 @@ interface Idata{
     consultantContacts?: string,
     status?: string,
     switcher?: string,
-    id?: string
+    id?: number
 }
 
 interface Props{
@@ -51,7 +51,7 @@ class RequireCriticItem extends Component<Props,State>{
                 <Gapped gap={20}>
                     <button
                         className='more'
-                        value={this.state.data.id}
+                        value={'requireCritic_' + this.state.data.id?.toString()}
                         onClick={this.props.changePage}
                     ><Typography variant='button'>Подробнее</Typography></button>
                     <Switcher

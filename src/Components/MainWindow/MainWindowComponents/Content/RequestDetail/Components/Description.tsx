@@ -8,7 +8,8 @@ interface Props{
         teacher?: string,
         teacherContacts?: string
         description?: string,
-    }
+    },
+    role?: string
 }
 
 function copyEmailAddress(event?: React.MouseEvent<HTMLAnchorElement>){
@@ -19,12 +20,20 @@ function copyEmailAddress(event?: React.MouseEvent<HTMLAnchorElement>){
 
 }
 
+function needTeacher(props : Props){
+    console.log(props.role);
+    
+    return (props.role === 'student'? 
+        <Typography variant='subtitle2'>Преподаватель: {props.data.teacher}, <Link use='default' onClick={copyEmailAddress}>{props.data.teacherContacts}</Link></Typography>
+    :  null)
+}
+
 function Description(props : Props){
     return(
         <div className='descriptionDetail'>
             <Typography variant='h6'>{props.data.description}</Typography>
             <hr/>
-            <Typography variant='subtitle2'>Преподаватель: {props.data.teacher}, <Link use='default' onClick={copyEmailAddress}>{props.data.teacherContacts}</Link></Typography>
+            {needTeacher(props)}
         </div>
     )
 }

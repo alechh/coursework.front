@@ -1,5 +1,4 @@
 import React, { Component, RefObject } from 'react'
-import courseWorkData from '../../../../../TestData/Student/activeWorkData'
 import './MyCourseWorkDetail.css'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import Toast from '@skbkontur/react-ui/Toast'
@@ -10,6 +9,9 @@ import InputLink from './Components/InputLink'
 import AttachFiles from './Components/AttachFiles'
 import DeleteFiles from './Components/DeleteFiles'
 import Description from './Components/Description'
+
+import courseWorkData from '../../../../../TestData/Student/activeWorkData'
+
 
 interface Props{
 }
@@ -55,7 +57,7 @@ class MyCourseWork extends Component<Props,State>{
     }
 
     private handleNewLink = (event : React.ChangeEvent<HTMLInputElement>, value:string) => {
-        this.setState({newLink:'http://' + value})
+        this.setState({newLink: value})
     }
 
     private attachLink = () => {

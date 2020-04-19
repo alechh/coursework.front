@@ -13,7 +13,7 @@ const data = [{
     consultantContacts : 'apushkin@spbu.ru',
     critic : 'Николай Васильевич Гоголь',
     status : 'защищена',
-    id : '0'
+    id : 0
 }]
 
 export default data

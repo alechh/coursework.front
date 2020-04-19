@@ -26,7 +26,7 @@ interface Idata{
     student?: string,
     course?: number,
     criticReview?:string,
-    id?: string
+    id?: number
 }
 
 interface Props{
@@ -90,12 +90,14 @@ class BiddingDetailed extends Component<Props,State>{
                             </div>    
                     :null}
                 <div style={{marginLeft:'20px'}}>
-                    <div style={{marginBottom:'10px'}}><Typography variant='h5'>Прикрепить рецензию:</Typography></div>
-                    <input 
-                        className='inputAttach'  
-                        type="file" 
-                        onChange={(e) => this.attachFile(e.target.files!)}
-                    />
+                    <Gapped>
+                        <Typography variant='h5'>Прикрепить рецензию:</Typography>
+                        <input 
+                            className='inputAttach'  
+                            type="file" 
+                            onChange={(e) => this.attachFile(e.target.files!)}
+                        />
+                    </Gapped>
                 </div>
                     </div>
                 : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>

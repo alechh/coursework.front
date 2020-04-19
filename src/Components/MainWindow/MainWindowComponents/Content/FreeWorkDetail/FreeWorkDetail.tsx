@@ -15,7 +15,7 @@ interface Idata{
     scienceArea?: string,
     description?: string, 
     deadline?: string,
-    id?: string
+    id?: number
 }
 
 interface Props{

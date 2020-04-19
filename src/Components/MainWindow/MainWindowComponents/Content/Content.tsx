@@ -12,7 +12,8 @@ import Main from './Main/Main'
 import RequireCriticList from './RequireCriticList/RequireCriticList'
 import RequireCriticDetail from './RequireCriticDetail/RequireCriticDetail'
 import BiddingDetail from './BiddingDetail/BiddingDetail'
-import TeachersBusyWork from './TeachersBusyWork/TeachersBusyWork'
+import TeachersCurrentWork from './TeachersCurrentWork/TeachersCurrentWork'
+import TeacherFreeWorksDetail from './TeacherFreeWorkDetail/TeacherFreeWorkDetail'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
@@ -23,7 +24,137 @@ import requireData from '../../../../TestData/Student/requireCriticData'
 import biddingData from '../../../../TestData/Student/biddingData'
 
 //teacher
-import myBusyWorksData from '../../../../TestData/Teacher/myBusyWorks'
+import teacherCurrentWorks from '../../../../TestData/Teacher/currentWorks'
+import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
+import teacherRequest from '../../../../TestData/Teacher/requestsData'
+ 
+
+interface IRequestsData{
+    title?: string,
+    teacher?: string,
+    scienceArea?: string,
+    description?: string,
+    teacherContacts?: string,
+    aboutMe?: string,
+    id?: number
+}
+
+interface ICompletedData{
+    title?: string,
+    teacher?: string,
+    deadline?: string,
+    scienceArea?: string,
+    description?: string,
+    reportFile?: string,
+    presentationFile?: string,
+    consultantReportFile?: string,
+    link?: string,
+    teacherContacts?: string,
+    consultant?: string,
+    consultantContacts?: string,
+    critic?: string,
+    status?: string,
+    teacherReview?: string,
+    criticReview?: string,
+    id?: number
+}
+
+interface IFreeData{
+    title?: string,
+    teacher?:string,
+    teacherContacts?: string,
+    scienceArea?: string,
+    description?: string, 
+    deadline?: string,
+    id?: number
+}
+
+interface IRequireCriticData{
+    title?: string,
+    teacher?: string,
+    teacherContacts?: string,
+    scienceArea?: string,
+    description?: string, 
+    reportFile?: string,
+    presentationFile?: string,
+    consultantReportFile?: string,
+    link?: string,
+    consultant?: string,
+    consultantContacts?: string,
+    status?: string,
+    switcher?: string,
+    student?: string,
+    course?: number,
+    id?: number
+}
+
+interface IBiddingData{
+    title?: string,
+    teacher?: string,
+    teacherContacts?: string,
+    scienceArea?: string,
+    description?: string, 
+    reportFile?: string,
+    presentationFile?: string,
+    consultantReportFile?: string,
+    link?: string,
+    consultant?: string,
+    consultantContacts?: string,
+    status?: string,
+    switcher?: string,
+    student?: string,
+    course?: number,
+    criticReview?:string,
+    id?: number
+}
+
+
+interface ITeacherFreeWork{
+    title?: string,
+    teacher?: string,
+    teacherContacts?: string,
+    scienceArea?: string,
+    description?: string, 
+    status?: string,
+    course?: number,
+    id?: number,
+    studentId?: number
+}
+
+interface ITeacherRequest{
+    title?: string,
+    student?: string,
+    course?: number,
+    group?: string,
+    scienceArea?: string,
+    description?: string,
+    aboutMe?: string,
+    id?: number,
+    studentId?: number
+}
+
+interface ITeacherCurrentWork{
+    title?: string,
+    teacher?: string,
+    teacherContacts?: string,
+    scienceArea?: string,
+    description?: string, 
+    reportFile?: string,
+    presentationFile?: string,
+    consultantReportFile?: string,
+    link?: string,
+    consultant?: string,
+    consultantContacts?: string,
+    status?: string,
+    switcher?: string,
+    student?: string,
+    course?: number,
+    review?: string
+    criticReview?:string,
+    id?: number
+}
+
+
 
 interface Props{
     page?: string,
@@ -52,7 +183,7 @@ class Content extends Component<Props,State>{
                 break
             }
             case 'teacher':{
-                if(this.props.page === 'Занятые темы' || this.props.page === 'Свободные темы' || this.props.page === 'Заявки')
+                if(this.props.page === 'Занятые' || this.props.page === 'Свободные' || this.props.page === 'Завершенные' || this.props.page === 'Заявки')
                     return true
                 break
             }
@@ -60,50 +191,184 @@ class Content extends Component<Props,State>{
         return false
     }
 
-    private whichContent(){
+ 
+    private whichComponent(){
         switch(this.props.role){
             case 'student':{
-                if(this.props.page?.substr(0,1) === 'c') 
-                    return <CourseWorkDetail data={completedWorks[Number(this.props.page.substr(1))-1]}/>
-                if(this.props.page?.substr(0,1) === 'r')
-                    return <RequestDetail data={requestsData[Number(this.props.page.substr(1))-1]}/>
-                if(this.props.page?.substr(0,1) === 'f')
-                    return <FreeWorkDetail data={freeWorks[Number(this.props.page.substr(1))-1]}/>
-                if(this.props.page?.substr(0,1) === 'e')
-                    return <RequireCriticDetail data={requireData[Number(this.props.page.substr(1))-1]}/>
-                if(this.props.page?.substr(0,1) === 'b')
-                    return <BiddingDetail data={biddingData[Number(this.props.page.substr(1))-1]}/>     
-                switch(this.props.page){
-                    case 'Главная' : return <Main
-                                                role={this.props.role} 
-                                                handleCritic={this.props.handleCritic} 
-                                                isCritic = {this.props.isCritic} 
-                                                changePage={this.props.changePage}
-                                            />
-                    case 'Активные': return <CourseWork data={activeWork[0]} changePage={this.props.changePage}/>
-                    case 'Моя курсовая детально': return <MyCourseWorkDetail/>
-                    case 'Завершенные': return <WorksList data={completedWorks} changePage={this.props.changePage}/>
-                    case 'Мои заявки': return <RequestsList data={requestsData} changePage={this.props.changePage}/>
-                    case 'Свободные курсовые': return <WorksList data={freeWorks} changePage={this.props.changePage}/>
-                    case 'Требуют рецензии': return <RequireCriticList data={requireData} changePage={this.props.changePage}/>}
-                break;
+                if(this.props.page!.indexOf('completed') + 1){
+                    const id = Number(this.props.page!.substr(10))
+                    let data : ICompletedData = {}
+                    completedWorks.map(item =>{
+                        if(item.id === id) data = item
+                    })
+                    return <CourseWorkDetail data={data}/>
+                }
+                if(this.props.page!.indexOf('request') + 1){
+                    const id = Number(this.props.page!.substr(8))
+                    let data : IRequestsData = {}
+                    requestsData.map(item =>{
+                        if(item.id === id) data = item
+                    })
+                    return <RequestDetail data={data} role={this.props.role}/>
+                }
+
+                if(this.props.page!.indexOf('free') + 1){
+                    const id = Number(this.props.page!.substr(5))
+                    let data : IFreeData = {}
+                    freeWorks.map(item =>{
+                        if(item.id === id) data = item
+                    })
+                    return <FreeWorkDetail data={data}/>
+                }
+
+                if(this.props.page!.indexOf('requireCritic') + 1){
+                    const id = Number(this.props.page!.substr(14))
+                    let data : IRequireCriticData= {}
+                    requireData.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return <RequireCriticDetail data={data}/>
+                }
+
+                if(this.props.page!.indexOf('bidding') + 1){
+                    const id = Number(this.props.page!.substr(8))
+                    let data : IBiddingData = {}
+                    biddingData.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return <BiddingDetail data={data}/>
+                }
+                break
             }
             case 'teacher':{
-                if(this.props.page?.substr(0,1) === 'm')
-                    return <TeachersBusyWork data={myBusyWorksData[Number(this.props.page.substr(1))-1]}/>
+                if(this.props.page!.indexOf('st') === 0){
+                    let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
+                    let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
+                    let data : ITeacherRequest = {}
+                    teacherRequest.map(item => {
+                        if(item.id === requestId && item.studentId == studentId) data = item
+                    })
+                    return <RequestDetail data={data} role={this.props.role} />
+                }
 
+                if(this.props.page!.indexOf('current') + 1){
+                    const id = Number(this.props.page!.substr(8))
+                    let data : ITeacherCurrentWork = {}
+                    teacherCurrentWorks.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return <TeachersCurrentWork data={data}/>
+                }
+
+                if(this.props.page!.indexOf('free') + 1){
+                    const id = Number(this.props.page!.substr(5))
+                    let validRequests : ITeacherRequest[]
+                    validRequests = [] // eslint-disable-next-line
+                    teacherRequest.map(item =>{
+                        if(item.id === id)
+                            validRequests.push(item)
+                    })
+                    let data : ITeacherFreeWork = {}
+                    teacherFreeWorks.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return <TeacherFreeWorksDetail 
+                                data={data} 
+                                requests = {validRequests}
+                                changePage={this.props.changePage}/>
+                }
+
+                //completed
+                //requireCritic
+                //bidding
+                break
+            }
+            default: return null
+        }
+
+    }
+
+    private whichContent(){
+        
+        switch(this.props.role){
+            case 'student':{
                 switch(this.props.page){
-                    case 'Главная' : return <Main
-                                                role={this.props.role} 
-                                                handleCritic={this.props.handleCritic} 
-                                                isCritic = {this.props.isCritic} 
-                                                changePage={this.props.changePage}
-                                            />
-                    case 'Занятые темы' : return <WorksList 
-                                                    data={myBusyWorksData} 
-                                                    changePage={this.props.changePage}
-                                                    role={this.props.role}/>
+                    case 'Главная': 
+                        return <Main
+                                    role={this.props.role} 
+                                    handleCritic={this.props.handleCritic} 
+                                    isCritic = {this.props.isCritic} 
+                                    changePage={this.props.changePage}/>
 
+                    case 'Активные': 
+                        return <CourseWork 
+                                    data={activeWork[0]} 
+                                    changePage={this.props.changePage} 
+                                    role={this.props.role}
+                                    type='current'/>
+
+                    case 'Моя курсовая детально': return <MyCourseWorkDetail/>
+
+                    case 'Завершенные': 
+                        return <WorksList 
+                                    data={completedWorks} 
+                                    changePage={this.props.changePage} 
+                                    role={this.props.role}
+                                    type='completed'/>
+
+                    case 'Мои заявки': 
+                        return <RequestsList 
+                                    data={requestsData} 
+                                    changePage={this.props.changePage} 
+                                    role={this.props.role}/>
+
+                    case 'Свободные курсовые': 
+                        return <WorksList 
+                                    data={freeWorks} 
+                                    changePage={this.props.changePage} 
+                                    role={this.props.role}
+                                    type='free'/>
+
+                    case 'Требуют рецензии': 
+                        return <RequireCriticList
+                                    data={requireData} 
+                                    changePage={this.props.changePage}/>
+
+                    default:
+                        return this.whichComponent()
+                }
+            }
+            case 'teacher':{
+                switch(this.props.page){
+                    case 'Главная': 
+                        return <Main
+                                    role={this.props.role} 
+                                    handleCritic={this.props.handleCritic} 
+                                    isCritic = {this.props.isCritic} 
+                                    changePage={this.props.changePage}/>
+
+                    case 'Занятые': 
+                        return <WorksList 
+                                    data={teacherCurrentWorks} 
+                                    changePage={this.props.changePage}
+                                    role={this.props.role}
+                                    type='current'
+                                    />
+                                                    
+                    case 'Свободные': 
+                        return <WorksList
+                                    data={teacherFreeWorks}
+                                    changePage={this.props.changePage}
+                                    role={this.props.role}
+                                    type='free'/>
+
+                    case 'Заявки': 
+                        return <RequestsList
+                                    data = {teacherRequest}
+                                    changePage = {this.props.changePage}
+                                    role={this.props.role}/>
+                    default:
+                        return this.whichComponent()
                 }
             }
         }

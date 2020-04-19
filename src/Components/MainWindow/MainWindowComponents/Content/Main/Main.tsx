@@ -5,7 +5,7 @@ import NewWorks from './Components/NewWorks/NewWorks'
 import AddWork from './Components/SidePage/SidePage'
 import Button from '@skbkontur/react-ui/Button'
 import Gapped from '@skbkontur/react-ui/Gapped'
-import AddIcon from '@skbkontur/react-icons/Add'
+import {Add, Briefcase, Delete} from '@skbkontur/react-icons'
 
 interface Props{
     isCritic?: boolean,
@@ -43,6 +43,37 @@ class Main extends Component<Props,State>{
     this.setState({ opened: false });
     }
 
+    private needSidePage(){
+        return this.props.role === 'teacher'?
+            <div>
+                {this.state.opened?
+                <AddWork
+                    closeSidePage={this.closeSidePage}
+                />
+                :null}
+                <Button
+                    onClick={this.openSidePage}
+                    icon={<Add/>}
+                >Предложить тему курсовой работы</Button>
+            </div>
+        : null
+            
+    }
+
+    private criticButton(){
+        return !this.state.isCritic?
+            <Button
+                icon={<Briefcase/>}
+                onClick={this.changeCriticStatus}
+                use='success'
+            >Стать рецензентом</Button>
+        : 
+            <Button
+                icon={<Delete/>}
+                onClick={this.changeCriticStatus}
+                use='danger'
+            >Перестать быть рецензентом</Button>
+    }
     
     private renderMain(){
         return(
@@ -51,31 +82,8 @@ class Main extends Component<Props,State>{
                 <NewWorks/>
                 <div className='ml20'>
                     <Gapped>
-                        {this.props.role === 'teacher'?
-                            <div>
-                                {this.state.opened?
-                                <AddWork
-                                    closeSidePage={this.closeSidePage}
-                                />
-                                :null}
-                                <Button
-                                    onClick={this.openSidePage}
-                                    icon={<AddIcon/>}
-                                >Предложить тему курсовой работы</Button>
-                            </div>  
-                        :null}
-                        
-                        {!this.state.isCritic?
-                            <Button
-                                onClick={this.changeCriticStatus}
-                                use='success'
-                            >Стать рецензентом</Button>
-                        : 
-                            <Button
-                                onClick={this.changeCriticStatus}
-                                use='danger'
-                            >Перестать быть рецензентом</Button>
-                        }
+                        {this.criticButton()}
+                        {this.needSidePage()} 
                     </Gapped>
                 </div>
             </div>

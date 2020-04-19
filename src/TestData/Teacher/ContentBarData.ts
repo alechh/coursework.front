@@ -1,10 +1,14 @@
 const contentBarData=[
     {
-        section: 'Занятые темы',
+        section: 'Занятые',
         selected: true
     },
     {
-        section: 'Свободные темы',
+        section: 'Свободные',
+        selected: false
+    },
+    {
+        section: 'Завершенные',
         selected: false
     },
     {

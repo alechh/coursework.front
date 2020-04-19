@@ -4,17 +4,21 @@ import './RequestsList.css'
 
 interface Idata{
     title?: string,
+    student?: string,
+    course?: number,
     teacher?: string,
-    teacherContacts?: string,
+    group?: string,
     scienceArea?: string,
     description?: string,
     aboutMe?: string,
-    id?: number
+    id?: number,
+    studentId?: number
 }
 
 interface Props{
     data: {}[],
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    role?:string
 }
 
 interface State{
@@ -27,13 +31,33 @@ class RequestsList extends Component<Props,State>{
         this.state={}
     }
 
+    private renderTitle(item : Idata){
+        switch(this.props.role){
+            case 'student':
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.teacher}</Typography></div>
+            case 'teacher':
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
+        }
+    }
+
+    private buttonValue(item : Idata){
+        switch(this.props.role){
+            case 'student':
+                return 'request_' + item.id?.toString()
+            case 'teacher':
+                return 'st' + item.studentId?.toString() + '_request' + item.id!.toString()
+        }
+    }
+
     private renderItem(item : Idata){
         return(
+
+
             <div className='requestItem'>
-                <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.teacher}</Typography></div>
+                {this.renderTitle(item)}
                 <button
                     className='more inline'
-                    value={'r' + item.id!.toString()} 
+                    value={this.buttonValue(item)} 
                     onClick={this.props.changePage} 
                 ><Typography variant='button'>Подробнее</Typography>
                 </button>

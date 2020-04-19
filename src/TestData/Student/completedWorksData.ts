@@ -1,4 +1,24 @@
-const data = [
+interface ICompletedData{
+    title?: string,
+    teacher?: string,
+    deadline?: string,
+    scienceArea?: string,
+    description?: string,
+    reportFile?: string,
+    presentationFile?: string,
+    consultantReportFile?: string,
+    link?: string,
+    teacherContacts?: string,
+    consultant?: string,
+    consultantContacts?: string,
+    critic?: string,
+    status?: string,
+    teacherReview?: string,
+    criticReview?: string,
+    id?: number
+}
+
+let data : ICompletedData[] = [
     {
         title:'Тема курсовой 1',
         teacher:'Абстрактный преподаватель1',
@@ -16,7 +36,7 @@ const data = [
         critic : 'Николай Васильевич Гоголь',
         criticReview: 'Мертвые_души.pdf',
         status : 'защищена',
-        id : 'c1'
+        id : 1
     },
     {
         title:'Тема курсовой 2',
@@ -35,7 +55,7 @@ const data = [
         critic : '',
         criticReview:'Массонство.pdf',
         status : 'не защищена',
-        id : 'c2'
+        id : 2
     },
     {
         title:'Тема курсовой 3',
@@ -54,7 +74,7 @@ const data = [
         critic : '',
         criticReview:'рецензия.doc',
         status : 'не защищена',
-        id : 'c3' 
+        id : 3 
     }
 ]
 

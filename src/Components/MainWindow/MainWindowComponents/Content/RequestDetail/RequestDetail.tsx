@@ -5,20 +5,24 @@ import Description from './Components/Description'
 import Toast from '@skbkontur/react-ui/Toast'
 import Center from '@skbkontur/react-ui/Center'
 import Spinner from '@skbkontur/react-ui/Spinner'
-
+import Gapped from '@skbkontur/react-ui/Gapped'
+import Button from '@skbkontur/react-ui/Button'
 
 interface Idata{
     title?: string,
-    teacher?: string,
+    student?: string,
+    course?: number,
+    group?: string,
     scienceArea?: string,
     description?: string,
-    teacherContacts?: string,
     aboutMe?: string,
-    id?: string
+    id?: number,
+    studentId?: number
 }
 
 interface Props{
-    data : Idata
+    data : Idata,
+    role?: string
 }
 
 interface State{
@@ -46,6 +50,29 @@ class RequestDetail extends Component<Props,State>{
         }, 1000)
     }
 
+    private renderButton(){
+        switch(this.props.role){
+            case 'student':{
+                return(
+                    <button
+                        className='cancel'
+                        onClick={this.cancelRequest}
+                    ><Typography variant='button'>Отменить заявку</Typography></button>)
+            }
+            case 'teacher':{
+                    return(
+                        <div className='ml30'><Gapped>
+                            <Button
+                                use='success'
+                            ><Typography variant='button'>Принять заявку</Typography></Button>
+                            <Button
+                                use='danger'
+                            ><Typography variant='button'>Отклонить заявку</Typography></Button>
+                        </Gapped></div>
+                    )
+            }
+        }
+    }
 
     private renderRequestDetail(){
         return(
@@ -53,18 +80,16 @@ class RequestDetail extends Component<Props,State>{
                 {!this.state.isLoading?
                     <div>
                         <div className='requestTitle'><Typography variant='h4'>{this.props.data.title}</Typography></div>
-                        <Description data={this.props.data}/>
+                        <Description data={this.props.data} role={this.props.role}/>
+
+                        {this.props.role === 'teacher'? <div className='ml30'><Typography variant='h6'>Студент: {this.props.data.student}, {this.props.data.group} группа, {this.props.data.course} курс</Typography></div> : null}
                         <div className='aboutMeDiv'>
-                            <div id='aboutMeTitle'><Typography variant='h6'>Мое резюме:</Typography></div>
+                            <div id='aboutMeTitle'><Typography variant='h6'>{this.props.role === 'student'? 'Мое резюме' : 'Резюме студента'}:</Typography></div>
                             <div className='aboutMe'><Typography>{this.props.data.aboutMe}</Typography></div>
                         </div>
                         <hr/>
-                        <div>
-                            <button
-                                className='cancel'
-                                onClick={this.cancelRequest}
-                            ><Typography variant='button'>Отменить заявку</Typography></button>
-                        </div>
+                        {this.renderButton()}
+
                     </div>
                 : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>}
             </div>

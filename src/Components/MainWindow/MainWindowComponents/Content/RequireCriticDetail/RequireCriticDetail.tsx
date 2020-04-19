@@ -22,7 +22,7 @@ interface Idata{
     switcher?: string,
     student?: string,
     course?: number,
-    id?: string
+    id?: number
 }
 
 interface Props{

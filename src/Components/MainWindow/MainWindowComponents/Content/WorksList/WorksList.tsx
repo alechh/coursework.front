@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import CourseWork from '../CourseWork/CourseWork'
 import Typography from '@material-ui/core/Typography'
 
+type WorkType = 'current' | 'completed' | 'free' | 'request'
+
 
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     data :{}[],
-    role?: string
+    role?: string,
+    type?: WorkType
 }
 
 interface State{
@@ -35,7 +38,11 @@ class WorksList extends Component<Props,State>{
     private renderCourseWork(work : {}){
         return (
             <div style={this.styles}>
-                <CourseWork data={work} changePage={this.props.changePage} role={this.props.role}/>
+                <CourseWork 
+                    data={work} 
+                    changePage={this.props.changePage} 
+                    role={this.props.role}
+                    type={this.props.type}/>
             </div>
         )
     }
