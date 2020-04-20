@@ -11,7 +11,8 @@ interface Props{
         link?: string,
         teacherReview?: string,
         criticReview?: string
-    }
+    },
+    role?:string
 }
 
 class AttachedFiles extends React.Component<Props>{
@@ -25,17 +26,33 @@ class AttachedFiles extends React.Component<Props>{
     }
 
     render(){
-        return(
-        <div className='attached'>
-            {this.props.data.reportFile !== ''? <div><span>Отчет: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.reportFile}</Link></div> : null }
-            {this.props.data.teacherReview !== ''? <div><span>Отзыв научного руководителя: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.teacherReview}</Link></div> : null }
-            {this.props.data.presentationFile !== ''? <div><span>Презентация: </span> <Link use='success'onClick={this.downloadFile}>{this.props.data.presentationFile}</Link></div> : null}
-            {this.props.data.consultantReportFile !== ''? <div><span>Отзыв консультанта: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.consultantReportFile}</Link></div> : null}
-            {this.props.data.link !== ''? <div><span>Ссылка: </span><Link use='success'onClick={this.openLink}>{this.props.data.link}</Link></div> : null}
-            {this.props.data.criticReview !== ''? <div><span>Рецензия: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.criticReview}</Link></div> : null}
-            
-        </div>
-        )
+        switch(this.props.role){
+            case 'student':
+                return(
+                <div className='attached'>
+                    {this.props.data.reportFile !== ''? <div><span>Отчет: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.reportFile}</Link></div> : null }
+                    {this.props.data.teacherReview !== ''? <div><span>Отзыв научного руководителя: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.teacherReview}</Link></div> : null }
+                    {this.props.data.presentationFile !== ''? <div><span>Презентация: </span> <Link use='success'onClick={this.downloadFile}>{this.props.data.presentationFile}</Link></div> : null}
+                    {this.props.data.consultantReportFile !== ''? <div><span>Отзыв консультанта: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.consultantReportFile}</Link></div> : null}
+                    {this.props.data.link !== ''? <div><span>Ссылка: </span><Link use='success'onClick={this.openLink}>{this.props.data.link}</Link></div> : null}
+                    {this.props.data.criticReview !== ''? <div><span>Рецензия: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.criticReview}</Link></div> : null}
+                    
+                </div>
+                )
+            case 'teacher':
+                return(
+                    <div className='attached'>
+                        {this.props.data.reportFile !== ''? <div><span>Отчет студента: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.reportFile}</Link></div> : null }
+                        {this.props.data.presentationFile !== ''? <div><span>Презентация: </span> <Link use='success'onClick={this.downloadFile}>{this.props.data.presentationFile}</Link></div> : null}
+                        {this.props.data.link !== ''? <div><span>Ссылка: </span><Link use='success'onClick={this.openLink}>{this.props.data.link}</Link></div> : null}
+                        <br/>
+                        {this.props.data.teacherReview !== ''? <div><span>Отзыв научного руководителя: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.teacherReview}</Link></div> : null }
+                        {this.props.data.consultantReportFile !== ''? <div><span>Отзыв консультанта: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.consultantReportFile}</Link></div> : null}
+                        {this.props.data.criticReview !== ''? <div><span>Рецензия: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.criticReview}</Link></div> : null}
+                        
+                    </div>
+                    )
+        }
     }
 }
 

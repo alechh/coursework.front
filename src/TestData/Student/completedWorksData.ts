@@ -54,7 +54,7 @@ let data : ICompletedData[] = [
         consultantContacts : 'bezukhow@spbu.ru',
         critic : '',
         criticReview:'Массонство.pdf',
-        status : 'не защищена',
+        status : 'защищена',
         id : 2
     },
     {
@@ -73,7 +73,7 @@ let data : ICompletedData[] = [
         consultantContacts : 'bezukhow@spbu.ru',
         critic : '',
         criticReview:'рецензия.doc',
-        status : 'не защищена',
+        status : 'защищена',
         id : 3 
     }
 ]

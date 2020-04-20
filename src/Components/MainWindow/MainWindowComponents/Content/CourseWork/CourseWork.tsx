@@ -55,6 +55,8 @@ class CourseWork extends Component<Props,State>{
                         return <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.student}, {this.props.data.course} курс</p>
                     case 'free':
                         return <p className='courseWorkTitle'><b>{this.props.data.title}</b>, {this.props.data.course} курс</p>
+                    case 'completed':
+                        return <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.student}, {this.props.data.course} курс</p>
                 }
                 break
             }

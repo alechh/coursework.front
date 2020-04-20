@@ -34,7 +34,7 @@ class RequestsList extends Component<Props,State>{
         return(
             <div style={{marginBottom:'10px'}}>
                <Gapped>
-                    <div style={{width:'auto', minWidth:'25vw', textDecoration:'underline'}}><Typography>{item.student}, {item.course} курс, {item.group} группа</Typography></div>
+                    <div style={{width:'auto', minWidth:'20vw', textDecoration:'underline'}}><Typography>{item.student}, {item.course} курс, {item.group} группа</Typography></div>
                     <button
                         onClick={this.props.changePage}
                         value={'st' + item.studentId?.toString() + '_request' + item.id!.toString()}
@@ -48,7 +48,7 @@ class RequestsList extends Component<Props,State>{
     private renderRequestsList(){
         return(
             <div>
-                <div className='ml20'><Typography variant='h6'>Заявки на эту тему:</Typography></div>
+                <div className='ml20'><Typography variant='h5'>Заявки на эту тему:</Typography></div>
                 <div className='ml30'>{this.props.data!.map(item => this.renderItem(item))}</div>
             </div>
         )

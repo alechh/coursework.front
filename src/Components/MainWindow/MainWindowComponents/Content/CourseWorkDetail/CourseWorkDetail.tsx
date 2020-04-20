@@ -19,12 +19,16 @@ interface Idata{
     consultantContacts?: string,
     critic?: string,
     status?: string,
-    teacherReview?: string
+    teacherReview?: string,
+    student?:string,
+    course?: number,
+    id?: number
 }
 
 
 interface Props{
-    data : Idata
+    data : Idata,
+    role : string
 }
 
 interface State{
@@ -54,8 +58,8 @@ class CourseWorkDetail extends Component<Props,State>{
             <div className='informationWindow'>
             {!this.state.isLoading?
                 <div>
-                    <Description data={this.props.data}/>
-                    <AttachedFiles data={this.props.data}/>
+                    <Description data={this.props.data} role={this.props.role}/>
+                    <AttachedFiles data={this.props.data} role={this.props.role}/>
                 </div>
             : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>}
             </div>

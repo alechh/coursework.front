@@ -27,6 +27,7 @@ import biddingData from '../../../../TestData/Student/biddingData'
 import teacherCurrentWorks from '../../../../TestData/Teacher/currentWorks'
 import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
 import teacherRequest from '../../../../TestData/Teacher/requestsData'
+import teacherCompletedWorks from '../../../../TestData/Teacher/completedWorks'
  
 
 interface IRequestsData{
@@ -154,6 +155,28 @@ interface ITeacherCurrentWork{
     id?: number
 }
 
+interface ITeacherCompletedWork{
+    title?: string,
+    teacher?: string,
+    teacherContacts?: string,
+    deadline?: string,
+    scienceArea?: string,
+    description?: string, 
+    reportFile?: string,
+    presentationFile?: string,
+    consultantReportFile?: string,
+    link?: string,
+    consultant?: string,
+    consultantContacts?: string,
+    critic?: string,
+    criticReview?: string,
+    teacherReview?: string,
+    status?: string,
+    student?: string,
+    course?: number,
+    id?: number
+}
+
 
 
 interface Props{
@@ -201,7 +224,7 @@ class Content extends Component<Props,State>{
                     completedWorks.map(item =>{
                         if(item.id === id) data = item
                     })
-                    return <CourseWorkDetail data={data}/>
+                    return <CourseWorkDetail data={data} role={this.props.role}/>
                 }
                 if(this.props.page!.indexOf('request') + 1){
                     const id = Number(this.props.page!.substr(8))
@@ -246,7 +269,7 @@ class Content extends Component<Props,State>{
                     let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
                     let data : ITeacherRequest = {}
                     teacherRequest.map(item => {
-                        if(item.id === requestId && item.studentId == studentId) data = item
+                        if(item.id === requestId && item.studentId === studentId) data = item
                     })
                     return <RequestDetail data={data} role={this.props.role} />
                 }
@@ -278,7 +301,17 @@ class Content extends Component<Props,State>{
                                 changePage={this.props.changePage}/>
                 }
 
-                //completed
+                if(this.props.page!.indexOf('completed') + 1){
+                    const id = Number(this.props.page!.substr(10))
+                    let data : ITeacherCompletedWork = {}
+                    teacherCompletedWorks.map(item => {
+                        if (item.id === id) return data=item
+                    })
+                    return <CourseWorkDetail
+                        data = {data}
+                        role={this.props.role}/>
+
+                }
                 //requireCritic
                 //bidding
                 break
@@ -361,7 +394,12 @@ class Content extends Component<Props,State>{
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='free'/>
-
+                    case 'Завершенные':
+                        return <WorksList
+                                    data={teacherCompletedWorks}
+                                    changePage={this.props.changePage}
+                                    role={this.props.role}
+                                    type='completed'/>
                     case 'Заявки': 
                         return <RequestsList
                                     data = {teacherRequest}
