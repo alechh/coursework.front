@@ -25,9 +25,10 @@ import biddingData from '../../../../TestData/Student/biddingData'
 
 //teacher
 import teacherCurrentWorks from '../../../../TestData/Teacher/currentWorks'
-import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
+import teacherMyFreeWorks from '../../../../TestData/Teacher/myFreeWorks'
 import teacherRequest from '../../../../TestData/Teacher/requestsData'
 import teacherCompletedWorks from '../../../../TestData/Teacher/completedWorks'
+import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
  
 
 interface IRequestsData{
@@ -220,44 +221,44 @@ class Content extends Component<Props,State>{
             case 'student':{
                 if(this.props.page!.indexOf('completed') + 1){
                     const id = Number(this.props.page!.substr(10))
-                    let data : ICompletedData = {}
+                    let data : ICompletedData = {} // eslint-disable-next-line
                     completedWorks.map(item =>{
-                        if(item.id === id) data = item
+                        if(item.id === id) return (data = item)
                     })
                     return <CourseWorkDetail data={data} role={this.props.role}/>
                 }
                 if(this.props.page!.indexOf('request') + 1){
                     const id = Number(this.props.page!.substr(8))
-                    let data : IRequestsData = {}
+                    let data : IRequestsData = {} // eslint-disable-next-line
                     requestsData.map(item =>{
-                        if(item.id === id) data = item
+                        if(item.id === id) return (data = item)
                     })
                     return <RequestDetail data={data} role={this.props.role}/>
                 }
 
                 if(this.props.page!.indexOf('free') + 1){
                     const id = Number(this.props.page!.substr(5))
-                    let data : IFreeData = {}
+                    let data : IFreeData = {} // eslint-disable-next-line
                     freeWorks.map(item =>{
-                        if(item.id === id) data = item
+                        if(item.id === id) return (data = item)
                     })
-                    return <FreeWorkDetail data={data}/>
+                    return <FreeWorkDetail data={data} role={this.props.role}/>
                 }
 
                 if(this.props.page!.indexOf('requireCritic') + 1){
                     const id = Number(this.props.page!.substr(14))
-                    let data : IRequireCriticData= {}
+                    let data : IRequireCriticData= {} // eslint-disable-next-line
                     requireData.map(item => {
-                        if(item.id === id) data = item
+                        if(item.id === id) return (data = item)
                     })
                     return <RequireCriticDetail data={data}/>
                 }
 
                 if(this.props.page!.indexOf('bidding') + 1){
                     const id = Number(this.props.page!.substr(8))
-                    let data : IBiddingData = {}
+                    let data : IBiddingData = {} // eslint-disable-next-line
                     biddingData.map(item => {
-                        if(item.id === id) data = item
+                        if(item.id === id) return (data = item)
                     })
                     return <BiddingDetail data={data}/>
                 }
@@ -267,18 +268,18 @@ class Content extends Component<Props,State>{
                 if(this.props.page!.indexOf('st') === 0){
                     let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
                     let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
-                    let data : ITeacherRequest = {}
+                    let data : ITeacherRequest = {} // eslint-disable-next-line
                     teacherRequest.map(item => {
-                        if(item.id === requestId && item.studentId === studentId) data = item
+                        if(item.id === requestId && item.studentId === studentId) return (data = item)
                     })
                     return <RequestDetail data={data} role={this.props.role} />
                 }
 
                 if(this.props.page!.indexOf('current') + 1){
                     const id = Number(this.props.page!.substr(8))
-                    let data : ITeacherCurrentWork = {}
+                    let data : ITeacherCurrentWork = {} // eslint-disable-next-line
                     teacherCurrentWorks.map(item => {
-                        if(item.id === id) data = item
+                        if(item.id === id) return (data = item)
                     })
                     return <TeachersCurrentWork data={data}/>
                 }
@@ -291,9 +292,9 @@ class Content extends Component<Props,State>{
                         if(item.id === id)
                             validRequests.push(item)
                     })
-                    let data : ITeacherFreeWork = {}
-                    teacherFreeWorks.map(item => {
-                        if(item.id === id) data = item
+                    let data : ITeacherFreeWork = {} // eslint-disable-next-line
+                    teacherMyFreeWorks.map(item => {
+                        if(item.id === id) return (data = item)
                     })
                     return <TeacherFreeWorksDetail 
                                 data={data} 
@@ -303,14 +304,23 @@ class Content extends Component<Props,State>{
 
                 if(this.props.page!.indexOf('completed') + 1){
                     const id = Number(this.props.page!.substr(10))
-                    let data : ITeacherCompletedWork = {}
+                    let data : ITeacherCompletedWork = {} // eslint-disable-next-line
                     teacherCompletedWorks.map(item => {
-                        if (item.id === id) return data=item
+                        if (item.id === id) return (data = item)
                     })
                     return <CourseWorkDetail
                         data = {data}
                         role={this.props.role}/>
 
+                }
+
+                if(this.props.page!.indexOf('foreign') + 1){
+                    const id = Number(this.props.page!.substr(8))
+                    let data : IFreeData = {} // eslint-disable-next-line
+                    teacherFreeWorks.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return <FreeWorkDetail data={data} role={this.props.role}/>
                 }
                 //requireCritic
                 //bidding
@@ -390,7 +400,7 @@ class Content extends Component<Props,State>{
                                                     
                     case 'Свободные': 
                         return <WorksList
-                                    data={teacherFreeWorks}
+                                    data={teacherMyFreeWorks}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='free'/>
@@ -405,6 +415,12 @@ class Content extends Component<Props,State>{
                                     data = {teacherRequest}
                                     changePage = {this.props.changePage}
                                     role={this.props.role}/>
+                    case 'Свободные курсовые':
+                        return <WorksList
+                                    data={teacherFreeWorks}
+                                    changePage={this.props.changePage}
+                                    role={this.props.role}
+                                    type='foreign'/>
                     default:
                         return this.whichComponent()
                 }

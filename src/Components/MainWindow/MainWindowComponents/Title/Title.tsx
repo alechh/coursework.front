@@ -3,32 +3,20 @@ import './Title.css'
 
 //student
 import  activeWorkData from '../../../../TestData/Student/activeWorkData'
-import completedWorksData from '../../../../TestData/Student/completedWorksData'
-import requestsData from '../../../../TestData/Student/requestsData'
-import freeWorksData from '../../../../TestData/Student/freeWorksData'
+import completedWorks from '../../../../TestData/Student/completedWorksData'
+import freeWorks from '../../../../TestData/Student/freeWorksData'
 import requireData from '../../../../TestData/Student/requireCriticData'
 import biddingData from '../../../../TestData/Student/biddingData'
 
 //teacher
 import teacherCurrentWorks from '../../../../TestData/Teacher/currentWorks'
+import teacherMyFreeWorks from '../../../../TestData/Teacher/myFreeWorks'
+import teacherCompletedWorks from '../../../../TestData/Teacher/completedWorks'
+import teacherRequest from '../../../../TestData/Teacher/requestsData'
 import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
 
 interface Idata{
-    title?: string,
-    teacher?: string,
-    deadline?: string,
-    scienceArea?: string,
-    description?: string,
-    reportFile?: string,
-    presentationFile?: string,
-    consultantReportFile?: string,
-    link?: string,
-    teacherContacts?: string,
-    consultant?: string,
-    consultantContacts?: string,
-    critic?: string,
-    status?: string,
-    id?: number
+    title?: string
 }
 
 interface Props{
@@ -37,18 +25,14 @@ interface Props{
 }
 
 interface State{
-    completedWorksData : Idata[],
-    activeWorkData : Idata,
-    requestsData: Idata[]
+
 }
 
 class Title extends Component<Props,State>{
     constructor(props:Props){
         super(props);
         this.state = {
-            completedWorksData : completedWorksData,
-            activeWorkData : activeWorkData[0],
-            requestsData : requestsData
+
         }
     }
 
@@ -61,23 +45,48 @@ class Title extends Component<Props,State>{
         switch(this.props.role){
             case 'student':{
                 if(this.props.page === 'Моя курсовая детально')
-                    return this.renderTitle(this.state.activeWorkData.title)
+                    return this.renderTitle(activeWorkData[0].title)
 
-                if(this.props.page!.indexOf('completed_') + 1)
-                    return this.renderTitle(completedWorksData[Number(this.props.page?.substr(10))-1].title)
+                if(this.props.page!.indexOf('completed_') + 1){
+                    const id = Number(this.props.page!.substr(10))
+                    let data :{title?: string} = {} // eslint-disable-next-line
+                    completedWorks.map(item =>{
+                        if(item.id === id) return (data = item)
+                    })
+                    return this.renderTitle(data.title)
+                }
 
                 if(this.props.page!.indexOf('request') + 1)
                     return this.renderTitle('Моя заявка')
 
-                if(this.props.page!.indexOf('free') + 1)
-                    return  this.renderTitle(freeWorksData[Number(this.props.page!.substr(5))-1].title)
+                if(this.props.page!.indexOf('free') + 1){
+                    const id = Number(this.props.page!.substr(5))
+                    let data : {title?: string} = {} // eslint-disable-next-line
+                    freeWorks.map(item =>{
+                        if(item.id === id) return (data = item)
+                    })
+                    return  this.renderTitle(data.title)
+                }
+                    
 
-                if(this.props.page!.indexOf('bidding') + 1)
-                    return  this.renderTitle(biddingData[Number(this.props.page!.substr(8))-1].title)
+                if(this.props.page!.indexOf('bidding') + 1){
+                    const id = Number(this.props.page!.substr(8))
+                    let data : {title?: string} = {} // eslint-disable-next-line
+                    biddingData.map(item => {
+                        if(item.id === id) return (data = item)
+                    })
+                    return this.renderTitle(data.title)
+                }
 
-                if(this.props.page!.indexOf('requireCritic') + 1)
-                    return  this.renderTitle(requireData[Number(this.props.page!.substr(14))-1].title)
-
+                if(this.props.page!.indexOf('requireCritic') + 1){
+                    const id = Number(this.props.page!.substr(14))
+                    let data : {title?: string} = {} // eslint-disable-next-line
+                    requireData.map(item => {
+                        if(item.id === id) return (data = item)
+                    })
+                    return  this.renderTitle(data.title)
+                }
+                
                 return  this.renderTitle(this.props.page)   
             }
             case 'teacher':{
@@ -95,11 +104,53 @@ class Title extends Component<Props,State>{
                         return this.renderTitle('Завершенные работы')
 
                     default:{
-                        if(this.props.page!.indexOf('current') + 1)
-                            return this.renderTitle(teacherCurrentWorks[Number(this.props.page!.substr(8))-1].title)
+                        if(this.props.page!.indexOf('current') + 1){
+                            const id = Number(this.props.page!.substr(8))
+                            let data : {title?: string} = {} // eslint-disable-next-line
+                            teacherCurrentWorks.map(item => {
+                                if(item.id === id) return (data = item)
+                            })
+                            return this.renderTitle(data.title)
+                        }
+                    
 
-                        if(this.props.page!.indexOf('free') + 1)
-                            return this.renderTitle(teacherFreeWorks[Number(this.props.page!.substr(5))-1].title)
+                        if(this.props.page!.indexOf('free') + 1){
+                            const id = Number(this.props.page!.substr(5))
+                            let data : {title?: string} = {} // eslint-disable-next-line
+                            teacherMyFreeWorks.map(item => {
+                                if(item.id === id) return (data = item)
+                            })
+                            return this.renderTitle(data.title)
+                        }
+
+                        if(this.props.page!.indexOf('completed') + 1){
+                            const id = Number(this.props.page!.substr(10))
+                            let data : {title?: string} = {} // eslint-disable-next-line
+                            teacherCompletedWorks.map(item => {
+                                if (item.id === id) return (data = item)
+                            })
+                            return this.renderTitle(data.title)
+                        }
+
+                        if(this.props.page!.indexOf('st') === 0){
+                            let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
+                            let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
+                            let data : {title?: string} = {} // eslint-disable-next-line
+                            teacherRequest.map(item => {
+                                if(item.id === requestId && item.studentId === studentId) return (data = item)
+                            })
+                            return this.renderTitle(data.title)
+                        }
+
+                        if(this.props.page!.indexOf('foreign') + 1){
+                            const id = Number(this.props.page!.substr(8))
+                            let data : {title?: string} = {} // eslint-disable-next-line
+                            teacherFreeWorks.map(item => {
+                                if(item.id === id) data = item
+                            })
+                            return this.renderTitle(data.title)
+                        }
+
                         return  this.renderTitle(this.props.page)
                     }
                 }

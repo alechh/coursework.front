@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CourseWork from '../CourseWork/CourseWork'
 import Typography from '@material-ui/core/Typography'
 
-type WorkType = 'current' | 'completed' | 'free' | 'request'
+type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
 
 interface Props{

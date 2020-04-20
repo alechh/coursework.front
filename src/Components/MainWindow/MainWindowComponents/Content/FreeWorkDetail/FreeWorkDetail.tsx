@@ -19,7 +19,8 @@ interface Idata{
 }
 
 interface Props{
-    data : Idata
+    data : Idata,
+    role?: string
 }
 
 interface State{
@@ -45,6 +46,27 @@ class FreeWorkDetail extends Component<Props,State>{
         Toast.push('Заявка отправлена')
     }
 
+    private needCV(){
+        if(this.props.role === 'student')
+            return(
+            <div style={{marginLeft:'30px'}}>
+                <Typograph variant='h6'>Рассказать о себе</Typograph>
+                <Gapped gap={5}>
+                    <TextArea
+                        autoResize={true}
+                        width='40vw'
+                        value={this.state.aboutMe}
+                        onChange={this.handleChange}
+                        placeholder='Резюме'
+                    />
+                    <button
+                        id='submit'
+                        onClick = {this.submit}
+                    ><Typograph variant='button'>Подать заявку</Typograph></button>
+                </Gapped>
+            </div>)
+    }
+
     componentDidMount(){
         this.setState({isLoading:true})
         setTimeout(() => {
@@ -60,22 +82,7 @@ class FreeWorkDetail extends Component<Props,State>{
                     <div>
                         <Description data={this.props.data}/>
                         <hr/>
-                        <div style={{marginLeft:'30px'}}>
-                            <Typograph variant='h6'>Рассказать о себе</Typograph>
-                            <Gapped gap={5}>
-                                <TextArea
-                                    autoResize={true}
-                                    width='40vw'
-                                    value={this.state.aboutMe}
-                                    onChange={this.handleChange}
-                                    placeholder='Резюме'
-                                />
-                                <button
-                                    id='submit'
-                                    onClick = {this.submit}
-                                ><Typograph variant='button'>Подать заявку</Typograph></button>
-                            </Gapped>
-                        </div>
+                        {this.needCV()}
                     </div>
                 : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>}
             </div>

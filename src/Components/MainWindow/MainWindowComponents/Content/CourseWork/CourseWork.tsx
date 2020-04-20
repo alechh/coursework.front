@@ -3,7 +3,7 @@ import './CourseWork.css'
 import Typography from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
 
-type WorkType = 'current' | 'completed' | 'free' | 'request' 
+type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
 
 interface Idata{
@@ -57,6 +57,8 @@ class CourseWork extends Component<Props,State>{
                         return <p className='courseWorkTitle'><b>{this.props.data.title}</b>, {this.props.data.course} курс</p>
                     case 'completed':
                         return <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.student}, {this.props.data.course} курс</p>
+                    case 'foreign':
+                        return <p className='courseWorkTitle'><b>{this.props.data.title}</b>, {this.props.data.course} курс</p>
                 }
                 break
             }
