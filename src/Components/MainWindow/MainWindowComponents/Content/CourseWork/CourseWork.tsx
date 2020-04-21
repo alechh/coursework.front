@@ -92,6 +92,7 @@ class CourseWork extends Component<Props,State>{
         return 'null'
     }
 
+
     private renderCourseWork(){
         return (
             !this.isEmpty(this.props.data)?

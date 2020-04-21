@@ -14,6 +14,8 @@ import teacherMyFreeWorks from '../../../../TestData/Teacher/myFreeWorks'
 import teacherCompletedWorks from '../../../../TestData/Teacher/completedWorks'
 import teacherRequest from '../../../../TestData/Teacher/requestsData'
 import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
+import teacherRequireCritic from '../../../../TestData/Teacher/requireCriticData'
+import teacherBidding from '../../../../TestData/Teacher/biddingData'
 
 interface Idata{
     title?: string
@@ -151,9 +153,29 @@ class Title extends Component<Props,State>{
                             return this.renderTitle(data.title)
                         }
 
+                        if(this.props.page!.indexOf('requireCritic') + 1){
+                            const id = Number(this.props.page!.substr(14))
+                            let data : {title?: string} = {} // eslint-disable-next-line
+                            teacherRequireCritic.map(item => {
+                                if(item.id === id) data = item
+                            })
+                            return this.renderTitle(data.title)
+                        }
+
+                        if(this.props.page!.indexOf('bidding') + 1){
+                            const id = Number(this.props.page!.substr(8))
+                            let data : {title?: string} = {} // eslint-disable-next-line
+                            teacherBidding.map(item => {
+                                if(item.id === id) data = item
+                            })
+                            return this.renderTitle(data.title)
+                        }
                         return  this.renderTitle(this.props.page)
                     }
                 }
+            }
+            case 'curator':{
+                return this.renderTitle(this.props.page)
             }
         }
 

@@ -23,8 +23,11 @@ class AttachedFiles extends React.Component<Props>{
         Toast.push('Скачивание...')
     }
 
-    private openLink = () => {
-        Toast.push('Открываю ссылку...')
+    private getHref(){
+        let link = this.props.data.link;
+        if(link?.substr(0,4) !== 'http')
+            link = 'http://' + link
+        return link
     }
 
     render(){
@@ -33,7 +36,7 @@ class AttachedFiles extends React.Component<Props>{
             {this.props.data.reportFile !== ''? <div><span>Отчет: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.reportFile}</Link></div> : null }
             {this.props.data.presentationFile !== ''? <div><span>Презентация: </span> <Link use='success'onClick={this.downloadFile}>{this.props.data.presentationFile}</Link></div> : null}
             {this.props.data.consultantReportFile !== ''? <div><span>Отзыв консультанта: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.consultantReportFile}</Link></div> : null}
-            {this.props.data.link !== ''? <div><span>Ссылка: </span><Link use='success'onClick={this.openLink}>{this.props.data.link}</Link></div> : null}
+            {this.props.data.link !== ''? <div><span>Ссылка: </span><Link use='success' href={this.getHref()}>{this.props.data.link}</Link></div> : null}
             
         </div>
         )

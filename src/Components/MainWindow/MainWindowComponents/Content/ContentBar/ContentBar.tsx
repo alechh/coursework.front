@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import './ContentBar.css'
+import Gapped from '@skbkontur/react-ui/Gapped'
 
 import studentContentBarData from '../../../../../TestData/Student/ContentBarData'
 import teacherContentBarData from '../../../../../TestData/Teacher/ContentBarData'
+import curatorContentBarWorks from '../../../../../TestData/Curator/ContentBar2'
+
+interface Idata{
+    section?: string,
+    selected?: boolean
+}
 
 interface Props{
     page?: string,
@@ -11,7 +18,7 @@ interface Props{
 }
 
 interface State{
-    items: {section?:string, selected?: boolean}[]
+    items: Idata[]
 }
 
 class ContentBar extends Component<Props,State>{
@@ -20,6 +27,7 @@ class ContentBar extends Component<Props,State>{
         switch(this.props.role){
             case 'student':{this.state = {items : studentContentBarData}; break}
             case 'teacher':{this.state = {items : teacherContentBarData}; break}
+            case 'curator':{this.state = {items : curatorContentBarWorks};break}
         }
     }
 
@@ -39,7 +47,8 @@ class ContentBar extends Component<Props,State>{
         return(this.setState({items:arr}))
     }
 
-private renderContentBar(){
+
+    private renderContentBar(){
         return(
             <div className='contentBar'>
                 {this.state.items.map(item => 
@@ -50,7 +59,6 @@ private renderContentBar(){
                         value={item.section}
                     >{item.section}
                     </button>)}
-                <hr className='minor'/>
             </div>
         )
     }

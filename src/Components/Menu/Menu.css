@@ -4,10 +4,7 @@
     height: auto;
     left: 2vw;
     top: 16vh;
-    /* background: #FFFFFF; */
-    /* border-radius: 10px; */
     margin-left: 0px;
-/**/
     border-radius: 4px;
     border: 1px solid #BDBDBD;
     padding:2px;
@@ -17,31 +14,23 @@
     position: static;
     width: 12vw;
     height: 6vh;
-    /*margin-bottom: 1vh;*/
     background: #FFFFFF;
-    /*border: 1px solid rgba(0, 0, 0, 0.5);*/
     box-sizing: border-box;
-    /*border-radius: 15px 0px;*/
-    /* text-align: center; */
     padding: 1vh;
-    text-decoration: underline;
-    font-size: 2.2vh;
-
-    /**/
+    /* font-size: 2.2vh; */
+    font-size: calc(0.6vh + 0.7vw);
     border:none;
     text-align: left;
-    padding-left: 2vh;
+    padding-left: 1vw;
 }
 
 .menuItem:hover {
     cursor: pointer;
-    transform: scale(1.05);
+    transform: scale(1.03);
     transition: 0.3s;
-    /**/
     background: rgba(238, 237, 237, 0.712);
 }
 
-/*new*/
 .selected:hover{
     position: static;
     width: 12vw;
@@ -52,19 +41,15 @@
     text-align: center;
     padding: 1vh;
     text-decoration: underline;
-    font-size: 2.2vh;
     text-align: left;
-    padding-left: 2vh;
+    padding-left: 1vw;
     background: rgba(207, 206, 206, 0.87);
     text-decoration: none;
     transform: scale(1);
 }
 
 .selected{
-    /*background: #F1EBEB;*/
-    /* box-shadow: inset 0px 4px 5px rgba(0, 0, 0, 0.25); */
     text-decoration: none;
-
-    /**/
     background: rgba(207, 206, 206, 0.87);
+    
 }

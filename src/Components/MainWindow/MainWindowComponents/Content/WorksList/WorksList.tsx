@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CourseWork from '../CourseWork/CourseWork'
 import Typography from '@material-ui/core/Typography'
+import './WorksList.css'
 
 type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
@@ -21,23 +22,10 @@ class WorksList extends Component<Props,State>{
         super(props);
         this.state={}
     }
-
-    styles = {
-        marginBottom:'30px', 
-        webkitBoxShadow: '10px 10px 5px -7px rgba(0,0,0,0.75)',
-        mozBoxShadow: ' 10px 10px 5px -7px rgba(0,0,0,0.75)',
-        boxShadow: '10px 10px 5px -7px rgba(0,0,0,0.75)',
-        background : '#e6e6e6',
-        borderRadius : '10px',
-        marginLeft: '15px',
-        marginRight: '15px',
-        border: 'rgb(199, 180, 180) 1px solid'
-    }
     
-
     private renderCourseWork(work : {}){
         return (
-            <div style={this.styles}>
+            <div className='workItem'>
                 <CourseWork 
                     data={work} 
                     changePage={this.props.changePage} 
@@ -49,7 +37,9 @@ class WorksList extends Component<Props,State>{
 
     private renderList(){
         return(
-            this.props.data.map( work => this.renderCourseWork(work))
+            <div className={this.needMarginTop()}>
+                {this.props.data.map( work => this.renderCourseWork(work))}
+            </div>
         )
     }
 
@@ -63,6 +53,14 @@ class WorksList extends Component<Props,State>{
 
     private isEmpty(obj : any) {
         return Object.keys(obj).length === 0;
+    }
+
+    
+    private needMarginTop(){
+        return(
+            this.props.type === 'foreign'?
+            'mt' : ''
+        )
     }
 
     render(){

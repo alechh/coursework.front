@@ -46,6 +46,13 @@ class App extends Component<Props,State> {
                     return(this.setState({page : 'Занятые'}))
                 break
             }
+            case 'curator':{
+                if(newPage === 'Рецензенты')
+                    return(this.setState({page : 'Новые рецензенты'}))
+                else if (newPage === 'Курсовые')
+                    return(this.setState({page : 'Занятые темы'}))
+                break
+            }
         }
         return(this.setState({page:newPage}))
     }

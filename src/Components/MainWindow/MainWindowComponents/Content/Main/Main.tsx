@@ -7,6 +7,13 @@ import Button from '@skbkontur/react-ui/Button'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import {Add, Briefcase, Delete} from '@skbkontur/react-icons'
 
+
+//student
+import biddingData from '../../../../../TestData/Student/biddingData'
+
+//teacher
+import teacherBiddingData from '../../../../../TestData/Teacher/biddingData'
+
 interface Props{
     isCritic?: boolean,
     handleCritic() : void,
@@ -74,11 +81,20 @@ class Main extends Component<Props,State>{
                 use='danger'
             >Перестать быть рецензентом</Button>
     }
+
+    private whichData(){
+        switch(this.props.role){
+            case 'student':
+                return biddingData
+            case 'teacher':
+                return teacherBiddingData
+        }
+    }
     
     private renderMain(){
         return(
             <div>
-                <Notifications isCritic={this.props.isCritic} changePage={this.props.changePage}/>
+                {this.props.isCritic? <Notifications isCritic={this.props.isCritic} changePage={this.props.changePage} role={this.props.role} data={this.whichData()!}/> : null}
                 <NewWorks/>
                 <div className='ml20'>
                     <Gapped>

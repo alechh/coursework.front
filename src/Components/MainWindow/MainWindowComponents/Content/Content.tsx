@@ -14,6 +14,7 @@ import RequireCriticDetail from './RequireCriticDetail/RequireCriticDetail'
 import BiddingDetail from './BiddingDetail/BiddingDetail'
 import TeachersCurrentWork from './TeachersCurrentWork/TeachersCurrentWork'
 import TeacherFreeWorksDetail from './TeacherFreeWorkDetail/TeacherFreeWorkDetail'
+import CriticSwitcher from './CriticSwitcher/CriticSwitcher'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
@@ -29,6 +30,10 @@ import teacherMyFreeWorks from '../../../../TestData/Teacher/myFreeWorks'
 import teacherRequest from '../../../../TestData/Teacher/requestsData'
 import teacherCompletedWorks from '../../../../TestData/Teacher/completedWorks'
 import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
+import teacherRequireCritic from '../../../../TestData/Teacher/requireCriticData'
+import teacherBidding from '../../../../TestData/Teacher/biddingData'
+
+//curator
  
 
 interface IRequestsData{
@@ -211,7 +216,18 @@ class Content extends Component<Props,State>{
                     return true
                 break
             }
+            case 'curator':{
+                if(this.props.page === 'Занятые темы' || this.props.page === 'Предложенные темы' || this.props.page === 'Заявки')
+                    return true
+                break
+            }
         }
+        return false
+    }
+
+    needSwitcher(){
+        if(this.props.role === 'curator' && (this.props.page === 'Новые рецензенты' || this.props.page === 'Выбранные рецензенты'))
+            return true
         return false
     }
 
@@ -322,7 +338,24 @@ class Content extends Component<Props,State>{
                     })
                     return <FreeWorkDetail data={data} role={this.props.role}/>
                 }
-                //requireCritic
+
+                if(this.props.page!.indexOf('requireCritic') + 1){
+                    const id = Number(this.props.page!.substr(14))
+                    let data : IRequireCriticData = {} // eslint-disable-next-line
+                    teacherRequireCritic.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return <RequireCriticDetail data={data}/>
+                }
+
+                if(this.props.page!.indexOf('bidding') + 1){
+                    const id = Number(this.props.page!.substr(8))
+                    let data : IBiddingData = {} // eslint-disable-next-line
+                    teacherBidding.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return <BiddingDetail data={data}/>
+                }
                 //bidding
                 break
             }
@@ -421,6 +454,10 @@ class Content extends Component<Props,State>{
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='foreign'/>
+                    case 'Требуют рецензии':
+                        return <RequireCriticList
+                                    data={teacherRequireCritic} 
+                                    changePage={this.props.changePage}/>
                     default:
                         return this.whichComponent()
                 }
@@ -432,6 +469,7 @@ class Content extends Component<Props,State>{
         return(
             <div className='content'>
                 {this.needContentBar()? <ContentBar changePage={this.props.changePage} page={this.props.page} role={this.props.role}/> : null}
+                {this.needSwitcher()? <CriticSwitcher changePage={this.props.changePage} page={this.props.page}/> : null}
                 {this.whichContent()}
             </div>
         )
