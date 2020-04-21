@@ -103,7 +103,7 @@ class CourseWork extends Component<Props,State>{
                     <button 
                         value={this.buttonValue(this.props.data.id)}
                         onClick={this.props.changePage} 
-                        className='courseWorkMore'
+                        className='buttonMore'
                     ><Typography variant='button'>Подробнее</Typography></button>
                     {this.renderDeadline()}
                 </Gapped>

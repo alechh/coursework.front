@@ -28,7 +28,7 @@ interface Idata{
 
 interface Props{
     data : Idata,
-    role : string
+    role : string,
 }
 
 interface State{

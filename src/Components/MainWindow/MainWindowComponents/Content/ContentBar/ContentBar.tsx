@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './ContentBar.css'
-import Gapped from '@skbkontur/react-ui/Gapped'
 
 import studentContentBarData from '../../../../../TestData/Student/ContentBarData'
 import teacherContentBarData from '../../../../../TestData/Teacher/ContentBarData'

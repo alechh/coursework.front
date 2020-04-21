@@ -15,6 +15,7 @@ import BiddingDetail from './BiddingDetail/BiddingDetail'
 import TeachersCurrentWork from './TeachersCurrentWork/TeachersCurrentWork'
 import TeacherFreeWorksDetail from './TeacherFreeWorkDetail/TeacherFreeWorkDetail'
 import CriticSwitcher from './CriticSwitcher/CriticSwitcher'
+import NewCriticList from './NewCriticsList/NewCriticList'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
@@ -460,6 +461,16 @@ class Content extends Component<Props,State>{
                                     changePage={this.props.changePage}/>
                     default:
                         return this.whichComponent()
+                }
+            }
+            case 'curator':{
+                switch(this.props.page){
+                    case 'Новые рецензенты':{
+                        return <NewCriticList type='not-selected'/>
+                    }
+                    case 'Выбранные рецензенты':{
+                        return <NewCriticList type='selected'/>
+                    }
                 }
             }
         }

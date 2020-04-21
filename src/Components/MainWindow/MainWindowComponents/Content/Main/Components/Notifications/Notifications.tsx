@@ -33,7 +33,7 @@ class Notifications extends Component<Props,State>{
                     <div className='bidding'><Gapped>
                         <div style={{minWidth:'30vw'}}><Typography variant='h5'><i>-результат биддинга:</i> {item.title}</Typography></div>
                         <button
-                            className='more'
+                            className='buttonMore'
                             value={'bidding_' + item.id!.toString()}
                             onClick={this.props.changePage}
                         ><Typography variant='button'>Подробнее</Typography></button>

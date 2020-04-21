@@ -48,9 +48,9 @@ class RequireCriticItem extends Component<Props,State>{
         return(
             <div className='requireItem'>
                 <div className='requireTitle'><Typography variant='h6'>{this.state.data.title}, преподаватель {this.state.data.teacher}</Typography></div>
-                <Gapped gap={20}>
+                <Gapped gap={50}>
                     <button
-                        className='more'
+                        className='buttonMore'
                         value={'requireCritic_' + this.state.data.id?.toString()}
                         onClick={this.props.changePage}
                     ><Typography variant='button'>Подробнее</Typography></button>

@@ -56,7 +56,7 @@ class RequestsList extends Component<Props,State>{
             <div className='requestItem'>
                 {this.renderTitle(item)}
                 <button
-                    className='more inline'
+                    className='buttonMore inline'
                     value={this.buttonValue(item)} 
                     onClick={this.props.changePage} 
                 ><Typography variant='button'>Подробнее</Typography>

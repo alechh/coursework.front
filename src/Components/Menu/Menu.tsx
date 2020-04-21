@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './Menu.css'
 
-
 import studentMenu from './MenuItems/StudentMenuItems'
 import teacherMenu from './MenuItems/TeacheMenuItems'
 import curatorMenu from './MenuItems/CuratorMenuItems'
