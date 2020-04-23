@@ -3,7 +3,7 @@ import './ContentBar.css'
 
 import studentContentBarData from '../../../../../TestData/Student/ContentBarData'
 import teacherContentBarData from '../../../../../TestData/Teacher/ContentBarData'
-import curatorContentBarWorks from '../../../../../TestData/Curator/ContentBar2'
+import curatorContentBarWorks from '../../../../../TestData/Curator/WorksContentBar'
 
 interface Idata{
     section?: string,

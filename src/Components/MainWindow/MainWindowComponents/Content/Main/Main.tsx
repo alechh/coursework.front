@@ -51,7 +51,7 @@ class Main extends Component<Props,State>{
     }
 
     private needSidePage(){
-        return this.props.role === 'teacher'?
+        return (this.props.role === 'teacher' || this.props.role === 'curator')?
             <div>
                 {this.state.opened?
                 <AddWork
@@ -98,7 +98,7 @@ class Main extends Component<Props,State>{
                 <NewWorks/>
                 <div className='ml20'>
                     <Gapped>
-                        {this.criticButton()}
+                        {this.props.role !== 'curator'? this.criticButton() : null}
                         {this.needSidePage()} 
                     </Gapped>
                 </div>

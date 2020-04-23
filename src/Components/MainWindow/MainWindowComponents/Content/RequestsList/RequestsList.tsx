@@ -61,9 +61,9 @@ class RequestsList extends Component<Props,State>{
     private renderTitle(item : Idata){
         switch(this.props.role){
             case 'student':
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.teacher}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h5'>{item.title}, {item.teacher}</Typography></div>
             case 'teacher':
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
+                return <div className='inline req_title'><Typography variant='h5'>{item.title}, {item.student}, {item.course} курс</Typography></div>
         }
     }
 
@@ -78,8 +78,6 @@ class RequestsList extends Component<Props,State>{
 
     private renderItem(item : Idata){
         return(
-
-
             <div className='requestItem'>
                 {this.renderTitle(item)}
                 <button
@@ -96,7 +94,6 @@ class RequestsList extends Component<Props,State>{
         return(
             <div>
                 {this.state.data.map(item => this.renderItem(item))}
-                <hr/>
             </div>
         )
     }

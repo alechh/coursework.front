@@ -13,6 +13,9 @@ import teacherMyFreeWorks from '../../../../../TestData/Teacher/myFreeWorks'
 import teacherCompletedWorks from '../../../../../TestData/Teacher/completedWorks'
 import teacherFreeWorks from '../../../../../TestData/Teacher/freeWorks'
 
+//curator 
+import curatorCurrentWorks from '../../../../../TestData/Curator/currentWorks'
+
 type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
 interface Props{
@@ -45,20 +48,20 @@ class WorksList extends Component<Props,State>{
 
 
     componentDidMount(){
+        this.setState({isLoading : true})
         this.whichData()
+        this.setState({isLoading : false})
     }
     
     private whichData = () => {
-        this.setState({isLoading : true})
-        
         switch(this.props.role){
             case 'student':{
                 switch(this.props.type){
-                    case 'current':{
-                        return (this.setState({data : completedWorks, isLoading : false, type : 'current'}))
+                    case 'completed':{
+                        return (this.setState({data : completedWorks, type : 'current'}))
                     }
                     case 'free':{
-                        return (this.setState({data : freeWorks, isLoading : false, type : 'free'}))
+                        return (this.setState({data : freeWorks, type : 'free'}))
                     }
                 }
                 break
@@ -66,21 +69,27 @@ class WorksList extends Component<Props,State>{
             case 'teacher':{
                 switch(this.props.type){
                     case 'current':{
-                        return (this.setState({data : teacherCurrentWorks, isLoading : false, type : 'current'}))
+                        return (this.setState({data : teacherCurrentWorks, type : 'current'}))
                     }
                     case 'free':{
-                        return (this.setState({data : teacherMyFreeWorks, isLoading : false, type : 'free'}))
+                        return (this.setState({data : teacherMyFreeWorks, type : 'free'}))
                     }
                     case 'completed':{
-                        return (this.setState({data : teacherCompletedWorks, isLoading : false, type : 'completed'}))
+                        return (this.setState({data : teacherCompletedWorks, type : 'completed'}))
                     }
                     case 'foreign':{
-                        return (this.setState({data : teacherFreeWorks, isLoading : false, type : 'foreign'}))
+                        return (this.setState({data : teacherFreeWorks, type : 'foreign'}))
                     }
                 }
                 break
             }
-            default: return (this.setState({data : [{}], isLoading : false}))
+            case 'curator':{
+                switch(this.props.type){
+                    case 'current':{
+                        this.setState({data : curatorCurrentWorks, type : 'current'})
+                    }
+                }
+            }
         }
     }
     
@@ -107,12 +116,12 @@ class WorksList extends Component<Props,State>{
     private renderEmptyList(){
         return(
             <div style={{textAlign:"center"}}>
-                <Typography variant='h5'>Нет завершенных курсовых работ</Typography>
+                <Typography variant='h5'>Нет курсовых работ</Typography>
             </div>
         )
     }
 
-    private isEmpty(obj : any) {
+    private isEmpty(obj : {}) {
         return Object.keys(obj).length === 0;
     }
 

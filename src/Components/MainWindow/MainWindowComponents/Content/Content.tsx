@@ -212,12 +212,24 @@ class Content extends Component<Props,State>{
             }
             case 'curator':{
                 switch(this.props.page){
-                    case 'Новые рецензенты':{
+                    case 'Главная':
+                        return <Main
+                                    role={this.props.role} 
+                                    handleCritic={this.props.handleCritic} 
+                                    isCritic = {this.props.isCritic} 
+                                    changePage={this.props.changePage}/>
+
+                    case 'Новые рецензенты':
                         return <NewCriticList type='not-selected'/>
-                    }
-                    case 'Выбранные рецензенты':{
+                    
+                    case 'Выбранные рецензенты':
                         return <NewCriticList type='selected'/>
-                    }
+                    
+                    case 'Занятые темы':
+                        return <WorksList
+                                    changePage={this.props.changePage}
+                                    role={this.props.role}
+                                    type='current'/>
                 }
             }
         }

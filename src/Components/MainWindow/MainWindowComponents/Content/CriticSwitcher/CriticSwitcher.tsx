@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './CriticSwitcher.css'
 
-import criticItems from '../../../../../TestData/Curator/ContentBar1'
+import criticItems from '../../../../../TestData/Curator/CriticsContentBar'
 
 interface Idata{
     section?: string,

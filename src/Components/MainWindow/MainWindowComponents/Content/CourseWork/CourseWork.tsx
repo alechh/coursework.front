@@ -64,7 +64,9 @@ class CourseWork extends Component<Props,State>{
             }
             case 'student':{
                 return <p className='courseWorkTitle'><b>{this.props.data.title}</b>  {', ' + this.props.data.teacher}</p>
-               
+            }
+            case 'curator':{
+                return <p className='courseWorkTitle'><b>{this.props.data.title}</b>, преподаватель {this.props.data.teacher}</p>
             }
         }
     }
@@ -87,7 +89,8 @@ class CourseWork extends Component<Props,State>{
             }
             case 'teacher':
                 return (this.props.type + '_' + id?.toString())
-            
+            case 'curator':
+                return (this.props.type + '_' + id?.toString())
         }
         return 'null'
     }
