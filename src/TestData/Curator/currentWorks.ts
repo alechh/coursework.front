@@ -1,7 +1,7 @@
 const data = [
     {
         title:'Сервис курсовых',
-        teacher:'Толстой Лев Николаевич',
+        teacher:'Николай Васильевич Гоголь',
         teacherContacts: 'ltolstoy@spbu.ru',
         deadline:'01.06.2020',
         scienceArea : 'Веб-приложения',

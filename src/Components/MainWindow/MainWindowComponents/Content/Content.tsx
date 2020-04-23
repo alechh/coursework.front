@@ -16,6 +16,7 @@ import TeachersCurrentWork from './TeachersCurrentWork/TeachersCurrentWork'
 import TeacherFreeWorksDetail from './TeacherFreeWorkDetail/TeacherFreeWorkDetail'
 import CriticSwitcher from './CriticSwitcher/CriticSwitcher'
 import NewCriticList from './NewCriticsList/NewCriticList'
+import CuratorCurrentWorkDetail from './CuratorCurrentWorkDetail/CuratorCurrentWorkDetail'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
@@ -115,7 +116,10 @@ class Content extends Component<Props,State>{
                     return <BiddingDetail role={this.props.role} page={this.props.page}/>
                 break
             }
-            default: return null
+            case 'curator':{
+                if(this.props.page!.indexOf('current') + 1)
+                    return <CuratorCurrentWorkDetail page={this.props.page} role={this.props.role}/>
+            }
         }
 
     }
@@ -230,6 +234,8 @@ class Content extends Component<Props,State>{
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='current'/>
+                    default:
+                        return this.whichComponent()
                 }
             }
         }

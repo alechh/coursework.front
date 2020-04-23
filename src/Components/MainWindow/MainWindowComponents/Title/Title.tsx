@@ -17,6 +17,9 @@ import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
 import teacherRequireCritic from '../../../../TestData/Teacher/requireCriticData'
 import teacherBidding from '../../../../TestData/Teacher/biddingData'
 
+//curator
+import curatorCurrentWorks from '../../../../TestData/Curator/currentWorks'
+
 interface Idata{
     title?: string
 }
@@ -179,6 +182,15 @@ class Title extends Component<Props,State>{
                 }
             }
             case 'curator':{
+                if(this.props.page!.indexOf('current') + 1){
+                    const id = Number(this.props.page!.substr(8))
+                    let data : {title?: string} = {}// eslint-disable-next-line
+                   curatorCurrentWorks.map(item => {
+                        if(item.id === id) data = item
+                    })
+                    return this.renderTitle(data.title)
+                }
+
                 return this.renderTitle(this.props.page)
             }
         }
