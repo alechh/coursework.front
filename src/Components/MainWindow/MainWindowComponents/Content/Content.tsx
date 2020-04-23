@@ -19,20 +19,8 @@ import NewCriticList from './NewCriticsList/NewCriticList'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
-import completedWorks from '../../../../TestData/Student/completedWorksData'
-import requestsData from '../../../../TestData/Student/requestsData'
-import freeWorks from '../../../../TestData/Student/freeWorksData'
-import requireData from '../../../../TestData/Student/requireCriticData'
 
-//teacher
-import teacherCurrentWorks from '../../../../TestData/Teacher/currentWorks'
-import teacherMyFreeWorks from '../../../../TestData/Teacher/myFreeWorks'
-import teacherRequest from '../../../../TestData/Teacher/requestsData'
-import teacherCompletedWorks from '../../../../TestData/Teacher/completedWorks'
-import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
-import teacherRequireCritic from '../../../../TestData/Teacher/requireCriticData'
 
-//curator
  
 interface Props{
     page?: string,
@@ -100,6 +88,7 @@ class Content extends Component<Props,State>{
 
                 if(this.props.page!.indexOf('bidding') + 1)
                     return <BiddingDetail role={this.props.role} page={this.props.page}/>
+
                 break
             }
             case 'teacher':{
@@ -150,32 +139,26 @@ class Content extends Component<Props,State>{
                                     role={this.props.role}
                                     type='current'/>
 
-                    case 'Моя курсовая детально': return <MyCourseWorkDetail/>
+                    case 'Моя курсовая детально': 
+                        return <MyCourseWorkDetail/>
 
                     case 'Завершенные': 
                         return <WorksList 
-                                    data={completedWorks} 
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='completed'/>
 
                     case 'Мои заявки': 
-                        return <RequestsList 
-                                    data={requestsData} 
-                                    changePage={this.props.changePage} 
-                                    role={this.props.role}/>
+                        return <RequestsList changePage={this.props.changePage} role={this.props.role}/>
 
                     case 'Свободные курсовые': 
                         return <WorksList 
-                                    data={freeWorks} 
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='free'/>
 
                     case 'Требуют рецензии': 
-                        return <RequireCriticList
-                                    data={requireData} 
-                                    changePage={this.props.changePage}/>
+                        return <RequireCriticList role={this.props.role} changePage={this.props.changePage}/>
 
                     default:
                         return this.whichComponent()
@@ -192,38 +175,36 @@ class Content extends Component<Props,State>{
 
                     case 'Занятые': 
                         return <WorksList 
-                                    data={teacherCurrentWorks} 
                                     changePage={this.props.changePage}
                                     role={this.props.role}
-                                    type='current'
-                                    />
+                                    type='current'/>
                                                     
                     case 'Свободные': 
                         return <WorksList
-                                    data={teacherMyFreeWorks}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='free'/>
+
                     case 'Завершенные':
                         return <WorksList
-                                    data={teacherCompletedWorks}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='completed'/>
+
                     case 'Заявки': 
                         return <RequestsList
-                                    data = {teacherRequest}
                                     changePage = {this.props.changePage}
                                     role={this.props.role}/>
+
                     case 'Свободные курсовые':
                         return <WorksList
-                                    data={teacherFreeWorks}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='foreign'/>
+
                     case 'Требуют рецензии':
                         return <RequireCriticList
-                                    data={teacherRequireCritic} 
+                                    role={this.props.role}
                                     changePage={this.props.changePage}/>
                     default:
                         return this.whichComponent()

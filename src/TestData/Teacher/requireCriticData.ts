@@ -1,10 +1,10 @@
 const data = [
     {
-        title:'Мессенджер для студентов',
+        title:'Мессенджер для сотрудников кафедры',
         teacher:'Толстой Лев Николаевич',
         teacherContacts: 'ltolstoy@spbu.ru',
         scienceArea : 'Мессенджер',
-        description: 'Создать удобный мессенджер для студентов', 
+        description: 'Создать быстрый и надежный мессенджер для сотрудников кафедры', 
         reportFile: 'Отчет.pdf',
         presentationFile: 'Main.pptx',
         consultantReportFile:'con_review.pdf',
@@ -52,7 +52,7 @@ const data = [
         student: 'Иоган Себестьян Бах',
         course :4,
         id : 3
-        }
+    }
 ]
 
 export default data

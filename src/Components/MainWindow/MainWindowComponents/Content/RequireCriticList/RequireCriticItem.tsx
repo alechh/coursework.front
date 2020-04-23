@@ -27,19 +27,17 @@ interface Props{
 }
 
 interface State{
-    data: Idata
 }
 
 class RequireCriticItem extends Component<Props,State>{
     constructor(props : Props){
         super(props);
         this.state={
-            data: this.props.data
         }
     }
 
     private handleSwtcher = (event : {target : {value:string}}) => {
-        let newData = this.state.data
+        let newData = this.props.data
         newData.switcher = event.target.value
         this.setState({data : newData})
     }
@@ -47,18 +45,18 @@ class RequireCriticItem extends Component<Props,State>{
     render(){
         return(
             <div className='requireItem'>
-                <div className='requireTitle'><Typography variant='h6'>{this.state.data.title}, преподаватель {this.state.data.teacher}</Typography></div>
+                <div className='requireTitle'><Typography variant='h6'>{this.props.data.title}, преподаватель {this.props.data.teacher}</Typography></div>
                 <Gapped gap={50}>
                     <button
                         className='buttonMore'
-                        value={'requireCritic_' + this.state.data.id?.toString()}
+                        value={'requireCritic_' + this.props.data.id?.toString()}
                         onClick={this.props.changePage}
                     ><Typography variant='button'>Подробнее</Typography></button>
                     <Switcher
                         items={['Да','Мб','Нет']}
-                        value={this.state.data.switcher}
+                        value={this.props.data.switcher}
                         onChange={this.handleSwtcher}
-                        key={this.state.data.id}
+                        key={this.props.data.id}
                         />
                 </Gapped>
             </div>

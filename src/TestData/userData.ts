@@ -9,7 +9,7 @@ let data : IUser = {
     firstName : 'Alex',
     lastName : 'Berezhnykh',
     isCritic : false,
-    role: 'curator'
+    role: 'teacher'
 }
 
 export default data

@@ -134,6 +134,9 @@ class Title extends Component<Props,State>{
                             return this.renderTitle(data.title)
                         }
 
+                        if(this.props.page!.indexOf('request') + 1)
+                        return this.renderTitle('Текущая заявка')
+
                         if(this.props.page!.indexOf('st') === 0){
                             let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
                             let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
@@ -170,6 +173,7 @@ class Title extends Component<Props,State>{
                             })
                             return this.renderTitle(data.title)
                         }
+
                         return  this.renderTitle(this.props.page)
                     }
                 }

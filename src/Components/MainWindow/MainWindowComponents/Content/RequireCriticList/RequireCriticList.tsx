@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import './RequireCriticList.css'
 import RequireCriticItem from './RequireCriticItem'
 
+//student
+import requireData from '../../../../../TestData/Student/requireCriticData'
+
+//teacher
+import teacherRequireCritic from '../../../../../TestData/Teacher/requireCriticData'
+
 interface Idata{
     title?: string,
     teacher?: string,
@@ -16,38 +22,57 @@ interface Idata{
     consultantContacts?: string,
     status?: string,
     switcher?: string,
-    id?: string
+    id?: number
 }
 
 interface Props{
-    data?: {}[],
+    role?: string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
 }
 
 interface State{
-    data?: Idata[]
+    data?: Idata[],
+    isLoading?: boolean
 }
 
 class RequireCriticList extends Component<Props,State>{
     constructor(props : Props){
         super(props);
         this.state={
-            data : this.props.data
+            data : [{}],
+            isLoading : false
+        }
+    }
+
+    componentDidMount(){
+        this.setState({isLoading : true})
+        this.whichData()
+        this.setState({isLoading : false})
+    }
+
+    private whichData = () =>{
+        switch(this.props.role){
+            case 'student':{
+                return (this.setState({data : requireData}))
+            }
+            case 'teacher':{
+                return (this.setState({data : teacherRequireCritic}))
+            }
         }
     }
 
     private renderRequireCriticList(){
         return(
             <div>
-                {this.props.data?.map(item => 
-                    <RequireCriticItem 
+                {this.state.data?.map(item => {
+                    return <RequireCriticItem 
                         data={item} 
-                        changePage={this.props.changePage}/>)}
+                        changePage={this.props.changePage}
+                    />})}
                 <hr/>
             </div>
         )
     }
-
     render(){
         return this.renderRequireCriticList();
     }

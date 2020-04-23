@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography'
 import './RequestsList.css'
 
+//student
+import requestsData from '../../../../../TestData/Student/requestsData'
+
+//teacher 
+import teacherRequests from '../../../../../TestData/Teacher/requestsData'
+
 interface Idata{
     title?: string,
     student?: string,
@@ -16,20 +22,41 @@ interface Idata{
 }
 
 interface Props{
-    data: {}[],
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     role?:string
 }
 
 interface State{
-
+    data : {}[],
+    isLoading?: boolean
 }
 
 class RequestsList extends Component<Props,State>{
     constructor(props : Props){
         super(props);
-        this.state={}
+        this.state={
+            data : [{}],
+            isLoading : false
+        }
     }
+
+    componentDidMount(){
+        this.whichData()
+    }
+
+    private whichData = () => {
+        this.setState({isLoading : true})
+
+        switch(this.props.role){
+            case 'student':{
+                return (this.setState({data : requestsData, isLoading : false}))
+            }
+            case 'teacher':{
+                return (this.setState({data : teacherRequests, isLoading : false}))
+            }
+        }
+    }
+
 
     private renderTitle(item : Idata){
         switch(this.props.role){
@@ -68,7 +95,7 @@ class RequestsList extends Component<Props,State>{
     private renderRequestsList(){
         return(
             <div>
-                {this.props.data.map(item => this.renderItem(item))}
+                {this.state.data.map(item => this.renderItem(item))}
                 <hr/>
             </div>
         )
@@ -88,7 +115,7 @@ class RequestsList extends Component<Props,State>{
 
     render(){
         return(
-            !this.isEmpty(this.props.data[0])?
+            !this.isEmpty(this.state.data[0])?
                 this.renderRequestsList()
             : this.renderEmptyList()
         )

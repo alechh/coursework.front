@@ -99,12 +99,12 @@ class CourseWork extends Component<Props,State>{
             <div className='courseWork'>
                 {this.courseWorkTitle()} 
                 <p className='courseWorkDescription'>{this.props.data.description}</p>
-                <Gapped>
+                <Gapped gap={20}>
                     <button 
                         value={this.buttonValue(this.props.data.id)}
                         onClick={this.props.changePage} 
                         className='buttonMore'
-                    ><Typography variant='button'>Подробнее</Typography></button>
+                    ><div style={{width :'auto', height : 'auto'}}><Typography variant='button'>Подробнее</Typography></div></button>
                     {this.renderDeadline()}
                 </Gapped>
             </div>
