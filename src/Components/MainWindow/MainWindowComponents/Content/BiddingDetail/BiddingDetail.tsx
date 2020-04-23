@@ -8,6 +8,11 @@ import Link from '@skbkontur/react-ui/Link'
 import Toast from '@skbkontur/react-ui/Toast'
 import Gapped from '@skbkontur/react-ui/Gapped'
 
+//student
+import biddingData from '../../../../../TestData/Student/biddingData'
+
+//teacher
+import teacherBidding from '../../../../../TestData/Teacher/biddingData'
 
 interface Idata{
     title?: string,
@@ -30,12 +35,14 @@ interface Idata{
 }
 
 interface Props{
-    data : Idata
+    page?: string,
+    role?: string
 }
 
 interface State{
     isLoading?: boolean,
-    criticReview?: string
+    criticReview?: string,
+    data : Idata
 }
 
 class BiddingDetailed extends Component<Props,State>{
@@ -43,17 +50,34 @@ class BiddingDetailed extends Component<Props,State>{
         super(props);
         this.state={
             isLoading : false,
-            criticReview : this.props.data.criticReview
+            criticReview: '',
+            data : {}
         }
     }
 
     componentDidMount(){
         this.setState({isLoading:true})
-        setTimeout(() => {
-            this.setState({
-                isLoading: false
-            })
-        }, 1000)
+
+        switch(this.props.role){
+            case 'student':{
+                const id = Number(this.props.page!.substr(8))
+                let data : Idata = {} // eslint-disable-next-line
+                biddingData.map(item => {
+                    if(item.id === id) return (data = item)
+                })
+                this.setState({data : data, criticReview : data.criticReview, isLoading : false})
+                break
+            }
+            case 'teacher':{
+                const id = Number(this.props.page!.substr(8))
+                let data : Idata = {} // eslint-disable-next-line
+                teacherBidding.map(item => {
+                    if(item.id === id) data = item
+                })
+                this.setState({data : data, criticReview : data.criticReview, isLoading : false})
+                break
+            }
+        }
     }
 
     private attachFile = (fileList: FileList) => {
@@ -77,9 +101,9 @@ class BiddingDetailed extends Component<Props,State>{
             <div>
                 {!this.state.isLoading?
                     <div>
-                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.props.data.student}, {this.props.data.course} курс</Typography></div>
-                        <Description data={this.props.data}/>
-                        <AttachedFiles data={this.props.data}/>
+                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                        <Description data={this.state.data}/>
+                        <AttachedFiles data={this.state.data}/>
                         <hr/>
                         {this.state.criticReview !== ''?
                             <div style={{marginLeft:'20px', marginBottom:'10px'}}>

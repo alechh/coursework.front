@@ -12,7 +12,6 @@ import Description from './Components/Description'
 
 import courseWorkData from '../../../../../TestData/Student/activeWorkData'
 
-
 interface Props{
 }
 
@@ -48,7 +47,7 @@ class MyCourseWork extends Component<Props,State>{
         super(props);
         this.state={
             isLoading : false,
-            data:courseWorkData[0],
+            data:{},
             newLink : '',
             attachSelect : {target : {value : 'Выбрать'}},
             deleteSelect : {target : {value : 'Выбрать'}}
@@ -150,11 +149,13 @@ class MyCourseWork extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading:true})
-        setTimeout(() => {
-            this.setState({
-                isLoading: false
-            })
-        }, 1500)
+        // setTimeout(() => {
+        //     this.setState({
+        //         isLoading: false,
+        //     })
+        // }, 1500)
+        this.setState({data : courseWorkData[0], isLoading : false})
+
     }
 
     private renderContentBar(){

@@ -6,6 +6,12 @@ import Description from './Components/Description'
 import AttachedFiles from './Components/AttachedFiles'
 import Buttons from './Components/Buttons'
 
+//student
+import requireData from '../../../../../TestData/Student/requireCriticData'
+
+//teacher
+import teacherRequireCritic from '../../../../../TestData/Teacher/requireCriticData'
+
 interface Idata{
     title?: string,
     teacher?: string,
@@ -26,28 +32,47 @@ interface Idata{
 }
 
 interface Props{
-    data : Idata
+    page?: string,
+    role?: string
 }
 
 interface State{
-    isLoading?: boolean
+    isLoading?: boolean,
+    data : Idata
 }
 
 class RequireCriticDetail extends Component<Props,State>{
     constructor(props : Props){
         super(props);
         this.state={
-            isLoading : false
+            isLoading : false,
+            data : {}
         }
     }
 
     componentDidMount(){
         this.setState({isLoading:true})
-        setTimeout(() => {
-            this.setState({
-                isLoading: false
-            })
-        }, 1000)
+
+        switch(this.props.role){
+            case 'student':{
+                const id = Number(this.props.page!.substr(14))
+                let data : Idata = {} // eslint-disable-next-line
+                requireData.map(item => {
+                    if(item.id === id) data = item
+                })
+                this.setState({data : data, isLoading : false})
+                break
+            }
+            case 'teacher':{
+                const id = Number(this.props.page!.substr(14))
+                let data : Idata = {} // eslint-disable-next-line
+                teacherRequireCritic.map(item => {
+                    if(item.id === id) data = item
+                })
+                this.setState({data : data, isLoading : false})
+                break
+            }
+        }
     }
 
 
@@ -56,9 +81,9 @@ class RequireCriticDetail extends Component<Props,State>{
             <div>
                 {!this.state.isLoading?
                     <div>
-                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.props.data.student}, {this.props.data.course} курс</Typography></div>
-                        <Description data={this.props.data}/>
-                        <AttachedFiles data={this.props.data}/>
+                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                        <Description data={this.state.data}/>
+                        <AttachedFiles data={this.state.data}/>
                         <hr/>
                         <Buttons/>
                     </div>

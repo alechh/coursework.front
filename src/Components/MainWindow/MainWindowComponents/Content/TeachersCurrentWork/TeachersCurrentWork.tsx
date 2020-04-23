@@ -8,6 +8,8 @@ import Link from '@skbkontur/react-ui/Link'
 import Toast from '@skbkontur/react-ui/Toast'
 import Gapped from '@skbkontur/react-ui/Gapped'
 
+import teacherCurrentWorks from '../../../../../TestData/Teacher/currentWorks'
+
 interface Idata{
     title?: string,
     teacher?: string,
@@ -30,12 +32,13 @@ interface Idata{
 }
 
 interface Props{
-    data : Idata
+    page?: string
 }
 
 interface State{
     isLoading?: boolean,
-    review?: string
+    review?: string,
+    data : Idata
 }
 
 class BiddingDetailed extends Component<Props,State>{
@@ -43,17 +46,21 @@ class BiddingDetailed extends Component<Props,State>{
         super(props);
         this.state={
             isLoading : false,
-            review : this.props.data.review
+            // review : this.props.data.review,
+            review: '',
+            data : {}
         }
     }
 
     componentDidMount(){
         this.setState({isLoading:true})
-        setTimeout(() => {
-            this.setState({
-                isLoading: false
-            })
-        }, 1000)
+        
+        const id = Number(this.props.page!.substr(8))
+        let data : Idata = {} // eslint-disable-next-line
+        teacherCurrentWorks.map(item => {
+            if(item.id === id) return (data = item)
+        })
+        this.setState({data : data, review : data.review, isLoading : false})
     }
 
     private attachFile = (fileList: FileList) => {
@@ -77,9 +84,9 @@ class BiddingDetailed extends Component<Props,State>{
             <div>
                 {!this.state.isLoading?
                     <div>
-                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.props.data.student}, {this.props.data.course} курс</Typography></div>
-                        <Description data={this.props.data}/>
-                        <AttachedFiles data={this.props.data}/>
+                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                        <Description data={this.state.data}/>
+                        <AttachedFiles data={this.state.data}/>
                         <hr/>
                         {this.state.review !== ''?
                             <div style={{marginLeft:'20px', marginBottom:'10px'}}>

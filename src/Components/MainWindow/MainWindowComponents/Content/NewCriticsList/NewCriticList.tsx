@@ -30,19 +30,19 @@ class NewCriticList extends Component<Props, State>{
     }
 
     private handleSelect(){
-        Toast.push('Critic is selected')
+        Toast.push('Рецензент назначен')
     }
 
     private handleDelete(){
-        Toast.push('Critic is deleted')
+        Toast.push('Назначение отменено')
     }
 
     private renderItem(item : Idata){
         return(
             <div className='newCriticListItem'>
                 <Gapped>
-                    <div style={{minWidth:'350px'}}><Typography variant='h5'>{item.name}, cathedra {item.department}</Typography></div>
-                    <Button use={this.props.type === 'not-selected'? 'success' : 'danger'} onClick={this.props.type === 'not-selected'? this.handleSelect : this.handleDelete}>{this.props.type === 'not-selected'? 'Naznachit' : 'Otmenit`'}</Button>
+                    <div style={{minWidth:'350px'}}><Typography variant='h5'>{item.name}, кафедра {item.department}</Typography></div>
+                    <Button use={this.props.type === 'not-selected'? 'success' : 'danger'} onClick={this.props.type === 'not-selected'? this.handleSelect : this.handleDelete}>{this.props.type === 'not-selected'? 'Назначить своим' : 'Отменить назначение'}</Button>
                 </Gapped>
             </div>
         )

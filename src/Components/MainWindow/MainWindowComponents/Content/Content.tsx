@@ -23,7 +23,6 @@ import completedWorks from '../../../../TestData/Student/completedWorksData'
 import requestsData from '../../../../TestData/Student/requestsData'
 import freeWorks from '../../../../TestData/Student/freeWorksData'
 import requireData from '../../../../TestData/Student/requireCriticData'
-import biddingData from '../../../../TestData/Student/biddingData'
 
 //teacher
 import teacherCurrentWorks from '../../../../TestData/Teacher/currentWorks'
@@ -32,160 +31,9 @@ import teacherRequest from '../../../../TestData/Teacher/requestsData'
 import teacherCompletedWorks from '../../../../TestData/Teacher/completedWorks'
 import teacherFreeWorks from '../../../../TestData/Teacher/freeWorks'
 import teacherRequireCritic from '../../../../TestData/Teacher/requireCriticData'
-import teacherBidding from '../../../../TestData/Teacher/biddingData'
 
 //curator
  
-
-interface IRequestsData{
-    title?: string,
-    teacher?: string,
-    scienceArea?: string,
-    description?: string,
-    teacherContacts?: string,
-    aboutMe?: string,
-    id?: number
-}
-
-interface ICompletedData{
-    title?: string,
-    teacher?: string,
-    deadline?: string,
-    scienceArea?: string,
-    description?: string,
-    reportFile?: string,
-    presentationFile?: string,
-    consultantReportFile?: string,
-    link?: string,
-    teacherContacts?: string,
-    consultant?: string,
-    consultantContacts?: string,
-    critic?: string,
-    status?: string,
-    teacherReview?: string,
-    criticReview?: string,
-    id?: number
-}
-
-interface IFreeData{
-    title?: string,
-    teacher?:string,
-    teacherContacts?: string,
-    scienceArea?: string,
-    description?: string, 
-    deadline?: string,
-    id?: number
-}
-
-interface IRequireCriticData{
-    title?: string,
-    teacher?: string,
-    teacherContacts?: string,
-    scienceArea?: string,
-    description?: string, 
-    reportFile?: string,
-    presentationFile?: string,
-    consultantReportFile?: string,
-    link?: string,
-    consultant?: string,
-    consultantContacts?: string,
-    status?: string,
-    switcher?: string,
-    student?: string,
-    course?: number,
-    id?: number
-}
-
-interface IBiddingData{
-    title?: string,
-    teacher?: string,
-    teacherContacts?: string,
-    scienceArea?: string,
-    description?: string, 
-    reportFile?: string,
-    presentationFile?: string,
-    consultantReportFile?: string,
-    link?: string,
-    consultant?: string,
-    consultantContacts?: string,
-    status?: string,
-    switcher?: string,
-    student?: string,
-    course?: number,
-    criticReview?:string,
-    id?: number
-}
-
-
-interface ITeacherFreeWork{
-    title?: string,
-    teacher?: string,
-    teacherContacts?: string,
-    scienceArea?: string,
-    description?: string, 
-    status?: string,
-    course?: number,
-    id?: number,
-    studentId?: number
-}
-
-interface ITeacherRequest{
-    title?: string,
-    student?: string,
-    course?: number,
-    group?: string,
-    scienceArea?: string,
-    description?: string,
-    aboutMe?: string,
-    id?: number,
-    studentId?: number
-}
-
-interface ITeacherCurrentWork{
-    title?: string,
-    teacher?: string,
-    teacherContacts?: string,
-    scienceArea?: string,
-    description?: string, 
-    reportFile?: string,
-    presentationFile?: string,
-    consultantReportFile?: string,
-    link?: string,
-    consultant?: string,
-    consultantContacts?: string,
-    status?: string,
-    switcher?: string,
-    student?: string,
-    course?: number,
-    review?: string
-    criticReview?:string,
-    id?: number
-}
-
-interface ITeacherCompletedWork{
-    title?: string,
-    teacher?: string,
-    teacherContacts?: string,
-    deadline?: string,
-    scienceArea?: string,
-    description?: string, 
-    reportFile?: string,
-    presentationFile?: string,
-    consultantReportFile?: string,
-    link?: string,
-    consultant?: string,
-    consultantContacts?: string,
-    critic?: string,
-    criticReview?: string,
-    teacherReview?: string,
-    status?: string,
-    student?: string,
-    course?: number,
-    id?: number
-}
-
-
-
 interface Props{
     page?: string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
@@ -232,132 +80,50 @@ class Content extends Component<Props,State>{
         return false
     }
 
- 
     private whichComponent(){
         switch(this.props.role){
             case 'student':{
-                if(this.props.page!.indexOf('completed') + 1){
-                    const id = Number(this.props.page!.substr(10))
-                    let data : ICompletedData = {} // eslint-disable-next-line
-                    completedWorks.map(item =>{
-                        if(item.id === id) return (data = item)
-                    })
-                    return <CourseWorkDetail data={data} role={this.props.role}/>
-                }
-                if(this.props.page!.indexOf('request') + 1){
-                    const id = Number(this.props.page!.substr(8))
-                    let data : IRequestsData = {} // eslint-disable-next-line
-                    requestsData.map(item =>{
-                        if(item.id === id) return (data = item)
-                    })
-                    return <RequestDetail data={data} role={this.props.role}/>
-                }
+                if(this.props.page!.indexOf('completed') + 1)
+                    return <CourseWorkDetail role={this.props.role} page = {this.props.page}/>
+                
+                if(this.props.page!.indexOf('request') + 1)
+                    return <RequestDetail page={this.props.page} role={this.props.role}/>
+                
 
-                if(this.props.page!.indexOf('free') + 1){
-                    const id = Number(this.props.page!.substr(5))
-                    let data : IFreeData = {} // eslint-disable-next-line
-                    freeWorks.map(item =>{
-                        if(item.id === id) return (data = item)
-                    })
-                    return <FreeWorkDetail data={data} role={this.props.role}/>
-                }
+                if(this.props.page!.indexOf('free') + 1)
+                    return <FreeWorkDetail page={this.props.page} role={this.props.role}/>
+                
 
-                if(this.props.page!.indexOf('requireCritic') + 1){
-                    const id = Number(this.props.page!.substr(14))
-                    let data : IRequireCriticData= {} // eslint-disable-next-line
-                    requireData.map(item => {
-                        if(item.id === id) return (data = item)
-                    })
-                    return <RequireCriticDetail data={data}/>
-                }
+                if(this.props.page!.indexOf('requireCritic') + 1)
+                    return <RequireCriticDetail role={this.props.role} page={this.props.page}/>
+                
 
-                if(this.props.page!.indexOf('bidding') + 1){
-                    const id = Number(this.props.page!.substr(8))
-                    let data : IBiddingData = {} // eslint-disable-next-line
-                    biddingData.map(item => {
-                        if(item.id === id) return (data = item)
-                    })
-                    return <BiddingDetail data={data}/>
-                }
+                if(this.props.page!.indexOf('bidding') + 1)
+                    return <BiddingDetail role={this.props.role} page={this.props.page}/>
                 break
             }
             case 'teacher':{
                 if(this.props.page!.indexOf('st') === 0){
-                    let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
-                    let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
-                    let data : ITeacherRequest = {} // eslint-disable-next-line
-                    teacherRequest.map(item => {
-                        if(item.id === requestId && item.studentId === studentId) return (data = item)
-                    })
-                    return <RequestDetail data={data} role={this.props.role} />
+                    return <RequestDetail page={this.props.page} role={this.props.role} />
                 }
 
-                if(this.props.page!.indexOf('current') + 1){
-                    const id = Number(this.props.page!.substr(8))
-                    let data : ITeacherCurrentWork = {} // eslint-disable-next-line
-                    teacherCurrentWorks.map(item => {
-                        if(item.id === id) return (data = item)
-                    })
-                    return <TeachersCurrentWork data={data}/>
-                }
-
-                if(this.props.page!.indexOf('free') + 1){
-                    const id = Number(this.props.page!.substr(5))
-                    let validRequests : ITeacherRequest[]
-                    validRequests = [] // eslint-disable-next-line
-                    teacherRequest.map(item =>{
-                        if(item.id === id)
-                            validRequests.push(item)
-                    })
-                    let data : ITeacherFreeWork = {} // eslint-disable-next-line
-                    teacherMyFreeWorks.map(item => {
-                        if(item.id === id) return (data = item)
-                    })
-                    return <TeacherFreeWorksDetail 
-                                data={data} 
-                                requests = {validRequests}
-                                changePage={this.props.changePage}/>
-                }
-
-                if(this.props.page!.indexOf('completed') + 1){
-                    const id = Number(this.props.page!.substr(10))
-                    let data : ITeacherCompletedWork = {} // eslint-disable-next-line
-                    teacherCompletedWorks.map(item => {
-                        if (item.id === id) return (data = item)
-                    })
-                    return <CourseWorkDetail
-                        data = {data}
-                        role={this.props.role}/>
-
-                }
-
-                if(this.props.page!.indexOf('foreign') + 1){
-                    const id = Number(this.props.page!.substr(8))
-                    let data : IFreeData = {} // eslint-disable-next-line
-                    teacherFreeWorks.map(item => {
-                        if(item.id === id) data = item
-                    })
-                    return <FreeWorkDetail data={data} role={this.props.role}/>
-                }
-
-                if(this.props.page!.indexOf('requireCritic') + 1){
-                    const id = Number(this.props.page!.substr(14))
-                    let data : IRequireCriticData = {} // eslint-disable-next-line
-                    teacherRequireCritic.map(item => {
-                        if(item.id === id) data = item
-                    })
-                    return <RequireCriticDetail data={data}/>
-                }
-
-                if(this.props.page!.indexOf('bidding') + 1){
-                    const id = Number(this.props.page!.substr(8))
-                    let data : IBiddingData = {} // eslint-disable-next-line
-                    teacherBidding.map(item => {
-                        if(item.id === id) data = item
-                    })
-                    return <BiddingDetail data={data}/>
-                }
-                //bidding
+                if(this.props.page!.indexOf('current') + 1)
+                    return <TeachersCurrentWork page={this.props.page}/>
+                
+                if(this.props.page!.indexOf('free') + 1)
+                    return <TeacherFreeWorksDetail page={this.props.page} changePage={this.props.changePage}/>
+                
+                if(this.props.page!.indexOf('completed') + 1)
+                    return <CourseWorkDetail role={this.props.role} page={this.props.page}/>
+                
+                if(this.props.page!.indexOf('foreign') + 1)
+                    return <FreeWorkDetail page={this.props.page} role={this.props.role}/>
+                
+                if(this.props.page!.indexOf('requireCritic') + 1)
+                    return <RequireCriticDetail role={this.props.role} page={this.props.page}/>
+                
+                if(this.props.page!.indexOf('bidding') + 1)
+                    return <BiddingDetail role={this.props.role} page={this.props.page}/>
                 break
             }
             default: return null

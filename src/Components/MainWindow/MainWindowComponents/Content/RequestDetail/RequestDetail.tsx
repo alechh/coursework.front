@@ -8,6 +8,12 @@ import Spinner from '@skbkontur/react-ui/Spinner'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import Button from '@skbkontur/react-ui/Button'
 
+//student
+import requestsData from '../../../../../TestData/Student/requestsData'
+
+//teacher
+import teacherRequest from '../../../../../TestData/Teacher/requestsData'
+
 interface Idata{
     title?: string,
     student?: string,
@@ -21,19 +27,21 @@ interface Idata{
 }
 
 interface Props{
-    data : Idata,
-    role?: string
+    role?: string,
+    page?:string
 }
 
 interface State{
-    isLoading : boolean
+    isLoading : boolean,
+    data : Idata
 }
 
 class RequestDetail extends Component<Props,State>{
     constructor(props : Props){
         super(props);
         this.state={
-            isLoading : false
+            isLoading : false,
+            data : {}
         }
     }
 
@@ -43,11 +51,32 @@ class RequestDetail extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading:true})
-        setTimeout(() => {
-            this.setState({
-                isLoading: false
-            })
-        }, 1000)
+        // setTimeout(() => {
+        //     this.setState({
+        //         isLoading: false
+        //     })
+        // }, 1000)
+        switch(this.props.role){
+            case 'student':{
+                const id = Number(this.props.page!.substr(8))
+                let data : Idata = {} // eslint-disable-next-line
+                requestsData.map(item =>{
+                    if(item.id === id) return(data = item)
+                })
+                this.setState({data : data, isLoading : false})
+                break
+            }
+            case 'teacher':{
+                let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
+                let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
+                let data : Idata = {} // eslint-disable-next-line
+                teacherRequest.map(item => {
+                    if(item.id === requestId && item.studentId === studentId) data = item
+                })
+                this.setState({data : data, isLoading : false})
+                break
+            }
+        }
     }
 
     private renderButton(){
@@ -79,13 +108,13 @@ class RequestDetail extends Component<Props,State>{
             <div>
                 {!this.state.isLoading?
                     <div>
-                        <div className='requestTitle'><Typography variant='h4'>{this.props.data.title}</Typography></div>
-                        <Description data={this.props.data} role={this.props.role}/>
+                        <div className='requestTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
+                        <Description data={this.state.data} role={this.props.role}/>
 
-                        {this.props.role === 'teacher'? <div className='ml30'><Typography variant='h6'>Студент: {this.props.data.student}, {this.props.data.group} группа, {this.props.data.course} курс</Typography></div> : null}
+                        {this.props.role === 'teacher'? <div className='ml30'><Typography variant='h6'>Студент: {this.state.data.student}, {this.state.data.group} группа, {this.state.data.course} курс</Typography></div> : null}
                         <div className='aboutMeDiv'>
                             <div id='aboutMeTitle'><Typography variant='h6'>{this.props.role === 'student'? 'Мое резюме' : 'Резюме студента'}:</Typography></div>
-                            <div className='aboutMe'><Typography>{this.props.data.aboutMe}</Typography></div>
+                            <div className='aboutMe'><Typography>{this.state.data.aboutMe}</Typography></div>
                         </div>
                         <hr/>
                         {this.renderButton()}

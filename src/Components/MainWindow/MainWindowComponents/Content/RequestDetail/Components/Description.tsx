@@ -21,8 +21,6 @@ function copyEmailAddress(event?: React.MouseEvent<HTMLAnchorElement>){
 }
 
 function needTeacher(props : Props){
-    console.log(props.role);
-    
     return (props.role === 'student'? 
         <Typography variant='subtitle2'>Преподаватель: {props.data.teacher}, <Link use='default' onClick={copyEmailAddress}>{props.data.teacherContacts}</Link></Typography>
     :  null)
