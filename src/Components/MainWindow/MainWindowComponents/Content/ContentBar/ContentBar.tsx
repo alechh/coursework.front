@@ -46,7 +46,6 @@ class ContentBar extends Component<Props,State>{
         return(this.setState({items:arr}))
     }
 
-
     private renderContentBar(){
         return(
             <div className='contentBar'>

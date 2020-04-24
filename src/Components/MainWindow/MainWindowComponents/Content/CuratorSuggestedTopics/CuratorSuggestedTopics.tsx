@@ -27,11 +27,13 @@ class CuratorSuggestedTopics extends React.Component<Props,State>{
 
     private renderSelect(){
         return(
-            <Select
-                items={['Занятые темы', 'Свободные темы']}
-                value={this.state.whichTopics!.target!.value}
-                onChange={this.handleSelectChange}
-            />
+            <div style={{marginTop:'-10px'}}>
+                <Select
+                    items={['Занятые темы', 'Свободные темы']}
+                    value={this.state.whichTopics!.target!.value}
+                    onChange={this.handleSelectChange}
+                />
+            </div>
 
         )
     }
@@ -40,6 +42,9 @@ class CuratorSuggestedTopics extends React.Component<Props,State>{
         return(
             <div style={{marginLeft:'1vw'}}>
                 {this.renderSelect()}
+                {this.state.whichTopics?.target!.value === 'Занятые темы'?
+                <p>Занято</p>
+                : <p>Свободно</p>}
             </div>
         )
     }
