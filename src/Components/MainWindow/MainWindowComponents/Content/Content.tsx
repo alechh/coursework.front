@@ -17,12 +17,11 @@ import TeacherFreeWorksDetail from './TeacherFreeWorkDetail/TeacherFreeWorkDetai
 import CriticSwitcher from './CriticSwitcher/CriticSwitcher'
 import NewCriticList from './NewCriticsList/NewCriticList'
 import CuratorCurrentWorkDetail from './CuratorCurrentWorkDetail/CuratorCurrentWorkDetail'
+import CuratorSuggestedTopics from './CuratorSuggestedTopics/CuratorSuggestedTopics'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
 
-
- 
 interface Props{
     page?: string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
@@ -32,7 +31,6 @@ interface Props{
 }
 
 interface State{
-
 }
 
 class Content extends Component<Props,State>{
@@ -234,6 +232,8 @@ class Content extends Component<Props,State>{
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='current'/>
+                    case 'Предложенные темы':
+                        return <CuratorSuggestedTopics/>
                     default:
                         return this.whichComponent()
                 }
@@ -241,9 +241,11 @@ class Content extends Component<Props,State>{
         }
     }
 
+
     private renderContent(){
         return(
             <div className='content'>
+                
                 {this.needContentBar()? <ContentBar changePage={this.props.changePage} page={this.props.page} role={this.props.role}/> : null}
                 {this.needSwitcher()? <CriticSwitcher changePage={this.props.changePage} page={this.props.page}/> : null}
                 {this.whichContent()}

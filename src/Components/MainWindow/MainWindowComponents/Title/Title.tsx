@@ -92,7 +92,7 @@ class Title extends Component<Props,State>{
                     return  this.renderTitle(data.title)
                 }
                 
-                return  this.renderTitle(this.props.page)   
+                return this.renderTitle(this.props.page)   
             }
             case 'teacher':{
                 switch(this.props.page){
@@ -182,6 +182,8 @@ class Title extends Component<Props,State>{
                 }
             }
             case 'curator':{
+                if(this.props.page === 'Предложенные темы')
+                    return this.renderTitle('Предложенные мной темы')
                 if(this.props.page!.indexOf('current') + 1){
                     const id = Number(this.props.page!.substr(8))
                     let data : {title?: string} = {}// eslint-disable-next-line

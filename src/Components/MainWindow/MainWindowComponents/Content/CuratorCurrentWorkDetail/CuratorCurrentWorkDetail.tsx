@@ -44,7 +44,8 @@ interface State{
     criticReview?: string,
     data : Idata,
     modalOpened?: boolean,
-    deadline?: string
+    deadline?: string,
+    confirmationOpened?: boolean
 }
 
 class BiddingDetailed extends Component<Props,State>{
@@ -55,7 +56,8 @@ class BiddingDetailed extends Component<Props,State>{
             criticReview: '',
             data : {},
             modalOpened : false,
-            deadline: ''
+            deadline: '',
+            confirmationOpened : false
         }
     }
 
@@ -92,6 +94,19 @@ class BiddingDetailed extends Component<Props,State>{
         }
     }
 
+    private openConfirmation = () => {
+        return (this.setState({confirmationOpened : true}))
+    }
+
+    private closeConfirmation = () => {
+        return (this.setState({confirmationOpened : false}))
+    }
+
+    private confirmTheProtection = () => {
+        Toast.push('Защита курсовой работы подтверждена')
+        return (this.setState({confirmationOpened : false}))
+    }
+
     private renderModal(){
         const day = new Date().getDate()
         const month = new Date().getMonth() + 1
@@ -113,14 +128,32 @@ class BiddingDetailed extends Component<Props,State>{
                     </div>
                 </Modal.Body>
 
-
                 <Modal.Footer>
-                    <Button use='success' onClick={this.setDeadline}>Выбрать</Button>
-                    <Button onClick={this.modalClose}>Отмена</Button>
+                    <Gapped>
+                        <Button use='success' onClick={this.setDeadline}>Выбрать</Button>
+                        <Button onClick={this.modalClose}>Отмена</Button>
+                    </Gapped>
                 </Modal.Footer>
           </Modal>
+        )
+    }
 
+    private renderConfirmation(){
+        return(
+            <Modal onClose={this.closeConfirmation}>
+                <Modal.Header>Подтвердить защиту</Modal.Header>
 
+                <Modal.Body>
+                    {/* <Typography variant='h4'>Подтвердить защиту</Typography> */}
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Gapped>
+                        <Button use='success' onClick={this.confirmTheProtection}>Подтвердить</Button>
+                        <Button onClick={this.closeConfirmation}>Отмена</Button>
+                    </Gapped>
+                </Modal.Footer>
+        </Modal>
         )
     }
 
@@ -134,10 +167,11 @@ class BiddingDetailed extends Component<Props,State>{
                         <AttachedFiles data={this.state.data}/>
                         <hr/>
                 {this.state.modalOpened && this.renderModal()}
+                {this.state.confirmationOpened && this.renderConfirmation()}
                 <div style={{marginLeft:'30px'}}>
                     <Gapped>
                         <Button use='primary' onClick={this.modalOpen}>Назначить дедлайн</Button>
-                        <Button use='success'>Подтвердить защиту</Button>
+                        <Button use='success' onClick={this.openConfirmation}>Подтвердить защиту</Button>
                     </Gapped>
                 </div>
                     </div>
