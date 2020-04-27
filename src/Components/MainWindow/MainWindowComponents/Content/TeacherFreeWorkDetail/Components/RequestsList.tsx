@@ -30,6 +30,14 @@ class RequestsList extends Component<Props,State>{
         this.state={}
     }
 
+    private buttonValue(item : Idata){
+        return(
+            this.props.role === 'teacher'?
+                'st' + item.studentId?.toString() + '_request' + item.id!.toString()
+            :   'curatorSt' + item.studentId?.toString() + '_request' + item.id!.toString()
+        )
+    }
+
     private renderItem(item : Idata){
         return(
             <div style={{marginBottom:'10px'}}>
@@ -37,7 +45,7 @@ class RequestsList extends Component<Props,State>{
                     <div style={{width:'auto', minWidth:'20vw', textDecoration:'underline'}}><Typography>{item.student}, {item.course} курс, {item.group} группа</Typography></div>
                     <button
                         onClick={this.props.changePage}
-                        value={'st' + item.studentId?.toString() + '_request' + item.id!.toString()}
+                        value={this.buttonValue(item)}
                     ><Typography >Подробнее</Typography></button>
                 </Gapped>
             </div>

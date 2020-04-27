@@ -5,8 +5,13 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@skbkontur/react-ui/Button'
 import Toast from '@skbkontur/react-ui/Toast'
 
+//teacher
 import teacherRequest from '../../../../../TestData/Teacher/requestsData'
 import teacherMyFreeWorks from '../../../../../TestData/Teacher/myFreeWorks'
+
+//curator
+import curatorRequest from '../../../../../TestData/Curator/requestsData'
+import curatorMyFreeWorks from '../../../../../TestData/Curator/myFreeWorks'
 
 interface Idata{
     title?: string,
@@ -33,6 +38,7 @@ interface Irequest{
 
 interface Props{
     page?:string,
+    role?: string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void
 }
 
@@ -57,18 +63,39 @@ class FreeWorkDetail extends Component<Props,State>{
     componentDidMount(){
         this.setState({isLoading : true})
 
-        const id = Number(this.props.page!.substr(5))
-        let validRequests : Irequest[]
-        validRequests = [] // eslint-disable-next-line
-        teacherRequest.map(item =>{
-            if(item.id === id)
-                validRequests.push(item)
-        })
-        let data : Idata = {} // eslint-disable-next-line
-        teacherMyFreeWorks.map(item => {
-            if(item.id === id) return (data = item)
-        })
-        this.setState({data : data, requests : validRequests, isLoading : false})
+        switch(this.props.role){
+            case 'teacher':{
+                const id = Number(this.props.page!.substr(5))
+                let validRequests : Irequest[]
+                validRequests = [] // eslint-disable-next-line
+                teacherRequest.map(item =>{
+                    if(item.id === id)
+                        validRequests.push(item)
+                })
+                let data : Idata = {} // eslint-disable-next-line
+                teacherMyFreeWorks.map(item => {
+                    if(item.id === id) return (data = item)
+                })
+                this.setState({data : data, requests : validRequests, isLoading : false})
+                break
+            }
+            case 'curator':{
+                const id = Number(this.props.page!.substr(12))
+                let validRequests : Irequest[]
+                validRequests = [] // eslint-disable-next-line
+                curatorRequest.map(item => {
+                    if(item.id === id)
+                        validRequests.push(item)
+                })
+                let data : Idata = {} // eslint-disable-next-line
+                curatorMyFreeWorks.map(item => {
+                    if(item.id === id) return (data = item)
+                })
+                this.setState({data : data, requests : validRequests, isLoading : false})
+                break
+            }
+        }
+
     }
 
     private deleteWork = () => {
@@ -83,7 +110,10 @@ class FreeWorkDetail extends Component<Props,State>{
         return(
             <div>
                 <Description data={this.state.data}/>
-                <RequestsList data={this.state.requests} changePage={this.props.changePage}/>
+                <RequestsList 
+                    data={this.state.requests} 
+                    changePage={this.props.changePage}
+                    role={this.props.role}/>
                 <hr/>
                 <div className='ml30'>
                     <Button

@@ -30,7 +30,8 @@ interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     data : Idata,
     role?: string,
-    type?: WorkType
+    type?: WorkType,
+    curatorSelect?: string
 }
 
 interface State{
@@ -89,10 +90,27 @@ class CourseWork extends Component<Props,State>{
             }
             case 'teacher':
                 return (this.props.type + '_' + id?.toString())
-            case 'curator':
-                return (this.props.type + '_' + id?.toString())
+            case 'curator':{
+                if(this.props.curatorSelect === 'Занятые темы')
+                    return('curatorBusy_' + id!.toString())
+                else if (this.props.curatorSelect === 'Свободные темы')
+                    return('curatorFree_' + id!.toString())
+                else
+                    return (this.props.type + '_' + id?.toString())
+            }
         }
         return 'null'
+    }
+
+    private renderDescription(){
+        return(
+            <p className='courseWorkDescription'>
+                <div style={{marginLeft : '1vw'}}>{this.props.data.description}</div>
+                {this.props.curatorSelect === 'Занятые темы'? 
+                    <div style={{marginLeft: '1vw', marginTop : '1vh', textDecoration : 'underline'}}><Typography variant='button'>Студент: {this.props.data.student}</Typography></div> 
+                : null}
+            </p>
+        )
     }
 
 
@@ -101,7 +119,7 @@ class CourseWork extends Component<Props,State>{
             !this.isEmpty(this.props.data)?
             <div className='courseWork'>
                 {this.courseWorkTitle()} 
-                <p className='courseWorkDescription'>{this.props.data.description}</p>
+                {this.renderDescription()}
                 <Gapped gap={20}>
                     <button 
                         value={this.buttonValue(this.props.data.id)}

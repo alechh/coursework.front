@@ -15,13 +15,16 @@ import teacherFreeWorks from '../../../../../TestData/Teacher/freeWorks'
 
 //curator 
 import curatorCurrentWorks from '../../../../../TestData/Curator/currentWorks'
+import curatorMyFreeWorks from '../../../../../TestData/Curator/myFreeWorks'
+import curatorMyCurrentWorks from '../../../../../TestData/Curator/myCurrentWorks'
 
 type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     role?: string,
-    type?: WorkType
+    type?: WorkType,
+    curatorSelect?: string
 }
 
 interface State{
@@ -44,6 +47,8 @@ class WorksList extends Component<Props,State>{
         if(this.props.type !== prevProps.type){
             this.whichData()  
         }
+        if(this.props.curatorSelect !== prevProps.curatorSelect)
+            this.whichData()
     }
 
 
@@ -84,11 +89,18 @@ class WorksList extends Component<Props,State>{
                 break
             }
             case 'curator':{
-                switch(this.props.type){
-                    case 'current':{
-                        this.setState({data : curatorCurrentWorks, type : 'current'})
+                if(this.props.curatorSelect === 'Занятые темы')
+                    return (this.setState({data : curatorMyCurrentWorks, type : 'current'}))
+
+                else if (this.props.curatorSelect === 'Свободные темы')
+                    return (this.setState({data : curatorMyFreeWorks, type : 'free'}))
+
+                else
+                    switch(this.props.type){
+                        case 'current':{
+                            this.setState({data : curatorCurrentWorks, type : 'current'})
+                        }
                     }
-                }
             }
         }
     }
@@ -100,7 +112,8 @@ class WorksList extends Component<Props,State>{
                     data={work} 
                     changePage={this.props.changePage} 
                     role={this.props.role}
-                    type={this.props.type}/>
+                    type={this.props.type}
+                    curatorSelect = {(this.props.curatorSelect === 'Занятые темы' || this.props.curatorSelect === 'Свободные темы')? this.props.curatorSelect : ''}/>
             </div>
         )
     }

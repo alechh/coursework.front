@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@skbkontur/react-ui/Button'
 import Toast from '@skbkontur/react-ui/Toast'
 import './NewCriticList.css'
+import Ok from '@skbkontur/react-icons/Ok'
+import Delete from '@skbkontur/react-icons/Delete'
 
 import newCritics from '../../../../../TestData/Curator/newCritics'
 import currentCritics from '../../../../../TestData/Curator/CurrentCritics'
@@ -42,7 +44,10 @@ class NewCriticList extends Component<Props, State>{
             <div className='newCriticListItem'>
                 <Gapped>
                     <div style={{minWidth:'350px'}}><Typography variant='h5'>{item.name}, кафедра {item.department}</Typography></div>
-                    <Button use={this.props.type === 'not-selected'? 'success' : 'danger'} onClick={this.props.type === 'not-selected'? this.handleSelect : this.handleDelete}>{this.props.type === 'not-selected'? 'Назначить своим' : 'Отменить назначение'}</Button>
+                    <Button
+                        icon={this.props.type === 'not-selected'? <Ok/> : <Delete/>} 
+                        use={this.props.type === 'not-selected'? 'success' : 'danger'} 
+                        onClick={this.props.type === 'not-selected'? this.handleSelect : this.handleDelete}>{this.props.type === 'not-selected'? 'Назначить своим' : 'Отменить назначение'}</Button>
                 </Gapped>
             </div>
         )

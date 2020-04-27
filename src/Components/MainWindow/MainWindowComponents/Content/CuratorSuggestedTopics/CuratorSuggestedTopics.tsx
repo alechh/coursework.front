@@ -1,8 +1,9 @@
 import React from 'react'
 import Select from '@skbkontur/react-ui/Select'
+import WorkList from '../WorksList/WorksList'
 
 interface Props{
-
+    changePage(event : React.MouseEvent<HTMLButtonElement>) : void
 }
 
 interface selectType{
@@ -27,11 +28,20 @@ class CuratorSuggestedTopics extends React.Component<Props,State>{
 
     private renderSelect(){
         return(
-            <div style={{marginTop:'-10px'}}>
-                <Select
-                    items={['Занятые темы', 'Свободные темы']}
-                    value={this.state.whichTopics!.target!.value}
-                    onChange={this.handleSelectChange}
+            <div style={{marginTop:'-0.5vh'}}>
+                <div style={{marginBottom : '2vh'}}>
+                    <Select
+                        items={['Занятые темы', 'Свободные темы']}
+                        value={this.state.whichTopics!.target!.value}
+                        onChange={this.handleSelectChange}
+                    />
+                </div>
+
+                <WorkList
+                    curatorSelect = {this.state.whichTopics?.target?.value}
+                    role='curator'
+                    changePage = {this.props.changePage}
+                    type={this.state.whichTopics?.target?.value === 'Занятые темы'? 'current' : 'free'}
                 />
             </div>
 
@@ -42,9 +52,6 @@ class CuratorSuggestedTopics extends React.Component<Props,State>{
         return(
             <div style={{marginLeft:'1vw'}}>
                 {this.renderSelect()}
-                {this.state.whichTopics?.target!.value === 'Занятые темы'?
-                <p>Занято</p>
-                : <p>Свободно</p>}
             </div>
         )
     }

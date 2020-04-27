@@ -9,10 +9,15 @@ import Button from '@skbkontur/react-ui/Button'
 import Modal from '@skbkontur/react-ui/Modal'
 import DatePicker from '@skbkontur/react-ui/DatePicker'
 import Toast from '@skbkontur/react-ui/Toast'
+import Clock from '@skbkontur/react-icons/Clock'
+import Ok from '@skbkontur/react-icons/Ok'
+import OkDouble from '@skbkontur/react-icons/OkDouble'
+import Delete from '@skbkontur/react-icons/Delete'
 
 
 //curator
 import currentWorks from '../../../../../TestData/Curator/currentWorks'
+
 
 interface Idata{
     title?: string,
@@ -130,8 +135,8 @@ class BiddingDetailed extends Component<Props,State>{
 
                 <Modal.Footer>
                     <Gapped>
-                        <Button use='success' onClick={this.setDeadline}>Выбрать</Button>
-                        <Button onClick={this.modalClose}>Отмена</Button>
+                        <Button icon={<Ok/>} use='success' onClick={this.setDeadline}>Выбрать</Button>
+                        <Button icon={<Delete/>} onClick={this.modalClose}>Отмена</Button>
                     </Gapped>
                 </Modal.Footer>
           </Modal>
@@ -144,13 +149,12 @@ class BiddingDetailed extends Component<Props,State>{
                 <Modal.Header>Подтвердить защиту</Modal.Header>
 
                 <Modal.Body>
-                    {/* <Typography variant='h4'>Подтвердить защиту</Typography> */}
                 </Modal.Body>
 
                 <Modal.Footer>
                     <Gapped>
-                        <Button use='success' onClick={this.confirmTheProtection}>Подтвердить</Button>
-                        <Button onClick={this.closeConfirmation}>Отмена</Button>
+                        <Button icon={<OkDouble/>} use='success' onClick={this.confirmTheProtection}>Подтвердить</Button>
+                        <Button icon={<Delete/>} onClick={this.closeConfirmation}>Отмена</Button>
                     </Gapped>
                 </Modal.Footer>
         </Modal>
@@ -170,8 +174,8 @@ class BiddingDetailed extends Component<Props,State>{
                 {this.state.confirmationOpened && this.renderConfirmation()}
                 <div style={{marginLeft:'30px'}}>
                     <Gapped>
-                        <Button use='primary' onClick={this.modalOpen}>Назначить дедлайн</Button>
-                        <Button use='success' onClick={this.openConfirmation}>Подтвердить защиту</Button>
+                        <Button icon={<Clock/>} use='primary' onClick={this.modalOpen}>Назначить дедлайн</Button>
+                        <Button icon={<Ok/>} use='success' onClick={this.openConfirmation}>Подтвердить защиту</Button>
                     </Gapped>
                 </div>
                     </div>

@@ -8,7 +8,11 @@ import Link from '@skbkontur/react-ui/Link'
 import Toast from '@skbkontur/react-ui/Toast'
 import Gapped from '@skbkontur/react-ui/Gapped'
 
+//teacher
 import teacherCurrentWorks from '../../../../../TestData/Teacher/currentWorks'
+
+//curator
+import curatorCurrentWorks from '../../../../../TestData/Curator/myCurrentWorks'
 
 interface Idata{
     title?: string,
@@ -32,7 +36,8 @@ interface Idata{
 }
 
 interface Props{
-    page?: string
+    page?: string,
+    role?: string
 }
 
 interface State{
@@ -55,12 +60,26 @@ class BiddingDetailed extends Component<Props,State>{
     componentDidMount(){
         this.setState({isLoading:true})
         
-        const id = Number(this.props.page!.substr(8))
-        let data : Idata = {} // eslint-disable-next-line
-        teacherCurrentWorks.map(item => {
-            if(item.id === id) return (data = item)
-        })
-        this.setState({data : data, review : data.review, isLoading : false})
+        switch(this.props.role){
+            case 'teacher':{
+                const id = Number(this.props.page!.substr(8))
+                let data : Idata = {} // eslint-disable-next-line
+                teacherCurrentWorks.map(item => {
+                    if(item.id === id) return (data = item)
+                })
+                this.setState({data : data, review : data.review, isLoading : false})
+                break
+            }
+            case 'curator':{
+                const id = Number(this.props.page!.substr(12))
+                let data : Idata = {} // eslint-disable-next-line
+                curatorCurrentWorks.map(item => {
+                    if(item.id === id) return (data = item)
+                })
+                this.setState({data : data, review : data.review, isLoading : false})
+            }
+        }
+
     }
 
     private attachFile = (fileList: FileList) => {

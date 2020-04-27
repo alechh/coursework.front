@@ -12,12 +12,13 @@ import Main from './Main/Main'
 import RequireCriticList from './RequireCriticList/RequireCriticList'
 import RequireCriticDetail from './RequireCriticDetail/RequireCriticDetail'
 import BiddingDetail from './BiddingDetail/BiddingDetail'
-import TeachersCurrentWork from './TeachersCurrentWork/TeachersCurrentWork'
+import TeachersCurrentWorkDetail from './TeachersCurrentWorkDetail/TeachersCurrentWorkDetail'
 import TeacherFreeWorksDetail from './TeacherFreeWorkDetail/TeacherFreeWorkDetail'
 import CriticSwitcher from './CriticSwitcher/CriticSwitcher'
 import NewCriticList from './NewCriticsList/NewCriticList'
 import CuratorCurrentWorkDetail from './CuratorCurrentWorkDetail/CuratorCurrentWorkDetail'
 import CuratorSuggestedTopics from './CuratorSuggestedTopics/CuratorSuggestedTopics'
+import BiddingList from './BiddingList/BiddingList'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
@@ -96,10 +97,13 @@ class Content extends Component<Props,State>{
                 }
 
                 if(this.props.page!.indexOf('current') + 1)
-                    return <TeachersCurrentWork page={this.props.page}/>
+                    return <TeachersCurrentWorkDetail page={this.props.page} role={this.props.role}/>
                 
                 if(this.props.page!.indexOf('free') + 1)
-                    return <TeacherFreeWorksDetail page={this.props.page} changePage={this.props.changePage}/>
+                    return <TeacherFreeWorksDetail 
+                                page={this.props.page} 
+                                changePage={this.props.changePage}
+                                role={this.props.role}/>
                 
                 if(this.props.page!.indexOf('completed') + 1)
                     return <CourseWorkDetail role={this.props.role} page={this.props.page}/>
@@ -117,6 +121,19 @@ class Content extends Component<Props,State>{
             case 'curator':{
                 if(this.props.page!.indexOf('current') + 1)
                     return <CuratorCurrentWorkDetail page={this.props.page} role={this.props.role}/>
+
+                if(this.props.page!.indexOf('curatorBusy') + 1)
+                    return <TeachersCurrentWorkDetail page={this.props.page} role={this.props.role}/>
+
+                if(this.props.page!.indexOf('curatorFree') + 1)
+                    return <TeacherFreeWorksDetail 
+                                page={this.props.page} 
+                                role={this.props.role}
+                                changePage={this.props.changePage}/>
+
+                if(this.props.page!.indexOf('curatorSt') + 1){
+                    return <RequestDetail page={this.props.page} role={this.props.role} />
+                }
             }
         }
 
@@ -232,8 +249,18 @@ class Content extends Component<Props,State>{
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='current'/>
+
                     case 'Предложенные темы':
-                        return <CuratorSuggestedTopics/>
+                        return <CuratorSuggestedTopics
+                                    changePage={this.props.changePage}/>
+
+                    case 'Заявки': 
+                        return <RequestsList
+                                    changePage = {this.props.changePage}
+                                    role={this.props.role}/>
+
+                    case 'Биддинг':
+                        return <BiddingList/>
                     default:
                         return this.whichComponent()
                 }

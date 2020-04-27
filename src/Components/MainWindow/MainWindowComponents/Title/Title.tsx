@@ -19,6 +19,8 @@ import teacherBidding from '../../../../TestData/Teacher/biddingData'
 
 //curator
 import curatorCurrentWorks from '../../../../TestData/Curator/currentWorks'
+import curatorMyCurrentWorks from '../../../../TestData/Curator/myCurrentWorks'
+import curatorMyFreeWorks from '../../../../TestData/Curator/myFreeWorks'
 
 interface Idata{
     title?: string
@@ -184,6 +186,7 @@ class Title extends Component<Props,State>{
             case 'curator':{
                 if(this.props.page === 'Предложенные темы')
                     return this.renderTitle('Предложенные мной темы')
+
                 if(this.props.page!.indexOf('current') + 1){
                     const id = Number(this.props.page!.substr(8))
                     let data : {title?: string} = {}// eslint-disable-next-line
@@ -193,6 +196,29 @@ class Title extends Component<Props,State>{
                     return this.renderTitle(data.title)
                 }
 
+                if(this.props.page!.indexOf('curatorBusy') + 1){
+                    const id = Number(this.props.page!.substr(12))
+                    let data : {title?: string} = {} // eslint-disable-next-line
+                    curatorMyCurrentWorks.map(item => {
+                        if(item.id === id) return (data = item)
+                    })
+                    return this.renderTitle(data.title)
+                }
+
+                if(this.props.page!.indexOf('curatorFree') + 1){
+                    const id = Number(this.props.page!.substr(12))
+                    let data : {title?: string} = {} // eslint-disable-next-line
+                    curatorMyFreeWorks.map(item => {
+                        if(item.id === id) return (data = item)
+                    })
+                    return this.renderTitle(data.title)
+                }
+
+                if(this.props.page!.indexOf('curatorSt') + 1)
+                    return this.renderTitle('Текущая заявка')
+
+                if(this.props.page === 'Биддинг')
+                    return this.renderTitle('Результаты биддинга')
                 return this.renderTitle(this.props.page)
             }
         }

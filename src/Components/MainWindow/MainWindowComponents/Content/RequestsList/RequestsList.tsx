@@ -8,6 +8,9 @@ import requestsData from '../../../../../TestData/Student/requestsData'
 //teacher 
 import teacherRequests from '../../../../../TestData/Teacher/requestsData'
 
+//curator 
+import curatorRequests from '../../../../../TestData/Curator/requestsData'
+
 interface Idata{
     title?: string,
     student?: string,
@@ -41,18 +44,23 @@ class RequestsList extends Component<Props,State>{
     }
 
     componentDidMount(){
+        this.setState({isLoading : true})
         this.whichData()
+        this.setState({isLoading : false})
     }
 
     private whichData = () => {
-        this.setState({isLoading : true})
+
 
         switch(this.props.role){
             case 'student':{
-                return (this.setState({data : requestsData, isLoading : false}))
+                return (this.setState({data : requestsData}))
             }
             case 'teacher':{
-                return (this.setState({data : teacherRequests, isLoading : false}))
+                return (this.setState({data : teacherRequests}))
+            }
+            case 'curator':{
+                return (this.setState({data : curatorRequests}))
             }
         }
     }
@@ -61,9 +69,11 @@ class RequestsList extends Component<Props,State>{
     private renderTitle(item : Idata){
         switch(this.props.role){
             case 'student':
-                return <div className='inline req_title'><Typography variant='h5'>{item.title}, {item.teacher}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.teacher}</Typography></div>
             case 'teacher':
-                return <div className='inline req_title'><Typography variant='h5'>{item.title}, {item.student}, {item.course} курс</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
+            case 'curator':
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
         }
     }
 
@@ -73,6 +83,8 @@ class RequestsList extends Component<Props,State>{
                 return 'request_' + item.id?.toString()
             case 'teacher':
                 return 'st' + item.studentId?.toString() + '_request' + item.id!.toString()
+            case 'curator':
+                return 'curatorSt' + item.studentId?.toString() + '_request' + item.id!.toString()
         }
     }
 
