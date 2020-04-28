@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './Main.css'
 import Notifications from './Components/Notifications/Notifications'
-import NewWorks from './Components/NewWorks/NewWorks'
 import AddWork from './Components/SidePage/SidePage'
 import Button from '@skbkontur/react-ui/Button'
 import Gapped from '@skbkontur/react-ui/Gapped'
@@ -15,6 +14,7 @@ import biddingData from '../../../../../TestData/Student/biddingData'
 import teacherBiddingData from '../../../../../TestData/Teacher/biddingData'
 
 interface Props{
+    userId?: number,
     isCritic?: boolean,
     handleCritic() : void,
     changePage(event : React.MouseEvent<HTMLButtonElement>): void,
@@ -22,7 +22,6 @@ interface Props{
 }
 
 interface State{
-    isCritic?: boolean,
     opened?: boolean
 }
 
@@ -30,14 +29,30 @@ class Main extends Component<Props,State>{
     constructor(props : Props){
         super(props);
         this.state={
-            isCritic : this.props.isCritic,
             opened : false
         }
     }
 
+    private whichData(){
+        switch(this.props.role){
+            case 'student':{
+                //---------------------------------
+                //запрос по userId (если рецензент)
+                //---------------------------------
+
+                return biddingData
+            }
+            case 'teacher':{
+                //---------------------------------
+                //запрос по userId (если рецензент)
+                //---------------------------------
+
+                return teacherBiddingData
+            }
+        }
+    }
+
     private changeCriticStatus = () => {
-        let newCriticStatus = !this.state.isCritic
-        this.setState({isCritic : newCriticStatus})
         this.props.handleCritic()
     }
 
@@ -55,6 +70,7 @@ class Main extends Component<Props,State>{
             <div>
                 {this.state.opened?
                 <AddWork
+                    userId={this.props.userId}
                     closeSidePage={this.closeSidePage}
                 />
                 :null}
@@ -68,7 +84,7 @@ class Main extends Component<Props,State>{
     }
 
     private criticButton(){
-        return !this.state.isCritic?
+        return !this.props.isCritic?
             <Button
                 icon={<Briefcase/>}
                 onClick={this.changeCriticStatus}
@@ -82,20 +98,12 @@ class Main extends Component<Props,State>{
             >Перестать быть рецензентом</Button>
     }
 
-    private whichData(){
-        switch(this.props.role){
-            case 'student':
-                return biddingData
-            case 'teacher':
-                return teacherBiddingData
-        }
-    }
+
     
     private renderMain(){
         return(
             <div>
-                {this.props.isCritic? <Notifications isCritic={this.props.isCritic} changePage={this.props.changePage} role={this.props.role} data={this.whichData()!}/> : null}
-                <NewWorks/>
+                {this.props.isCritic? <Notifications changePage={this.props.changePage} role={this.props.role} data={this.whichData()!}/> : null}
                 <div className='ml20'>
                     <Gapped>
                         {this.props.role !== 'curator'? this.criticButton() : null}

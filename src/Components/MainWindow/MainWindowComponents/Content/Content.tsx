@@ -28,7 +28,8 @@ interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     handleCritic() : void,
     isCritic?: boolean,
-    role?: string
+    role?: string,
+    userId?: number
 }
 
 interface State{
@@ -79,7 +80,7 @@ class Content extends Component<Props,State>{
                 
 
                 if(this.props.page!.indexOf('free') + 1)
-                    return <FreeWorkDetail page={this.props.page} role={this.props.role}/>
+                    return <FreeWorkDetail userId= {this.props.userId} page={this.props.page} role={this.props.role}/>
                 
 
                 if(this.props.page!.indexOf('requireCritic') + 1)
@@ -109,7 +110,7 @@ class Content extends Component<Props,State>{
                     return <CourseWorkDetail role={this.props.role} page={this.props.page}/>
                 
                 if(this.props.page!.indexOf('foreign') + 1)
-                    return <FreeWorkDetail page={this.props.page} role={this.props.role}/>
+                    return <FreeWorkDetail userId={this.props.userId} page={this.props.page} role={this.props.role}/>
                 
                 if(this.props.page!.indexOf('requireCritic') + 1)
                     return <RequireCriticDetail role={this.props.role} page={this.props.page}/>
@@ -146,6 +147,7 @@ class Content extends Component<Props,State>{
                 switch(this.props.page){
                     case 'Главная': 
                         return <Main
+                                    userId = {this.props.userId}
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
@@ -159,10 +161,11 @@ class Content extends Component<Props,State>{
                                     type='current'/>
 
                     case 'Моя курсовая детально': 
-                        return <MyCourseWorkDetail/>
+                        return <MyCourseWorkDetail userId = {this.props.userId}/>
 
                     case 'Завершенные': 
                         return <WorksList 
+                                    userId={this.props.userId}
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='completed'/>
@@ -172,6 +175,7 @@ class Content extends Component<Props,State>{
 
                     case 'Свободные курсовые': 
                         return <WorksList 
+                                    userId={this.props.userId}
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='free'/>
@@ -187,13 +191,15 @@ class Content extends Component<Props,State>{
                 switch(this.props.page){
                     case 'Главная': 
                         return <Main
+                                    userId = {this.props.userId}
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
                                     changePage={this.props.changePage}/>
 
                     case 'Занятые': 
-                        return <WorksList 
+                        return <WorksList
+                                    userId={this.props.userId} 
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='current'/>
@@ -206,6 +212,7 @@ class Content extends Component<Props,State>{
 
                     case 'Завершенные':
                         return <WorksList
+                                    userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='completed'/>
@@ -217,6 +224,7 @@ class Content extends Component<Props,State>{
 
                     case 'Свободные курсовые':
                         return <WorksList
+                                    userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='foreign'/>
@@ -233,6 +241,7 @@ class Content extends Component<Props,State>{
                 switch(this.props.page){
                     case 'Главная':
                         return <Main
+                                    userId = {this.props.userId}
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
@@ -246,12 +255,14 @@ class Content extends Component<Props,State>{
                     
                     case 'Занятые темы':
                         return <WorksList
+                                    userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='current'/>
 
                     case 'Предложенные темы':
                         return <CuratorSuggestedTopics
+                                    userId={this.props.userId}
                                     changePage={this.props.changePage}/>
 
                     case 'Заявки': 
@@ -260,7 +271,7 @@ class Content extends Component<Props,State>{
                                     role={this.props.role}/>
 
                     case 'Биддинг':
-                        return <BiddingList/>
+                        return <BiddingList userId={this.props.userId}/>
                     default:
                         return this.whichComponent()
                 }

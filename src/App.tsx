@@ -15,7 +15,8 @@ interface IUser{
     firstName?: string,
     lastName?: string,
     isCritic?: boolean,
-    role?: string
+    role?: string,
+    userId?: number
 }
 
 interface State{
@@ -84,6 +85,7 @@ class App extends Component<Props,State> {
                         changePage={this.changePage} 
                         handleCritic = {this.handleCritic}
                         isCritic = {this.state.user.isCritic}
+                        userId = {this.state.user.userId}
                     />
             </div>
                 <div className='footer'><Footer/></div>

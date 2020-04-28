@@ -9,7 +9,8 @@ interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     handleCritic() : void,
     isCritic?: boolean,
-    role?: string
+    role?: string,
+    userId?: number
 }
 
 interface State{
@@ -34,7 +35,8 @@ class MainWindow extends Component<Props,State>{
                     page = {this.props.page} 
                     changePage = {this.props.changePage}
                     handleCritic = {this.props.handleCritic}
-                    isCritic = {this.props.isCritic}    
+                    isCritic = {this.props.isCritic}
+                    userId = {this.props.userId}    
                 />
             </div>
         )

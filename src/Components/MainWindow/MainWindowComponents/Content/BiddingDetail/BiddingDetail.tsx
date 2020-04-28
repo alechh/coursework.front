@@ -41,7 +41,6 @@ interface Props{
 
 interface State{
     isLoading?: boolean,
-    criticReview?: string,
     data : Idata
 }
 
@@ -50,7 +49,6 @@ class BiddingDetailed extends Component<Props,State>{
         super(props);
         this.state={
             isLoading : false,
-            criticReview: '',
             data : {}
         }
     }
@@ -61,37 +59,61 @@ class BiddingDetailed extends Component<Props,State>{
         switch(this.props.role){
             case 'student':{
                 const id = Number(this.props.page!.substr(8))
+                //запрос по id на данные
+
+                //------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 biddingData.map(item => {
                     if(item.id === id) return (data = item)
                 })
-                this.setState({data : data, criticReview : data.criticReview, isLoading : false})
+                //------------------------------------------------
+
+                this.setState({data : data})
                 break
             }
             case 'teacher':{
                 const id = Number(this.props.page!.substr(8))
+                //запрос по id на данные
+
+                //------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 teacherBidding.map(item => {
                     if(item.id === id) data = item
                 })
-                this.setState({data : data, criticReview : data.criticReview, isLoading : false})
+                //------------------------------------------------
+                
+                this.setState({data : data})
                 break
             }
         }
+
+        this.setState({isLoading : false})
     }
 
     private attachFile = (fileList: FileList) => {
+        //зарпос по id на добавление рецензии, передаем файл
+
         const newCriticReview = fileList[0].name;
-        this.setState({criticReview : newCriticReview})
+        let newData = this.state.data
+        newData.criticReview = newCriticReview
+        this.setState({data : newData})
         Toast.push('Рецензия прикреплена')
     };
 
     private downloadFile(){
+        //запрос по id на скачивание файла
+
+        //-------------------------
         Toast.push('Скачивание...')
+        //-------------------------
     }
 
     private deleteFile = () => {
-        this.setState({criticReview : ''})
+        //запрос по id на удаление рецензии
+
+        let newData = this.state.data
+        newData.criticReview = ''
+        this.setState({data : newData})
         Toast.push('Рецензия удалена')
     }
 
@@ -99,20 +121,18 @@ class BiddingDetailed extends Component<Props,State>{
     private renderBiddingDetailed(){
         return(
             <div>
-                {!this.state.isLoading?
-                    <div>
-                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
-                        <Description data={this.state.data}/>
-                        <AttachedFiles data={this.state.data}/>
-                        <hr/>
-                        {this.state.criticReview !== ''?
-                            <div style={{marginLeft:'20px', marginBottom:'10px'}}>
-                                <Gapped>
-                                    <Typography variant='h5'>Рецензия: {<Link onClick={this.downloadFile} use='success'>{this.state.criticReview}</Link>}</Typography>
-                                    <Link use='grayed' onClick={this.deleteFile}>Удалить</Link>
-                                </Gapped>
-                            </div>    
-                    :null}
+                <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                <Description data={this.state.data}/>
+                <AttachedFiles data={this.state.data}/>
+                <hr/>
+                {this.state.data.criticReview !== ''?
+                    <div style={{marginLeft:'20px', marginBottom:'10px'}}>
+                        <Gapped>
+                            <Typography variant='h5'>Рецензия: {<Link onClick={this.downloadFile} use='success'>{this.state.data.criticReview}</Link>}</Typography>
+                            <Link use='grayed' onClick={this.deleteFile}>Удалить</Link>
+                        </Gapped>
+                    </div>    
+                :null}
                 <div style={{marginLeft:'20px'}}>
                     <Gapped>
                         <Typography variant='h5'>Прикрепить рецензию:</Typography>
@@ -123,16 +143,16 @@ class BiddingDetailed extends Component<Props,State>{
                         />
                     </Gapped>
                 </div>
-                    </div>
-                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
-                }
-
             </div>
         )
     }
 
     render(){
-        return this.renderBiddingDetailed();
+        return (
+            !this.state.isLoading?
+                this.renderBiddingDetailed()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

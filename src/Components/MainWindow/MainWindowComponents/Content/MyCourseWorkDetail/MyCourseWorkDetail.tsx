@@ -11,8 +11,10 @@ import DeleteFiles from './Components/DeleteFiles'
 import Description from './Components/Description'
 
 import courseWorkData from '../../../../../TestData/Student/activeWorkData'
+import { runInThisContext } from 'vm'
 
 interface Props{
+    userId?: number
 }
 
 interface Idata{
@@ -37,7 +39,7 @@ interface State{
     data : Idata,
     newLink?: string,
     attachSelect : {target?:{value?:string}},
-    deleteSelect : {target?: {value?: string}}
+    deleteSelect : {target?: {value?: string}},
 }
 
 class MyCourseWork extends Component<Props,State>{
@@ -55,6 +57,21 @@ class MyCourseWork extends Component<Props,State>{
         this.inputOpenFileRef = React.createRef()
     }
 
+    componentDidMount(){
+        this.setState({isLoading:true})
+
+        //-------------------------------
+        //запрос данных курсовой по userId
+        //-------------------------------
+        this.whichData()
+
+        this.setState({isLoading : false})
+    }
+
+    private whichData = () => {
+        return this.setState({data : courseWorkData[0]})
+    }
+
     private handleNewLink = (event : React.ChangeEvent<HTMLInputElement>, value:string) => {
         this.setState({newLink: value})
     }
@@ -63,10 +80,17 @@ class MyCourseWork extends Component<Props,State>{
         if(this.state.newLink === '')
             Toast.push('Введите ссылку')
         else{
-        const arr = this.state.data;
-        arr.link = this.state.newLink;
-        this.setState({data:arr})
-        Toast.push('Ссылка прикреплена');
+            //------------------------------------------------------------------------
+            //запрос на прикрепление ссылки на курсовую (передаю userId, id, newLink)
+            //------------------------------------------------------------------------
+
+            //----------------------------
+            const arr = this.state.data;
+            arr.link = this.state.newLink;
+            this.setState({data:arr})
+            //----------------------------
+            Toast.push('Ссылка прикреплена');
+            this.whichData()
         }
     }
 
@@ -74,10 +98,17 @@ class MyCourseWork extends Component<Props,State>{
         if(this.state.data.link === '')
             Toast.push('Ссылки нет')
         else{
-        const arr = this.state.data;
-        arr.link =''
-        this.setState({data:arr})
-        Toast.push("Ссылка удалена")
+            //----------------------------------------
+            //запрос по userId и id на удаление ссылки
+            //----------------------------------------
+
+            //---------------------------
+            const arr = this.state.data;
+            arr.link =''
+            this.setState({data:arr})
+            //--------------------------
+            Toast.push("Ссылка удалена")
+            this.whichData()
         }
     }
 
@@ -89,51 +120,100 @@ class MyCourseWork extends Component<Props,State>{
             Toast.push('Прикрепляйте разные файлы')
         switch(target){
             case 'Отчет': {
+                //-----------------------------------------
+                // Передаю файл на сервер (по userId и id)
+                //-----------------------------------------
+
+                //---------------------
                 arr.reportFile = file;
+                //---------------------
+                Toast.push('Отчет прикреплен')
                 break;
             }
             case 'Презентацию':{
+                //-----------------------------------------
+                // Передаю файл на сервер (по userId и id)
+                //-----------------------------------------
+
+                //--------------------------
                 arr.presentationFile = file;
+                //--------------------------
+                Toast.push('Презентация прикреплена')
                 break;
             }
             case 'Отзыв консультанта':{
+                //-----------------------------------------
+                // Передаю файл на сервер (по userId и id)
+                //-----------------------------------------
+
+                //------------------------------
                 arr.consultantReportFile = file;
+                //------------------------------
+                Toast.push('Отзыв консультанта прикреплен')
                 break
             }
             default:{
                 Toast.push('Выберите, что прикрепить')
-                console.log('Nothing to attach');
             }
         }
+        //-----------------------
         this.setState({data:arr})
+        //-----------------------
     };
-
-    private downloadFile = (event: React.MouseEvent<HTMLAnchorElement>) => {
-        Toast.push('Скачивание файла: '+ event.currentTarget.textContent)
-    }
 
     private deleteFile = () => {
         const arr =this.state.data;
         const target = this.state.deleteSelect.target!.value;
         switch(target){
             case 'Отчет':{
-                if(arr.reportFile === '') Toast.push('Отчета нет')
-                arr.reportFile ='';
+                if(arr.reportFile === '') 
+                    Toast.push('Отчета нет')
+                else{
+                    //----------------------------------------
+                    //запрос по userId и id на удаление отчета
+                    //----------------------------------------
+
+                    //------------------
+                    arr.reportFile = '';
+                    //------------------
+                    Toast.push('Отчет удален')
+                    this.whichData()
+                }
                 break;
             }
             case 'Презентацию':{
-                if(arr.presentationFile === '') Toast.push('Презентации нет')
-                arr.presentationFile= '';
+                if(arr.presentationFile === '') 
+                    Toast.push('Презентации нет')
+                else{
+                    //---------------------------------------------
+                    //Запрос на удаление презентации по id и userId
+                    //---------------------------------------------
+
+                    //------------------------
+                    arr.presentationFile= '';
+                    //------------------------
+                    Toast.push('Презентация удалена')
+                    this.whichData()
+                }
                 break;
             }
             case 'Отзыв консультанта':{
                 if(arr.consultantReportFile === '') Toast.push('Отзыва консультанта нет')
-                arr.consultantReportFile= '';
+                else{
+                    //-----------------------------------------------------
+                    //Запрос на удаление отзыва консультанта по id и userId
+                    //-----------------------------------------------------
+
+                    //----------------------------
+                    arr.consultantReportFile= '';
+                    //----------------------------
+                    Toast.push('Отзыв консультанта удален')
+                    this.whichData()
+                }
                 break;
             }
             default:{
                 Toast.push('Выберите, что удалить')
-                console.log('Nothing to delete');
             }
         }
         this.setState({data:arr})
@@ -147,54 +227,45 @@ class MyCourseWork extends Component<Props,State>{
         this.setState({ deleteSelect : newDeleteSelect})
     }
 
-    componentDidMount(){
-        this.setState({isLoading:true})
-        // setTimeout(() => {
-        //     this.setState({
-        //         isLoading: false,
-        //     })
-        // }, 1500)
-        this.setState({data : courseWorkData[0], isLoading : false})
 
-    }
 
     private renderContentBar(){
        return(
             <div className='informationWindow'>
-                {!this.state.isLoading? 
-                    <div>
-                        <Description data={this.state.data}/>
-                        <AttachedFiles data = {this.state.data}/>
-                        <div className='gapped'>
-                            <Gapped gap={20}>
+                <Description data={this.state.data}/>
+                <AttachedFiles data = {this.state.data}/>
+                <div className='gapped'>
+                    <Gapped gap={20}>
 
-                                <AttachFiles
-                                    attachFile = {this.attachFile}
-                                    changeAttachSelect = {this.changeAttachSelect}
-                                    attachSelect = {this.state.attachSelect}
-                                />
-
-                                <DeleteFiles
-                                    changeDeleteSelect = {this.changeDeleteSelect}
-                                    deleteFile = {this.deleteFile}
-                                    deleteSelect = {this.state.deleteSelect}
-                                />
-                            </Gapped>
-                        </div>
-                        <InputLink 
-                            handleNewLink = {this.handleNewLink} 
-                            attachLink = {this.attachLink}
-                            deleteLink = {this.deleteLink}
+                        <AttachFiles
+                            attachFile = {this.attachFile}
+                            changeAttachSelect = {this.changeAttachSelect}
+                            attachSelect = {this.state.attachSelect}
                         />
-                        <hr/>
-                    </div> 
-                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>}
+
+                        <DeleteFiles
+                            changeDeleteSelect = {this.changeDeleteSelect}
+                            deleteFile = {this.deleteFile}
+                            deleteSelect = {this.state.deleteSelect}
+                        />
+                    </Gapped>
+                </div>
+                <InputLink 
+                    handleNewLink = {this.handleNewLink} 
+                    attachLink = {this.attachLink}
+                    deleteLink = {this.deleteLink}
+                />
+                <hr/>
             </div>
         )
     }
 
     render(){
-        return this.renderContentBar();
+        return (
+            !this.state.isLoading?
+                this.renderContentBar()
+            : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

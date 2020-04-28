@@ -35,7 +35,6 @@ interface Props{
 }
 
 interface State{
-
 }
 
 class CourseWork extends Component<Props,State>{
@@ -44,9 +43,6 @@ class CourseWork extends Component<Props,State>{
         this.state={}
     }
 
-    private isEmpty(obj : Idata) {
-        return Object.keys(obj).length === 0;
-    }
 
     private courseWorkTitle(){
         switch(this.props.role){
@@ -113,6 +109,9 @@ class CourseWork extends Component<Props,State>{
         )
     }
 
+    private isEmpty(obj : Idata) {
+        return Object.keys(obj).length === 0;
+    }
 
     private renderCourseWork(){
         return (

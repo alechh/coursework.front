@@ -31,7 +31,6 @@ interface Idata{
     id?: number
 }
 
-
 interface Props{
     role : string,
     page?: string
@@ -45,54 +44,68 @@ interface State{
 class CourseWorkDetail extends Component<Props,State>{
     constructor(props : Props){
         super(props);
-        this.state = {data : {}, isLoading : false}
+        this.state = {
+            data : {}, 
+            isLoading : false
+        }
        
     }
 
     componentDidMount(){
         this.setState({isLoading:true})
+
         switch(this.props.role){
             case 'student':{
                 if(this.props.page!.indexOf('completed') + 1){
                     const id = Number(this.props.page!.substr(10))// eslint-disable-next-line
+                    //запрос по id данных о курсовой
+
+                    //----------------------------------------------------------
                     completedWorks.map(item => {
                         if(item.id === id) return(this.setState({data : item}))
                     })
+                    //----------------------------------------------------------
+
+                    //return(this.setState({data : data}))
                 }
                 break
             }
             case 'teacher':{
                 if(this.props.page!.indexOf('completed') + 1){
                     const id = Number(this.props.page!.substr(10)) // eslint-disable-next-line
+                    //запрос по id данных о курсовой
+
+                    //----------------------------------------------------------
                     teacherCompletedWorks.map(item => {
                         if (item.id === id) return(this.setState({data : item}))
                     })
+                    //----------------------------------------------------------
+
+                    //return(this.setState({data : data}))
                 }
                 break
             }
-
         }
-        this.setState({isLoading:false})
 
+        this.setState({isLoading:false})
     }
 
 
     private renderCourseWorkDetail(){
         return(
             <div className='informationWindow'>
-            {!this.state.isLoading?
-                <div>
-                    <Description data={this.state.data} role={this.props.role}/>
-                    <AttachedFiles data={this.state.data} role={this.props.role}/>
-                </div>
-            : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>}
+                <Description data={this.state.data} role={this.props.role}/>
+                <AttachedFiles data={this.state.data} role={this.props.role}/>
             </div>
-
         )
     }
 
     render(){
-        return this.renderCourseWorkDetail();
+        return (
+            !this.state.isLoading?
+                this.renderCourseWorkDetail()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

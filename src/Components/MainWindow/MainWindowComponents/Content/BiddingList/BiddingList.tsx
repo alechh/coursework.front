@@ -8,6 +8,8 @@ import SidePage from '@skbkontur/react-ui/SidePage'
 import Toast from '@skbkontur/react-ui/Toast'
 import Ok from '@skbkontur/react-icons/Ok'
 
+
+//curator
 import biddingList from '../../../../../TestData/Curator/biddingList'
 import myCritics from '../../../../../TestData/Curator/CurrentCritics'
 
@@ -28,14 +30,15 @@ interface ICritic{
 }
 
 interface Props{
-
+    userId?: number
 }
 
 interface State{
     data : Idata[],
     critics : ICritic[],
     isSidePageOpen?: boolean,
-    whichSidePage?: number
+    whichSidePage?: number,
+    isLoading?: boolean
 }
 
 class BiddingList extends React.Component<Props,State>{
@@ -45,15 +48,20 @@ class BiddingList extends React.Component<Props,State>{
             data : [{}],
             critics : [{}],
             isSidePageOpen: false,
-            whichSidePage : 0
+            whichSidePage : 0,
+            isLoading : false
         }
     }
 
     componentDidMount(){
+        this.setState({isLoading : true})
         this.loadingData()
+        this.setState({isLoading : false})
     }
 
     private loadingData(){
+        //запрос данных (результаты биддинга) по userId
+
         this.setState({data : biddingList, critics : myCritics})
     }
 
@@ -66,6 +74,8 @@ class BiddingList extends React.Component<Props,State>{
     }
 
     private complete(){
+        // запрос по userId о завершении назначений рецензентов
+
         Toast.push('Рецензенты назначены')
     }
 
@@ -73,6 +83,9 @@ class BiddingList extends React.Component<Props,State>{
         const value = event.currentTarget.value
         const courseWorkId = Number(value.substr(11,value.indexOf('critic')-12))
         const criticId = value.substr(value.indexOf('critic') + 6)
+
+        //запрос по courseWorkId и criticId на назначение рецензента на курсовую
+
         Toast.push('Курсовой ' + courseWorkId + ' назначен рецензент ' + criticId)
         this.closeSidePage()
         this.loadingData()
@@ -106,7 +119,7 @@ class BiddingList extends React.Component<Props,State>{
               })}
             </SidePage.Body>
             <SidePage.Footer panel>
-              <Button onClick={this.closeSidePage}>Close</Button>
+              <Button onClick={this.closeSidePage}>Отмена</Button>
             </SidePage.Footer>
           </SidePage>
         );
@@ -128,7 +141,7 @@ class BiddingList extends React.Component<Props,State>{
             <div className='biddingItem'>
                 <Gapped>
                     <div className='biddingTitle'><Typography variant='h6'>{item.title}</Typography></div>
-                    <Typography variant='h6'>-</Typography>
+                    <Typography variant='h6'>--</Typography>
                     <div className='biddingCritic'><Typography variant='h6'>{item.critic}</Typography></div>
                     {this.renderRejectButton(item.id!)}
                 </Gapped>

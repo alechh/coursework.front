@@ -9,14 +9,12 @@ interface Idata{
 }
 
 interface Props{
-    isCritic?: boolean,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     role?: string,
     data : Idata[]
 }
 
 interface State{
-
 }
 
 class Notifications extends Component<Props,State>{
@@ -29,16 +27,14 @@ class Notifications extends Component<Props,State>{
     private renderNotification(item : Idata){
         return(
             <div className='notificationItem'>
-                {this.props.isCritic?
-                    <div className='bidding'><Gapped>
-                        <div style={{minWidth:'30vw'}}><Typography variant='h5'><i>-результат биддинга:</i> {item.title}</Typography></div>
-                        <button
-                            className='buttonMore'
-                            value={'bidding_' + item.id!.toString()}
-                            onClick={this.props.changePage}
-                        ><Typography variant='button'>Подробнее</Typography></button>
-                    </Gapped></div>
-                : null}
+                <div className='bidding'><Gapped>
+                    <div style={{minWidth:'30vw'}}><Typography variant='h5'><i>-результат биддинга:</i> {item.title}</Typography></div>
+                    <button
+                        className='buttonMore'
+                        value={'bidding_' + item.id!.toString()}
+                        onClick={this.props.changePage}
+                    ><Typography variant='button'>Подробнее</Typography></button>
+                </Gapped></div>
             </div>
         )
     }

@@ -14,7 +14,8 @@ import './SidePage.css'
 
 
 interface Props{
-    closeSidePage() : void
+    closeSidePage() : void,
+    userId ?: number
 }
 
 interface State{
@@ -53,11 +54,14 @@ private clickButton = () => {
     return
   }
   this.setState({isSending:true})
-    setTimeout(() => {
-      this.setState({isSending: false})
-      Toast.push('Тема добавлена');
-      this.props.closeSidePage()
-    }, 2000)
+
+  //let newTopicVM = {title : this.state.title, description : this.state.description, course : this.state.course}
+  //отправить запрос на добавление темы (передаю this.props.userId и newTopicVM)
+
+  Toast.push('Тема добавлена');
+  this.props.closeSidePage()
+
+  this.setState({isSending: false})
 
 }
 

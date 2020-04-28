@@ -26,7 +26,8 @@ interface Idata{
 
 interface Props{
     role?: string,
-    page?: string
+    page?: string,
+    userId?: number
 }
 
 interface State{
@@ -45,11 +46,42 @@ class FreeWorkDetail extends Component<Props,State>{
         }
     }
 
+    componentDidMount(){
+        this.setState({isLoading:true})
+
+        switch(this.props.role){
+            case 'student':{
+                const id = Number(this.props.page!.substr(5))
+                let data : Idata = {} // eslint-disable-next-line
+                freeWorks.map(item =>{
+                    if(item.id === id) return (data = item)
+                })
+                this.setState({data : data})
+                break
+            }
+            case 'teacher':{
+                const id = Number(this.props.page!.substr(8))
+                let data : Idata = {} // eslint-disable-next-line
+                teacherFreeWorks.map(item => {
+                    if(item.id === id) data = item
+                })
+                this.setState({data : data})
+                break
+            }
+        }
+
+        this.setState({isLoading : false})
+    }
+
     private handleChange = (event : React.ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({aboutMe : event.target.value})
     }
 
     private submit(){
+        //-------------------------------------------------------------------
+        //запрос на отправку заявки (передаю id (курсовой), aboutMe и userId)
+        //-------------------------------------------------------------------
+
         Toast.push('Заявка отправлена')
     }
 
@@ -74,50 +106,22 @@ class FreeWorkDetail extends Component<Props,State>{
             </div>)
     }
 
-    componentDidMount(){
-        this.setState({isLoading:true})
-        // setTimeout(() => {
-        //     this.setState({
-        //         isLoading: false
-        //     })
-        // }, 1000)
-        switch(this.props.role){
-            case 'student':{
-                const id = Number(this.props.page!.substr(5))
-                let data : Idata = {} // eslint-disable-next-line
-                freeWorks.map(item =>{
-                    if(item.id === id) return (data = item)
-                })
-                this.setState({data : data, isLoading : false})
-                break
-            }
-            case 'teacher':{
-                const id = Number(this.props.page!.substr(8))
-                let data : Idata = {} // eslint-disable-next-line
-                teacherFreeWorks.map(item => {
-                    if(item.id === id) data = item
-                })
-                this.setState({data : data, isLoading : false})
-                break
-            }
-        }
-    }
     private renderFreeWork(){
         return(
             <div>
-                {!this.state.isLoading? 
-                    <div>
-                        <Description data={this.state.data}/>
-                        <hr/>
-                        {this.needCV()}
-                    </div>
-                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>}
+                <Description data={this.state.data}/>
+                <hr/>
+                {this.needCV()}
             </div>
         )
     }
 
     render(){
-        return this.renderFreeWork();
+        return (
+            !this.state.isLoading?
+                this.renderFreeWork()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

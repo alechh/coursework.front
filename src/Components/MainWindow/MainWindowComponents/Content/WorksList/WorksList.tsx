@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import CourseWork from '../CourseWork/CourseWork'
 import Typography from '@material-ui/core/Typography'
+import Spinner from '@skbkontur/react-ui/Spinner'
+import Center from '@skbkontur/react-ui/Center'
 import './WorksList.css'
 
 //student
@@ -24,7 +26,8 @@ interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     role?: string,
     type?: WorkType,
-    curatorSelect?: string
+    curatorSelect?: string,
+    userId?: number
 }
 
 interface State{
@@ -63,9 +66,17 @@ class WorksList extends Component<Props,State>{
             case 'student':{
                 switch(this.props.type){
                     case 'completed':{
+                        //--------------------------------
+                        //запрос по userId данных курсовых
+                        //--------------------------------
+
                         return (this.setState({data : completedWorks, type : 'current'}))
                     }
                     case 'free':{
+                        //--------------------------------
+                        //запрос по userId данных курсовых
+                        //--------------------------------
+
                         return (this.setState({data : freeWorks, type : 'free'}))
                     }
                 }
@@ -74,33 +85,58 @@ class WorksList extends Component<Props,State>{
             case 'teacher':{
                 switch(this.props.type){
                     case 'current':{
+                        //--------------------------------
+                        //запрос по userId данных курсовых
+                        //--------------------------------
+
                         return (this.setState({data : teacherCurrentWorks, type : 'current'}))
                     }
                     case 'free':{
+                        //--------------------------------
+                        //запрос по userId данных курсовых
+                        //--------------------------------
+
                         return (this.setState({data : teacherMyFreeWorks, type : 'free'}))
                     }
                     case 'completed':{
+                        //--------------------------------
+                        //запрос по userId данных курсовых
+                        //--------------------------------
+
                         return (this.setState({data : teacherCompletedWorks, type : 'completed'}))
                     }
                     case 'foreign':{
+                        //--------------------------------
+                        //запрос по userId данных курсовых
+                        //--------------------------------
+
                         return (this.setState({data : teacherFreeWorks, type : 'foreign'}))
                     }
                 }
                 break
             }
             case 'curator':{
-                if(this.props.curatorSelect === 'Занятые темы')
+                if(this.props.curatorSelect === 'Занятые темы'){
+                    //--------------------------------
+                    //запрос по userId данных курсовых
+                    //--------------------------------
+
                     return (this.setState({data : curatorMyCurrentWorks, type : 'current'}))
+                }
+                else if (this.props.curatorSelect === 'Свободные темы'){
+                    //--------------------------------
+                    //запрос по userId данных курсовых
+                    //--------------------------------
 
-                else if (this.props.curatorSelect === 'Свободные темы')
                     return (this.setState({data : curatorMyFreeWorks, type : 'free'}))
+                }
+                else if(this.props.type === 'current'){
+                    //--------------------------------
+                    //запрос по userId данных курсовых
+                    //--------------------------------
 
-                else
-                    switch(this.props.type){
-                        case 'current':{
-                            this.setState({data : curatorCurrentWorks, type : 'current'})
-                        }
-                    }
+                    this.setState({data : curatorCurrentWorks, type : 'current'})
+                }
             }
         }
     }
@@ -148,10 +184,12 @@ class WorksList extends Component<Props,State>{
 
     render(){
         return (
-        !this.isEmpty(this.state.data[0])?
-            this.renderList()
-        : this.renderEmptyList())
-
+            !this.state.isLoading?
+                !this.isEmpty(this.state.data[0])?
+                    this.renderList()
+                : this.renderEmptyList()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

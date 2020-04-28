@@ -18,7 +18,6 @@ import Delete from '@skbkontur/react-icons/Delete'
 //curator
 import currentWorks from '../../../../../TestData/Curator/currentWorks'
 
-
 interface Idata{
     title?: string,
     teacher?: string,
@@ -67,14 +66,23 @@ class BiddingDetailed extends Component<Props,State>{
     }
 
     componentDidMount(){
-        this.setState({isLoading:true})
+        this.setState({isLoading : true})
 
         const id = Number(this.props.page!.substr(8))
+        //--------------------------------
+        //запрос на данные курсовой по id
+        //--------------------------------
+
+        //------------------------------------------------
         let data : Idata = {} // eslint-disable-next-line
         currentWorks.map(item => {
             if(item.id === id) data = item
         })
-        this.setState({data : data, isLoading : false})
+        //------------------------------------------------
+
+        this.setState({data : data})
+
+        this.setState({isLoading : false})
     }
 
     private modalClose = () => {
@@ -85,20 +93,6 @@ class BiddingDetailed extends Component<Props,State>{
         this.setState({modalOpened : true})
     }
 
-    
-    private handleDeadline = (e : {target : {value : string}}) => {
-        return (this.setState({deadline : e.target.value}))
-    }
-
-    private setDeadline = () => {
-        if(this.state.deadline === '')
-            Toast.push('Выберите дату')
-        else{
-            Toast.push('Дедлайн назначен')
-            return (this.setState({modalOpened : false}))
-        }
-    }
-
     private openConfirmation = () => {
         return (this.setState({confirmationOpened : true}))
     }
@@ -107,7 +101,30 @@ class BiddingDetailed extends Component<Props,State>{
         return (this.setState({confirmationOpened : false}))
     }
 
+    private handleDeadline = (e : {target : {value : string}}) => {
+        return (this.setState({deadline : e.target.value}))
+    }
+
+    private setDeadline = () => {
+        if(this.state.deadline === '')
+            Toast.push('Выберите дату')
+        else{
+            //---------------------------------------------------------------
+            //запрос на установку дедлайна (передаю id и this.state.deadline)
+            //---------------------------------------------------------------
+
+            Toast.push('Дедлайн назначен')
+            return (this.setState({modalOpened : false}))
+        }
+    }
+
+
+
     private confirmTheProtection = () => {
+        //---------------------------------------------------------
+        //запрос по id о подтверждении защиты курсовой (передаю id)
+        //---------------------------------------------------------
+
         Toast.push('Защита курсовой работы подтверждена')
         return (this.setState({confirmationOpened : false}))
     }
@@ -164,12 +181,12 @@ class BiddingDetailed extends Component<Props,State>{
     private renderBiddingDetailed(){
         return(
             <div>
-                {!this.state.isLoading?
-                    <div>
-                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
-                        <Description data={this.state.data}/>
-                        <AttachedFiles data={this.state.data}/>
-                        <hr/>
+                <div style={{marginLeft:'20px'}}>
+                    <Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography>
+                </div>
+                <Description data={this.state.data}/>
+                <AttachedFiles data={this.state.data}/>
+                <hr/>
                 {this.state.modalOpened && this.renderModal()}
                 {this.state.confirmationOpened && this.renderConfirmation()}
                 <div style={{marginLeft:'30px'}}>
@@ -178,16 +195,16 @@ class BiddingDetailed extends Component<Props,State>{
                         <Button icon={<Ok/>} use='success' onClick={this.openConfirmation}>Подтвердить защиту</Button>
                     </Gapped>
                 </div>
-                    </div>
-                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
-                }
-
             </div>
         )
     }
 
     render(){
-        return this.renderBiddingDetailed();
+        return (
+            !this.state.isLoading?
+                this.renderBiddingDetailed()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 
