@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './RequireCriticList.css'
 import RequireCriticItem from './RequireCriticItem'
+import Center from '@skbkontur/react-ui/Center'
+import Spinner from '@skbkontur/react-ui/Spinner'
 
 //student
 import requireData from '../../../../../TestData/Student/requireCriticData'
@@ -28,6 +30,7 @@ interface Idata{
 interface Props{
     role?: string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    userId?: number
 }
 
 interface State{
@@ -53,9 +56,17 @@ class RequireCriticList extends Component<Props,State>{
     private whichData = () =>{
         switch(this.props.role){
             case 'student':{
+                //---------------------------------------------------
+                // Запрос списка работ, требующих рецензии, по userId
+                //---------------------------------------------------
+
                 return (this.setState({data : requireData}))
             }
             case 'teacher':{
+                //---------------------------------------------------
+                // Запрос списка работ, требующих рецензии, по userId
+                //---------------------------------------------------
+
                 return (this.setState({data : teacherRequireCritic}))
             }
         }
@@ -66,6 +77,7 @@ class RequireCriticList extends Component<Props,State>{
             <div>
                 {this.state.data?.map(item => {
                     return <RequireCriticItem 
+                        userId = {this.props.userId}
                         data={item} 
                         changePage={this.props.changePage}
                     />})}
@@ -74,7 +86,11 @@ class RequireCriticList extends Component<Props,State>{
         )
     }
     render(){
-        return this.renderRequireCriticList();
+        return (
+            !this.state.isLoading?
+                this.renderRequireCriticList()
+            : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

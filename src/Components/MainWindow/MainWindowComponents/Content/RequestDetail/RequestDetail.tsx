@@ -34,7 +34,8 @@ interface Idata{
 
 interface Props{
     role?: string,
-    page?: string
+    page?: string,
+    userId?: number
 }
 
 interface State{
@@ -51,54 +52,112 @@ class RequestDetail extends Component<Props,State>{
         }
     }
 
-    private cancelRequest = () => {
-        this.props.role === 'student'?
-            Toast.push('Заявка отменена')
-        :
-            Toast.push('Заявка отклонена')
-    }
-
-    acceptRequest(){
-        Toast.push('Заявка принята')
-    }
-    
-
     componentDidMount(){
         this.setState({isLoading:true})
+        this.whichData()
+        this.setState({isLoading : false})
+    }
 
+    private whichData = () => {
         switch(this.props.role){
             case 'student':{
                 const id = Number(this.props.page!.substr(8))
+                //---------------------------
+                // Запрос по id данных заявки
+                //---------------------------
+
+                //-----------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 requestsData.map(item =>{
                     if(item.id === id) return(data = item)
                 })
-                this.setState({data : data, isLoading : false})
+                //-----------------------------------------------
+
+                this.setState({data : data})
                 break
             }
             case 'teacher':{
                 let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
                 let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
+                //---------------------------
+                // Запрос по id данных заявки
+                //---------------------------
+
+                //--------------------------------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 teacherRequest.map(item => {
                     if(item.id === requestId && item.studentId === studentId) data = item
                 })
-                this.setState({data : data, isLoading : false})
+                //--------------------------------------------------------------------------
+
+                this.setState({data : data})
                 break
             }
             case 'curator':{
                 let studentId = Number(this.props.page?.substr(9,(this.props.page.indexOf('request')-10)))
                 let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
+                //---------------------------
+                // Запрос по id данных заявки
+                //---------------------------
+
+                //--------------------------------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 curatorRequest.map(item => {
                     if(item.id === requestId && item.studentId === studentId) data = item
                 })
-                this.setState({data : data, isLoading : false})
+                //--------------------------------------------------------------------------
+
+                this.setState({data : data})
                 break
             }
         }
     }
 
+    private cancelRequest = () => {
+        switch(this.props.role){
+            case 'student':{
+                //----------------------------------------------------
+                // Запрос на отмену заявки для студента по userId и id (id заявки)    
+                //----------------------------------------------------
+                Toast.push('Заявка отменена')
+                break
+            }
+            case 'teacher':{
+                //---------------------------------------------------------
+                // Запрос на отмену заявки для преподавателя по userId и id (id заявки)      
+                //---------------------------------------------------------
+                Toast.push('Заявка отклонена')
+                break
+            }
+            case 'curator':{
+                //----------------------------------------------------
+                // Запрос на отмену заявки для куратора по userId и id (id заявки)    
+                //----------------------------------------------------
+                Toast.push('Заявка отклонена')
+            }
+        }
+
+    }
+
+    private acceptRequest = () => {
+        switch(this.props.role){
+            case 'teacher':{
+                //------------------------------------------------------------
+                // Запрос на принятие заявки для преподавателя по userId и id
+                //------------------------------------------------------------
+                Toast.push('Заявка принята')
+                break
+            }
+            case 'curator':{
+                //------------------------------------------------------
+                // Запрос на принятие заявки для куратора по userId и id
+                //------------------------------------------------------
+                Toast.push('Заявка принята')
+                break
+            }
+        }
+    }
+    
     private renderButton(){
         switch(this.props.role){
             case 'student':{
@@ -149,28 +208,26 @@ class RequestDetail extends Component<Props,State>{
     private renderRequestDetail(){
         return(
             <div>
-                {!this.state.isLoading?
-                    <div>
-                        <div className='requestTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
-                        <Description data={this.state.data} role={this.props.role}/>
+                <div className='requestTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
+                <Description data={this.state.data} role={this.props.role}/>
 
-                        {(this.props.role === 'teacher' || this.props.role === 'curator')? <div className='ml30'><Typography variant='h6'>Студент: {this.state.data.student}, {this.state.data.group} группа, {this.state.data.course} курс</Typography></div> : null}
-                        <div className='aboutMeDiv'>
-                            <div id='aboutMeTitle'><Typography variant='h6'>{this.props.role === 'student'? 'Мое резюме' : 'Резюме студента'}:</Typography></div>
-                            <div className='aboutMe'><Typography>{this.state.data.aboutMe}</Typography></div>
-                        </div>
-                        <hr/>
-                        {this.renderButton()}
-
-                    </div>
-                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>}
+                {(this.props.role === 'teacher' || this.props.role === 'curator')? <div className='ml30'><Typography variant='h6'>Студент: {this.state.data.student}, {this.state.data.group} группа, {this.state.data.course} курс</Typography></div> : null}
+                <div className='aboutMeDiv'>
+                    <div id='aboutMeTitle'><Typography variant='h6'>{this.props.role === 'student'? 'Мое резюме' : 'Резюме студента'}:</Typography></div>
+                    <div className='aboutMe'><Typography>{this.state.data.aboutMe}</Typography></div>
+                </div>
+                <hr/>
+                {this.renderButton()}
             </div>
-            
         )
     }
 
     render(){
-        return this.renderRequestDetail();
+        return (
+            !this.state.isLoading?
+                this.renderRequestDetail()
+            : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

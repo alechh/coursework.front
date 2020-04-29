@@ -37,7 +37,8 @@ interface Idata{
 
 interface Props{
     page?: string,
-    role?: string
+    role?: string,
+    userId?: number
 }
 
 interface State{
@@ -51,7 +52,6 @@ class BiddingDetailed extends Component<Props,State>{
         super(props);
         this.state={
             isLoading : false,
-            // review : this.props.data.review,
             review: '',
             data : {}
         }
@@ -59,62 +59,95 @@ class BiddingDetailed extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading:true})
-        
+        this.whichData()
+        this.setState({isLoading : false})
+    }
+
+    private whichData = () => {
         switch(this.props.role){
             case 'teacher':{
                 const id = Number(this.props.page!.substr(8))
+                //--------------------------------------------
+                // Запрос по userId и id на данные по курсовой
+                //--------------------------------------------
+
+                //-------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 teacherCurrentWorks.map(item => {
                     if(item.id === id) return (data = item)
                 })
-                this.setState({data : data, review : data.review, isLoading : false})
+                //--------------------------------------------------
+
+                this.setState({data : data, review : data.review})
                 break
             }
             case 'curator':{
                 const id = Number(this.props.page!.substr(12))
+                //--------------------------------------------
+                // Запрос по userId и id на данные по курсовой
+                //--------------------------------------------
+
+                //-------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 curatorCurrentWorks.map(item => {
                     if(item.id === id) return (data = item)
                 })
-                this.setState({data : data, review : data.review, isLoading : false})
+                //-------------------------------------------------
+
+                this.setState({data : data, review : data.review})
             }
         }
-
     }
 
     private attachFile = (fileList: FileList) => {
+        //------------------------------------------
+        // Передача файла на сервер по userId и id
+        //------------------------------------------
+
+        //----------------------------------
         const newReview = fileList[0].name;
         this.setState({review : newReview})
+        //----------------------------------
+
         Toast.push('Отзыв прикреплен')
     };
 
     private downloadFile(){
+        //------------------------------------------------------------
+        // Запрос по id на скачивание отзыва научника по userId? и id
+        //------------------------------------------------------------
+
         Toast.push('Скачивание...')
     }
 
     private deleteFile = () => {
+        //----------------------------------------------------
+        //  Запрос на удаление отзыва научника по userId? и id
+        //----------------------------------------------------
+        
+        //--------------------------
         this.setState({review : ''})
+        //--------------------------
+
         Toast.push('Отзыв удален')
     }
 
 
-    private renderBiddingDetailed(){
+    private renderCurrentWorkDetail(){
         return(
             <div>
-                {!this.state.isLoading?
-                    <div>
-                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
-                        <Description data={this.state.data}/>
-                        <AttachedFiles data={this.state.data}/>
-                        <hr/>
-                        {this.state.review !== ''?
-                            <div style={{marginLeft:'20px', marginBottom:'10px'}}>
-                                <Gapped>
-                                    <Typography variant='h5'>Отзыв: {<Link onClick={this.downloadFile} use='success'>{this.state.review}</Link>}</Typography>
-                                    <Link use='grayed' onClick={this.deleteFile}>Удалить</Link>
-                                </Gapped>
-                            </div>    
-                    :null}
+                <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                <Description data={this.state.data}/>
+                <AttachedFiles userId={this.props.userId} data={this.state.data}/>
+                <hr/>
+                {this.state.review !== ''?
+                    <div style={{marginLeft:'20px', marginBottom:'10px'}}>
+                        <Gapped>
+                            <Typography variant='h5'>Отзыв: {<Link onClick={this.downloadFile} use='success'>{this.state.review}</Link>}</Typography>
+                            <Link use='grayed' onClick={this.deleteFile}>Удалить</Link>
+                        </Gapped>
+                    </div>    
+                :null}
                 <div style={{marginLeft:'20px'}}>
                     <Gapped>
                         <Typography variant='h5'>Прикрепить отзыв:</Typography>
@@ -123,19 +156,18 @@ class BiddingDetailed extends Component<Props,State>{
                             type="file" 
                             onChange={(e) => this.attachFile(e.target.files!)}
                         /> 
-
                     </Gapped>
                 </div>
-                    </div>
-                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
-                }
-
             </div>
         )
     }
 
     render(){
-        return this.renderBiddingDetailed();
+        return(
+            !this.state.isLoading?
+                this.renderCurrentWorkDetail()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

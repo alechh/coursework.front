@@ -14,14 +14,44 @@ interface Props{
         presentationFile?: string,
         consultantReportFile?: string,
         link?: string,
-        criticRiview?: string
-    }
+        criticRiview?: string,
+        id?: number
+    },
+    userId?: number
 }
 
 class AttachedFiles extends React.Component<Props>{
 
-    private downloadFile = () => {
-        Toast.push('Скачивание...')
+    private downloadReport = () => {
+        //-------------------------------------------
+        // Запрос по id на скачивание отчета студента
+        //-------------------------------------------
+
+        Toast.push('Скачивание отчета')
+    }
+
+    private downloadPresentation = () => {
+        //-------------------------------------------
+        // Запрос по id на скачивание презентации студента
+        //-------------------------------------------
+
+        Toast.push('Скачивание презентации')
+    }
+
+    private downloadConsultantReport = () => {
+        //-------------------------------------------
+        // Запрос по id на скачивание отзыва консультанта
+        //-------------------------------------------
+
+        Toast.push('Скачивание отзыва консультанта')
+    }
+
+    private downloadCriticReport = () => {
+        //-------------------------------------------
+        // Запрос по id на скачивание рецензии
+        //-------------------------------------------
+
+        Toast.push('Скачивание рецензии')
     }
 
     private getHref(){
@@ -36,11 +66,11 @@ class AttachedFiles extends React.Component<Props>{
 
         return(
         <div className='attached'>
-            {this.props.data.reportFile !== ''? <div><span>Отчет: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.reportFile}</Link></div> : null }
-            {this.props.data.presentationFile !== ''? <div><span>Презентация: </span> <Link use='success'onClick={this.downloadFile}>{this.props.data.presentationFile}</Link></div> : null}
-            {this.props.data.consultantReportFile !== ''? <div><span>Отзыв консультанта: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.consultantReportFile}</Link></div> : null}
+            {this.props.data.reportFile !== ''? <div><span>Отчет: </span><Link use='success'onClick={this.downloadReport}>{this.props.data.reportFile}</Link></div> : null }
+            {this.props.data.presentationFile !== ''? <div><span>Презентация: </span> <Link use='success'onClick={this.downloadPresentation}>{this.props.data.presentationFile}</Link></div> : null}
+            {this.props.data.consultantReportFile !== ''? <div><span>Отзыв консультанта: </span><Link use='success'onClick={this.downloadConsultantReport}>{this.props.data.consultantReportFile}</Link></div> : null}
         {this.props.data.link !== ''? <div><span>Ссылка: </span><Link use='success' href={this.getHref()}>{this.props.data.link}</Link></div> : null}
-            {this.props.data.criticRiview !== ''? <div><span>Рецензия: </span><Link use='success'onClick={this.downloadFile}>{this.props.data.criticRiview}</Link></div> : null}
+            {this.props.data.criticRiview !== ''? <div><span>Рецензия: </span><Link use='success'onClick={this.downloadCriticReport}>{this.props.data.criticRiview}</Link></div> : null}
             
         </div>
         )

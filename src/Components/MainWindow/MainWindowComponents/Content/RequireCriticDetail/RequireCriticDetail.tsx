@@ -33,7 +33,8 @@ interface Idata{
 
 interface Props{
     page?: string,
-    role?: string
+    role?: string,
+    userId?: number
 }
 
 interface State{
@@ -52,24 +53,42 @@ class RequireCriticDetail extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading:true})
+        this.whichData()
+        this.setState({isLoading : false})
+    }
 
+    private whichData = () => {
         switch(this.props.role){
             case 'student':{
                 const id = Number(this.props.page!.substr(14))
+                //---------------------------------------------------------
+                // Запрос данных о работе требующей рецензирования по id
+                //---------------------------------------------------------
+
+                //-------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 requireData.map(item => {
                     if(item.id === id) data = item
                 })
-                this.setState({data : data, isLoading : false})
+                //-------------------------------------------------
+
+                this.setState({data : data})
                 break
             }
             case 'teacher':{
                 const id = Number(this.props.page!.substr(14))
+                //-------------------------------------------------------
+                // Запрос данных о работе требующей рецензирования по id
+                //-------------------------------------------------------
+
+                //-------------------------------------------------
                 let data : Idata = {} // eslint-disable-next-line
                 teacherRequireCritic.map(item => {
                     if(item.id === id) data = item
                 })
-                this.setState({data : data, isLoading : false})
+                //-------------------------------------------------
+
+                this.setState({data : data})
                 break
             }
         }
@@ -79,23 +98,21 @@ class RequireCriticDetail extends Component<Props,State>{
     private renderRequireCriticDetail(){
         return(
             <div>
-                {!this.state.isLoading?
-                    <div>
-                        <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
-                        <Description data={this.state.data}/>
-                        <AttachedFiles data={this.state.data}/>
-                        <hr/>
-                        <Buttons/>
-                    </div>
-                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
-                }
-
+                <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                <Description data={this.state.data}/>
+                <AttachedFiles data={this.state.data}/>
+                <hr/>
+                <Buttons userId={this.props.userId} id={this.state.data.id}/>
             </div>
         )
     }
 
     render(){
-        return this.renderRequireCriticDetail();
+        return (
+            !this.state.isLoading?
+                this.renderRequireCriticDetail()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 

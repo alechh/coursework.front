@@ -76,7 +76,7 @@ class Content extends Component<Props,State>{
                     return <CourseWorkDetail role={this.props.role} page = {this.props.page}/>
                 
                 if(this.props.page!.indexOf('request') + 1)
-                    return <RequestDetail page={this.props.page} role={this.props.role}/>
+                    return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role}/>
                 
 
                 if(this.props.page!.indexOf('free') + 1)
@@ -84,7 +84,7 @@ class Content extends Component<Props,State>{
                 
 
                 if(this.props.page!.indexOf('requireCritic') + 1)
-                    return <RequireCriticDetail role={this.props.role} page={this.props.page}/>
+                    return <RequireCriticDetail userId={this.props.userId} role={this.props.role} page={this.props.page}/>
                 
 
                 if(this.props.page!.indexOf('bidding') + 1)
@@ -94,14 +94,18 @@ class Content extends Component<Props,State>{
             }
             case 'teacher':{
                 if(this.props.page!.indexOf('st') === 0){
-                    return <RequestDetail page={this.props.page} role={this.props.role} />
+                    return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role} />
                 }
 
                 if(this.props.page!.indexOf('current') + 1)
-                    return <TeachersCurrentWorkDetail page={this.props.page} role={this.props.role}/>
+                    return <TeachersCurrentWorkDetail 
+                                page={this.props.page} 
+                                role={this.props.role}
+                                userId={this.props.userId}/>
                 
                 if(this.props.page!.indexOf('free') + 1)
                     return <TeacherFreeWorksDetail 
+                                userId = {this.props.userId}
                                 page={this.props.page} 
                                 changePage={this.props.changePage}
                                 role={this.props.role}/>
@@ -113,7 +117,7 @@ class Content extends Component<Props,State>{
                     return <FreeWorkDetail userId={this.props.userId} page={this.props.page} role={this.props.role}/>
                 
                 if(this.props.page!.indexOf('requireCritic') + 1)
-                    return <RequireCriticDetail role={this.props.role} page={this.props.page}/>
+                    return <RequireCriticDetail userId={this.props.userId} role={this.props.role} page={this.props.page}/>
                 
                 if(this.props.page!.indexOf('bidding') + 1)
                     return <BiddingDetail role={this.props.role} page={this.props.page}/>
@@ -124,16 +128,20 @@ class Content extends Component<Props,State>{
                     return <CuratorCurrentWorkDetail page={this.props.page} role={this.props.role}/>
 
                 if(this.props.page!.indexOf('curatorBusy') + 1)
-                    return <TeachersCurrentWorkDetail page={this.props.page} role={this.props.role}/>
+                    return <TeachersCurrentWorkDetail 
+                                page={this.props.page} 
+                                role={this.props.role}
+                                userId={this.props.userId}/>
 
                 if(this.props.page!.indexOf('curatorFree') + 1)
                     return <TeacherFreeWorksDetail 
+                                userId={this.props.userId}
                                 page={this.props.page} 
                                 role={this.props.role}
                                 changePage={this.props.changePage}/>
 
                 if(this.props.page!.indexOf('curatorSt') + 1){
-                    return <RequestDetail page={this.props.page} role={this.props.role} />
+                    return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role} />
                 }
             }
         }
@@ -171,7 +179,7 @@ class Content extends Component<Props,State>{
                                     type='completed'/>
 
                     case 'Мои заявки': 
-                        return <RequestsList changePage={this.props.changePage} role={this.props.role}/>
+                        return <RequestsList userId={this.props.userId} changePage={this.props.changePage} role={this.props.role}/>
 
                     case 'Свободные курсовые': 
                         return <WorksList 
@@ -181,7 +189,7 @@ class Content extends Component<Props,State>{
                                     type='free'/>
 
                     case 'Требуют рецензии': 
-                        return <RequireCriticList role={this.props.role} changePage={this.props.changePage}/>
+                        return <RequireCriticList userId={this.props.userId} role={this.props.role} changePage={this.props.changePage}/>
 
                     default:
                         return this.whichComponent()
@@ -219,6 +227,7 @@ class Content extends Component<Props,State>{
 
                     case 'Заявки': 
                         return <RequestsList
+                                    userId={this.props.userId}
                                     changePage = {this.props.changePage}
                                     role={this.props.role}/>
 
@@ -231,6 +240,7 @@ class Content extends Component<Props,State>{
 
                     case 'Требуют рецензии':
                         return <RequireCriticList
+                                    userId={this.props.userId}
                                     role={this.props.role}
                                     changePage={this.props.changePage}/>
                     default:
@@ -248,10 +258,10 @@ class Content extends Component<Props,State>{
                                     changePage={this.props.changePage}/>
 
                     case 'Новые рецензенты':
-                        return <NewCriticList type='not-selected'/>
+                        return <NewCriticList userId={this.props.userId} type='not-selected'/>
                     
                     case 'Выбранные рецензенты':
-                        return <NewCriticList type='selected'/>
+                        return <NewCriticList userId={this.props.userId} type='selected'/>
                     
                     case 'Занятые темы':
                         return <WorksList
@@ -267,6 +277,7 @@ class Content extends Component<Props,State>{
 
                     case 'Заявки': 
                         return <RequestsList
+                                    userId={this.props.userId}
                                     changePage = {this.props.changePage}
                                     role={this.props.role}/>
 

@@ -5,11 +5,11 @@ import './Buttons.css'
 import Toast from '@skbkontur/react-ui/Toast'
 
 interface Props{
-
+    userId?: number,
+    id?: number
 }
 
 interface State{
-
 }
 
 class Buttons extends Component<Props,State>{
@@ -18,11 +18,32 @@ class Buttons extends Component<Props,State>{
         this.state={}
     }
 
-    private handleButton(event : React.MouseEvent<HTMLButtonElement>){
+    private handleButton = (event : React.MouseEvent<HTMLButtonElement>) => {
         switch(event.currentTarget.value){
-            case 'yes': {Toast.push('Выбрано: Буду рецензировать'); break}
-            case 'maybe': {Toast.push('Выбрано: Могу рецензировать'); break}
-            case 'no': {Toast.push('Выбрано: Не могу рецензировать'); break}
+            case 'yes': {
+                //---------------------------------------------
+                // Запрос "Буду рецензировать" по userId и id
+                //---------------------------------------------
+
+                Toast.push('Выбрано: Буду рецензировать') 
+                break
+            }
+            case 'maybe': {
+                //---------------------------------------------
+                // Запрос "Могу рецензировать" по userId и id
+                //---------------------------------------------
+
+                Toast.push('Выбрано: Могу рецензировать') 
+                break
+            }
+            case 'no': {
+                //---------------------------------------------
+                // Запрос "Не могу рецензировать" по userId и id
+                //---------------------------------------------
+
+                Toast.push('Выбрано: Не могу рецензировать')
+                break
+            }
         }
     }
 

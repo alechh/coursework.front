@@ -14,15 +14,16 @@ interface Idata{
     name : string,
     position : string,
     course : number,
-    department : string
+    department : string,
+    id?: number
 }
 
 interface Props{
-    type : 'selected' | 'not-selected'
+    type : 'selected' | 'not-selected',
+    userId?: number
 }
 
 interface State{
-
 }
 
 class NewCriticList extends Component<Props, State>{
@@ -31,12 +32,30 @@ class NewCriticList extends Component<Props, State>{
         this.state = {}
     }
 
-    private handleSelect(){
-        Toast.push('Рецензент назначен')
-    }
-
-    private handleDelete(){
-        Toast.push('Назначение отменено')
+    private renderButton(criticId?: number){
+        return(
+            <Button
+                icon={this.props.type === 'not-selected'? <Ok/> : <Delete/>} 
+                use={this.props.type === 'not-selected'? 'success' : 'danger'} 
+                onClick={() => {
+                    if(this.props.type === 'not-selected'){
+                        //----------------------------------------------------
+                        //запрос на добавление рецензента по userId и criticId
+                        //----------------------------------------------------
+                        Toast.push('Рецензент назначен')
+                    }
+                    else{
+                        //----------------------------------------------------
+                        //запрос на удаление рецензента по userId и criticId
+                        //----------------------------------------------------
+                        Toast.push('Рецензент удален')
+                    }
+                    }
+                }
+            >
+                {this.props.type === 'not-selected'? 'Назначить своим' : 'Отменить назначение'}
+            </Button>
+        )
     }
 
     private renderItem(item : Idata){
@@ -44,10 +63,7 @@ class NewCriticList extends Component<Props, State>{
             <div className='newCriticListItem'>
                 <Gapped>
                     <div style={{minWidth:'350px'}}><Typography variant='h5'>{item.name}, кафедра {item.department}</Typography></div>
-                    <Button
-                        icon={this.props.type === 'not-selected'? <Ok/> : <Delete/>} 
-                        use={this.props.type === 'not-selected'? 'success' : 'danger'} 
-                        onClick={this.props.type === 'not-selected'? this.handleSelect : this.handleDelete}>{this.props.type === 'not-selected'? 'Назначить своим' : 'Отменить назначение'}</Button>
+                    {this.renderButton(item.id)}
                 </Gapped>
             </div>
         )
@@ -60,8 +76,6 @@ class NewCriticList extends Component<Props, State>{
                     newCritics.map(item => this.renderItem(item))
                 :   currentCritics.map(item => this.renderItem(item))
             }
-
-
             </div>
         )
     }

@@ -21,7 +21,6 @@ interface Props{
 }
 
 interface State{
-
 }
 
 class RequestsList extends Component<Props,State>{

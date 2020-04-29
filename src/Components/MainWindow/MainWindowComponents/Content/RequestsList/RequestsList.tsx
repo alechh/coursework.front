@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography'
+import Center from '@skbkontur/react-ui/Center'
+import Spinner from '@skbkontur/react-ui/Spinner'
 import './RequestsList.css'
 
 //student
@@ -26,7 +28,8 @@ interface Idata{
 
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
-    role?:string
+    role?:string,
+    userId?: number
 }
 
 interface State{
@@ -50,16 +53,26 @@ class RequestsList extends Component<Props,State>{
     }
 
     private whichData = () => {
-
-
         switch(this.props.role){
             case 'student':{
+                //--------------------------------------------
+                // Запрос на список заявок студента по userId
+                //--------------------------------------------
+
                 return (this.setState({data : requestsData}))
             }
             case 'teacher':{
+                //----------------------------------------------------
+                // Запрос на список заявок для проподавателя по userId
+                //----------------------------------------------------
+
                 return (this.setState({data : teacherRequests}))
             }
             case 'curator':{
+                //-------------------------------------------
+                // Запрос на список заявок куратора по userId
+                //-------------------------------------------
+
                 return (this.setState({data : curatorRequests}))
             }
         }
@@ -124,9 +137,11 @@ class RequestsList extends Component<Props,State>{
 
     render(){
         return(
-            !this.isEmpty(this.state.data[0])?
-                this.renderRequestsList()
-            : this.renderEmptyList()
+            !this.state.isLoading?
+                !this.isEmpty(this.state.data[0])?
+                    this.renderRequestsList()
+                : this.renderEmptyList()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
         )
     }
 }

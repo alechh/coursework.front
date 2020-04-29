@@ -24,6 +24,7 @@ interface Idata{
 interface Props{
     data: Idata,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    userId?: number
 }
 
 interface State{
@@ -32,14 +33,19 @@ interface State{
 class RequireCriticItem extends Component<Props,State>{
     constructor(props : Props){
         super(props);
-        this.state={
-        }
+        this.state={}
     }
 
-    private handleSwtcher = (event : {target : {value:string}}) => {
+    private handleSwitcher = (event : {target : {value:string}}) => {
+        //----------------------------------------------------------------------------------------------------
+        // Запрос по userId, id и this.target.value на изменение состояние (могу рецензировать, хочу, не могу)
+        //----------------------------------------------------------------------------------------------------
+
+        //----------------------------------------------
         let newData = this.props.data
         newData.switcher = event.target.value
         this.setState({data : newData})
+        //----------------------------------------------
     }
 
     render(){
@@ -55,7 +61,7 @@ class RequireCriticItem extends Component<Props,State>{
                     <Switcher
                         items={['Да','Мб','Нет']}
                         value={this.props.data.switcher}
-                        onChange={this.handleSwtcher}
+                        onChange={this.handleSwitcher}
                         key={this.props.data.id}
                         />
                 </Gapped>

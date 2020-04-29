@@ -4,6 +4,8 @@ import RequestsList from './Components/RequestsList'
 import Typography from '@material-ui/core/Typography'
 import Button from '@skbkontur/react-ui/Button'
 import Toast from '@skbkontur/react-ui/Toast'
+import Center from '@skbkontur/react-ui/Center'
+import Spinner from '@skbkontur/react-ui/Spinner'
 
 //teacher
 import teacherRequest from '../../../../../TestData/Teacher/requestsData'
@@ -39,7 +41,8 @@ interface Irequest{
 interface Props{
     page?:string,
     role?: string,
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void
+    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    userId?: number
 }
 
 interface State{
@@ -62,10 +65,19 @@ class FreeWorkDetail extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading : true})
+        this.whichData()
+        this.setState({isLoading : false})
+    }
 
+    private whichData = () => {
         switch(this.props.role){
             case 'teacher':{
                 const id = Number(this.props.page!.substr(5))
+                //---------------------------------------------------------------------------------
+                // Запрос по userId и id на данные о курсовой и на данные и заявках на эту курсовую
+                //---------------------------------------------------------------------------------
+
+                //---------------------------------------------
                 let validRequests : Irequest[]
                 validRequests = [] // eslint-disable-next-line
                 teacherRequest.map(item =>{
@@ -76,11 +88,18 @@ class FreeWorkDetail extends Component<Props,State>{
                 teacherMyFreeWorks.map(item => {
                     if(item.id === id) return (data = item)
                 })
-                this.setState({data : data, requests : validRequests, isLoading : false})
+                //---------------------------------------------
+
+                this.setState({data : data, requests : validRequests})
                 break
             }
             case 'curator':{
                 const id = Number(this.props.page!.substr(12))
+                //---------------------------------------------------------------------------------
+                // Запрос по userId и id на данные о курсовой и на данные и заявках на эту курсовую
+                //---------------------------------------------------------------------------------
+
+                //-------------------------------------------------
                 let validRequests : Irequest[]
                 validRequests = [] // eslint-disable-next-line
                 curatorRequest.map(item => {
@@ -91,19 +110,30 @@ class FreeWorkDetail extends Component<Props,State>{
                 curatorMyFreeWorks.map(item => {
                     if(item.id === id) return (data = item)
                 })
-                this.setState({data : data, requests : validRequests, isLoading : false})
+                //-------------------------------------------------
+
+                this.setState({data : data, requests : validRequests})
                 break
             }
         }
-
     }
 
     private deleteWork = () => {
         const newStatus = !this.state.isDelete
         this.setState({isDelete : newStatus})
-        !this.state.isDelete?
-            Toast.push('Курсовая работа (id=' + this.state.data.id?.toString() + ') удалена')
-        : Toast.push('Удаление работы отменено')
+        if(!this.state.isDelete){
+            //-----------------------------------------------------------
+            // Запрос по userId и id на удаление своей добавленной работы
+            //-----------------------------------------------------------
+
+            Toast.push('Курсовая работа удалена')
+        }else{
+            //-------------------------------------------------
+            // Запрос на отмену удаления работы по userId и id
+            //-------------------------------------------------
+
+            Toast.push('Удаление работы отменено')
+        }
     }
 
     private renderFreeWorkDetail(){
@@ -126,7 +156,11 @@ class FreeWorkDetail extends Component<Props,State>{
     }
 
     render(){
-        return this.renderFreeWorkDetail();
+        return (
+            !this.state.isLoading?
+                this.renderFreeWorkDetail()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+        )
     }
 }
 
