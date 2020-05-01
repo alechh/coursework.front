@@ -129,7 +129,7 @@ class CourseWork extends Component<Props,State>{
                 </Gapped>
             </div>
             :             
-            <div style={{textAlign:"center"}}>
+            <div style={{textAlign:"center", marginTop:'10vh'}}>
                 <Typography variant='h5'>Нет курсовой работы</Typography>
             </div>
         )

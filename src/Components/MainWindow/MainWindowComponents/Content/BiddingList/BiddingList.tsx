@@ -165,8 +165,8 @@ class BiddingList extends React.Component<Props,State>{
         )
     }
 
-    private isEmpty(obj : any) {
-        return Object.keys(obj).length === 0;
+    private isEmpty(obj : Idata[]) {
+        return Object.keys(obj[0]).length === 0;
     }
 
     private renderEmptyList(){
@@ -179,7 +179,7 @@ class BiddingList extends React.Component<Props,State>{
 
     render(){
         return(
-            !this.isEmpty(this.state.data[0])?
+            !this.isEmpty(this.state.data)?
                 this.renderList()
             : this.renderEmptyList()
         )

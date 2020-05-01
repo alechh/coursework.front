@@ -75,6 +75,7 @@ class Main extends Component<Props,State>{
                 />
                 :null}
                 <Button
+                    width='auto'
                     onClick={this.openSidePage}
                     icon={<Add/>}
                 >Предложить тему курсовой работы</Button>

@@ -6,15 +6,17 @@ import Toast from '@skbkontur/react-ui/Toast'
 import './NewCriticList.css'
 import Ok from '@skbkontur/react-icons/Ok'
 import Delete from '@skbkontur/react-icons/Delete'
+import Spinner from '@skbkontur/react-ui/Spinner'
+import Center from '@skbkontur/react-ui/Center'
 
 import newCritics from '../../../../../TestData/Curator/newCritics'
 import currentCritics from '../../../../../TestData/Curator/CurrentCritics'
 
 interface Idata{
-    name : string,
-    position : string,
-    course : number,
-    department : string,
+    name?: string,
+    position?: string,
+    course?: number,
+    department?: string,
     id?: number
 }
 
@@ -24,12 +26,45 @@ interface Props{
 }
 
 interface State{
+    data : Idata[],
+    isLoading?: boolean
 }
 
 class NewCriticList extends Component<Props, State>{
     constructor(props : Props){
         super(props);
-        this.state = {}
+        this.state = {
+            data : [{}],
+            isLoading : false
+        }
+    }
+    
+    componentDidUpdate(prevProps : Props){
+        if(prevProps.type !== this.props.type)
+            this.componentDidMount()
+    }
+
+    componentDidMount(){
+        this.setState({isLoading : true})
+        this.whichData()
+        this.setState({isLoading : false})
+    }
+
+    private whichData = () => {
+        if(this.props.type === 'not-selected'){
+            //----------------------------------------------
+            // запрос по userId на данные новых рецензентов
+            //----------------------------------------------
+
+            this.setState({data : newCritics})
+        }
+        else{
+            //----------------------------------------------
+            // запрос по userId на данные текущих рецензентов
+            //----------------------------------------------
+
+            this.setState({data : currentCritics})
+        }
     }
 
     private renderButton(criticId?: number){
@@ -69,14 +104,27 @@ class NewCriticList extends Component<Props, State>{
         )
     }
 
+    private isEmpty(obj : Idata[]) {
+        return Object.keys(obj[0]).length === 0;
+    }
+
+    private renderEmptyList(){
+        return(
+            <div style={{textAlign:"center", marginTop: '10vh'}}>
+                <Typography variant='h5'>Нет рецензентов</Typography>
+            </div>
+        )
+    }
+
     render(){
         return(
-            <div className='newCriticList'>
-                {this.props.type === 'not-selected'? 
-                    newCritics.map(item => this.renderItem(item))
-                :   currentCritics.map(item => this.renderItem(item))
-            }
-            </div>
+            !this.state.isLoading?
+                !this.isEmpty(this.state.data)?
+                    <div className='newCriticList'>
+                        {this.state.data.map(item => this.renderItem(item))}
+                    </div>
+                :   this.renderEmptyList()
+            :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
         )
     }
 }

@@ -125,20 +125,20 @@ class RequestsList extends Component<Props,State>{
 
     private renderEmptyList(){
         return(
-            <div style={{textAlign:"center"}}>
+            <div style={{textAlign:"center", marginTop:'10vh'}}>
                 <Typography variant='h5'>Нет заявок</Typography>
             </div>
         )
     }
 
-    private isEmpty(obj : any) {
-        return Object.keys(obj).length === 0;
+    private isEmpty(obj : Idata[]) {
+        return Object.keys(obj[0]).length === 0;
     }
 
     render(){
         return(
             !this.state.isLoading?
-                !this.isEmpty(this.state.data[0])?
+                !this.isEmpty(this.state.data)?
                     this.renderRequestsList()
                 : this.renderEmptyList()
             :   <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>

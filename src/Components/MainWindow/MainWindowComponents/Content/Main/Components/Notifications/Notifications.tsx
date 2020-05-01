@@ -48,8 +48,27 @@ class Notifications extends Component<Props,State>{
         )
     }
 
+    private renderEmptyList(){
+        return(
+            <div className='notifications'>
+            <div style={{marginLeft : '10px', textDecoration:'underline', marginBottom:'10px'}}><Typography variant='h5'>Уведомления</Typography></div>
+            <div style={{marginLeft: '2vw'}}><Typography variant='h6'>Результатов биддинга нет</Typography></div>
+        </div>
+        )
+    }
+
+    private isEmpty(obj : Idata[]) {
+        return (Object.keys(obj[0]).length === 0)
+    }
+
     render(){
-        return this.renderList();
+        console.log(this.isEmpty(this.props.data));
+        
+        return (
+            !this.isEmpty(this.props.data)?
+                this.renderList()
+            :   this.renderEmptyList()
+        )
     }
 }
 

@@ -3,6 +3,7 @@ import './RequireCriticList.css'
 import RequireCriticItem from './RequireCriticItem'
 import Center from '@skbkontur/react-ui/Center'
 import Spinner from '@skbkontur/react-ui/Spinner'
+import Typography from '@material-ui/core/Typography'
 
 //student
 import requireData from '../../../../../TestData/Student/requireCriticData'
@@ -85,11 +86,26 @@ class RequireCriticList extends Component<Props,State>{
             </div>
         )
     }
+
+    private renderEmptyList(){
+        return(
+            <div style={{textAlign:"center", marginTop: '10vh'}}>
+                <Typography variant='h5'>Нет работ, требующих рецензии</Typography>
+            </div>
+        )
+    }
+
+    private isEmpty(obj?: Idata[]) {
+        return Object.keys(obj![0]).length === 0;
+    }
+
     render(){
         return (
-            !this.state.isLoading?
-                this.renderRequireCriticList()
-            : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+            !this.isEmpty(this.state.data)?
+                !this.state.isLoading?
+                    this.renderRequireCriticList()
+                : <div style={{height : '60vh'}}><Center><Spinner type='big' caption='Загрузка'/></Center></div>
+            :   this.renderEmptyList()
         )
     }
 }

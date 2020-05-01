@@ -57,10 +57,11 @@ class CourseWorkDetail extends Component<Props,State>{
         switch(this.props.role){
             case 'student':{
                 if(this.props.page!.indexOf('completed') + 1){
-                    const id = Number(this.props.page!.substr(10))// eslint-disable-next-line
+                    const id = Number(this.props.page!.substr(10))
                     //запрос по id данных о курсовой
 
-                    //----------------------------------------------------------
+                    //---------------------------------------------------------- 
+                    //eslint-disable-next-line
                     completedWorks.map(item => {
                         if(item.id === id) return(this.setState({data : item}))
                     })
@@ -72,10 +73,11 @@ class CourseWorkDetail extends Component<Props,State>{
             }
             case 'teacher':{
                 if(this.props.page!.indexOf('completed') + 1){
-                    const id = Number(this.props.page!.substr(10)) // eslint-disable-next-line
+                    const id = Number(this.props.page!.substr(10)) 
                     //запрос по id данных о курсовой
 
                     //----------------------------------------------------------
+                    // eslint-disable-next-line
                     teacherCompletedWorks.map(item => {
                         if (item.id === id) return(this.setState({data : item}))
                     })

@@ -10,7 +10,7 @@ let data : IUser = {
     firstName : 'Alex',
     lastName : 'Berezhnykh',
     isCritic : false,
-    role: 'teacher',
+    role: 'student',
     userId : 1
 }
 

@@ -164,7 +164,7 @@ class WorksList extends Component<Props,State>{
 
     private renderEmptyList(){
         return(
-            <div style={{textAlign:"center"}}>
+            <div style={{textAlign:"center", marginTop: '10vh'}}>
                 <Typography variant='h5'>Нет курсовых работ</Typography>
             </div>
         )

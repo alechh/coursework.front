@@ -11,7 +11,7 @@ import DeleteFiles from './Components/DeleteFiles'
 import Description from './Components/Description'
 
 import courseWorkData from '../../../../../TestData/Student/activeWorkData'
-import { runInThisContext } from 'vm'
+import { request } from 'https'
 
 interface Props{
     userId?: number
@@ -39,7 +39,7 @@ interface State{
     data : Idata,
     newLink?: string,
     attachSelect : {target?:{value?:string}},
-    deleteSelect : {target?: {value?: string}},
+    deleteSelect : {target?: {value?: string}}
 }
 
 class MyCourseWork extends Component<Props,State>{
@@ -69,6 +69,9 @@ class MyCourseWork extends Component<Props,State>{
     }
 
     private whichData = () => {
+        const axios = require('axios').default;
+        
+        //----------------
         return this.setState({data : courseWorkData[0]})
     }
 
@@ -113,19 +116,24 @@ class MyCourseWork extends Component<Props,State>{
     }
 
     private attachFile = (fileList: FileList) => {
-        const file = fileList[0].name;
+        const filename = fileList[0].name;
+        console.log(fileList[0]);
+        
         const arr = this.state.data;
         const target = this.state.attachSelect.target!.value;
-        if(file === this.state.data.reportFile || file === this.state.data.presentationFile || file === this.state.data.consultantReportFile) 
-            Toast.push('Прикрепляйте разные файлы')
         switch(target){
             case 'Отчет': {
+                //------------------------------------
+                const axios = require('axios').default
+                let f = new FormData();
+                f.append("File",fileList[0])
+                axios.post('url', f)
                 //-----------------------------------------
                 // Передаю файл на сервер (по userId и id)
                 //-----------------------------------------
 
                 //---------------------
-                arr.reportFile = file;
+                arr.reportFile = filename;
                 //---------------------
                 Toast.push('Отчет прикреплен')
                 break;
@@ -136,7 +144,7 @@ class MyCourseWork extends Component<Props,State>{
                 //-----------------------------------------
 
                 //--------------------------
-                arr.presentationFile = file;
+                arr.presentationFile = filename;
                 //--------------------------
                 Toast.push('Презентация прикреплена')
                 break;
@@ -147,7 +155,7 @@ class MyCourseWork extends Component<Props,State>{
                 //-----------------------------------------
 
                 //------------------------------
-                arr.consultantReportFile = file;
+                arr.consultantReportFile = filename;
                 //------------------------------
                 Toast.push('Отзыв консультанта прикреплен')
                 break
