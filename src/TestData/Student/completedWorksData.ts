@@ -2,7 +2,7 @@ interface ICompletedData{
     title?: string,
     teacher?: string,
     deadline?: string,
-    scienceArea?: string,
+    scienceArea?: string,//
     description?: string,
     reportFile?: string,
     presentationFile?: string,

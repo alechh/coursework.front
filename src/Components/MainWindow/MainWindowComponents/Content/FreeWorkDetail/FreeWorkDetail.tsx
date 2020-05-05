@@ -7,6 +7,7 @@ import TextArea from '@skbkontur/react-ui/Textarea'
 import Typograph from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import Toast from '@skbkontur/react-ui/Toast'
+import axios from 'axios'
 
 //student
 import freeWorks from '../../../../../TestData/Student/freeWorksData'
@@ -18,16 +19,20 @@ interface Idata{
     title?: string,
     teacher?:string,
     teacherContacts?: string,
-    scienceArea?: string,
     description?: string, 
     deadline?: string,
     id?: number
 }
 
+interface CreateApplicationViewModel{
+    message?: string,
+    courseWorkId?: number
+}
+
 interface Props{
     role?: string,
     page?: string,
-    userId?: number
+    token : string
 }
 
 interface State{
@@ -48,29 +53,43 @@ class FreeWorkDetail extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading:true})
+        this.whichData()
+        this.setState({isLoading : false})
+    }
 
+    private whichData = () => {
         switch(this.props.role){
             case 'student':{
                 const id = Number(this.props.page!.substr(5))
-                let data : Idata = {} // eslint-disable-next-line
-                freeWorks.map(item =>{
-                    if(item.id === id) return (data = item)
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
                 })
-                this.setState({data : data})
                 break
+
+                // let data : Idata = {} // eslint-disable-next-line
+                // freeWorks.map(item =>{
+                //     if(item.id === id) return (data = item)
+                // })
+                // this.setState({data : data})
             }
             case 'teacher':{
                 const id = Number(this.props.page!.substr(8))
-                let data : Idata = {} // eslint-disable-next-line
-                teacherFreeWorks.map(item => {
-                    if(item.id === id) data = item
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
                 })
-                this.setState({data : data})
                 break
+                
+                // let data : Idata = {} // eslint-disable-next-line
+                // teacherFreeWorks.map(item => {
+                //     if(item.id === id) data = item
+                // })
+                // this.setState({data : data})
             }
         }
-
-        this.setState({isLoading : false})
     }
 
     private handleChange = (event : React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -78,9 +97,17 @@ class FreeWorkDetail extends Component<Props,State>{
     }
 
     private submit(){
-        //-------------------------------------------------------------------
-        //запрос на отправку заявки (передаю id (курсовой), aboutMe и userId)
-        //-------------------------------------------------------------------
+        let body : CreateApplicationViewModel = {
+            message : this.state.aboutMe,
+            courseWorkId : this.state.data.id
+        }
+        const axios = require('axios').default
+        axios.post(
+            '../api/student/course_works/' + this.state.data.id?.toString() + '/apply',
+            this.props.token,
+            body,
+            this.state.data.id
+        )
 
         Toast.push('Заявка отправлена')
     }

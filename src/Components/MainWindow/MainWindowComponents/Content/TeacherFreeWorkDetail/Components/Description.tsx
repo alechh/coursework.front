@@ -2,14 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 
 interface Idata{
-    title?: string,
-    teacher?: string,
-    teacherContacts?: string,
-    scienceArea?: string,
     description?: string, 
-    status?: string,
-    course?: number,
-    id?: number
 }
 
 interface Props{

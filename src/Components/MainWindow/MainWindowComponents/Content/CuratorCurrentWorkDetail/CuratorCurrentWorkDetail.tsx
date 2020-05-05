@@ -13,6 +13,7 @@ import Clock from '@skbkontur/react-icons/Clock'
 import Ok from '@skbkontur/react-icons/Ok'
 import OkDouble from '@skbkontur/react-icons/OkDouble'
 import Delete from '@skbkontur/react-icons/Delete'
+import axios from 'axios'
 
 
 //curator
@@ -22,7 +23,6 @@ interface Idata{
     title?: string,
     teacher?: string,
     teacherContacts?: string,
-    scienceArea?: string,
     description?: string, 
     reportFile?: string,
     presentationFile?: string,
@@ -40,7 +40,8 @@ interface Idata{
 
 interface Props{
     page?: string,
-    role?: string
+    role?: string,
+    token : string
 }
 
 interface State{
@@ -67,22 +68,24 @@ class BiddingDetailed extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading : true})
+        this.whichData()
+        this.setState({isLoading : false})
+    }
 
+    private whichData= () => {
         const id = Number(this.props.page!.substr(8))
-        //--------------------------------
-        //запрос на данные курсовой по id
-        //--------------------------------
-
-        //------------------------------------------------
-        let data : Idata = {} // eslint-disable-next-line
-        currentWorks.map(item => {
-            if(item.id === id) data = item
+        const axios = require('axios').default
+        axios.get('../api/course_works/' + id.toString())
+        .then((response : Idata) => {
+            this.setState({data : response})
         })
         //------------------------------------------------
-
-        this.setState({data : data})
-
-        this.setState({isLoading : false})
+        // let data : Idata = {} // eslint-disable-next-line
+        // currentWorks.map(item => {
+        //     if(item.id === id) data = item
+        // })
+        // this.setState({data : data})
+        //------------------------------------------------
     }
 
     private modalClose = () => {
@@ -109,6 +112,8 @@ class BiddingDetailed extends Component<Props,State>{
         if(this.state.deadline === '')
             Toast.push('Выберите дату')
         else{
+            const axios = require('axios').default
+            axios.post('url', this.props.token, this.state.deadline)
             //---------------------------------------------------------------
             //запрос на установку дедлайна (передаю id и this.state.deadline)
             //---------------------------------------------------------------
@@ -121,6 +126,8 @@ class BiddingDetailed extends Component<Props,State>{
 
 
     private confirmTheProtection = () => {
+        const axios = require('axios').default
+        axios.post('url', this.props.token, this.state.data.id)
         //---------------------------------------------------------
         //запрос по id о подтверждении защиты курсовой (передаю id)
         //---------------------------------------------------------

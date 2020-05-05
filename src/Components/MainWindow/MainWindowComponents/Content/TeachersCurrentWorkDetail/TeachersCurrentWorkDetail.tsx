@@ -18,7 +18,6 @@ interface Idata{
     title?: string,
     teacher?: string,
     teacherContacts?: string,
-    scienceArea?: string,
     description?: string, 
     reportFile?: string,
     presentationFile?: string,
@@ -27,7 +26,6 @@ interface Idata{
     consultant?: string,
     consultantContacts?: string,
     status?: string,
-    switcher?: string,
     student?: string,
     course?: number,
     review?: string

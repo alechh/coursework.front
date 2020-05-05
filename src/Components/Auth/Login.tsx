@@ -1,4 +1,5 @@
 import * as React from "react";
+import jwt_decode from "jwt-decode";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -9,8 +10,16 @@ interface ILoginState {
     logged: boolean;
 }
 
+interface IUser{
+    firstName?: string,
+    lastName?: string,
+    isCritic?: boolean,
+    role?: string,
+    userId?: number
+}
+
 interface Props{
-    auth () : void
+    auth (user : IUser, token : string) : void
 }
 
 export default class Login extends React.Component<Props, ILoginState> {
@@ -31,7 +40,7 @@ export default class Login extends React.Component<Props, ILoginState> {
             <div className="container">
                 <Typography variant="h6" gutterBottom>Войти</Typography>
                 <form onSubmit={this.handleSubmit}>
-                    <TextField
+                    <div className='white'><TextField
                         required
                         type="email"
                         label="Email"
@@ -39,8 +48,8 @@ export default class Login extends React.Component<Props, ILoginState> {
                         margin="normal"
                         name={this.state.email}
                         onChange={e => this.setState({ email: e.target.value })}
-                    />
-                    <br />
+                    /></div>
+                    {/* <br /> */}
                     <TextField
                         required
                         type="password"
@@ -62,6 +71,16 @@ export default class Login extends React.Component<Props, ILoginState> {
         //-----------------------------
         // login-запрос, получаю токен
         //-----------------------------
-        this.props.auth()
+        let token : string ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+        //let decoded : {} = jwt_decode(token);
+        let user : IUser = {
+            firstName : 'Aleksandr',
+            lastName : 'Semenov',
+            isCritic : false,
+            role: 'curator',
+            userId : 1
+        }
+
+        this.props.auth(user, token)
     }
 }

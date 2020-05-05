@@ -11,23 +11,21 @@ import DeleteFiles from './Components/DeleteFiles'
 import Description from './Components/Description'
 
 import courseWorkData from '../../../../../TestData/Student/activeWorkData'
-import { request } from 'https'
 
 interface Props{
-    userId?: number
+    // token : string
 }
 
 interface Idata{
     title?: string,
     teacher?: string,
+    teacherContacts?: string,
     deadline?: string,
-    scienceArea?: string,
     description?: string,
     reportFile?: string,
     presentationFile?: string,
     consultantReportFile?: string,
     link?: string,
-    teacherContacts?: string,
     consultant?: string,
     consultantContacts?: string,
     critic?: string,
@@ -59,17 +57,16 @@ class MyCourseWork extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading:true})
-
-        //-------------------------------
-        //запрос данных курсовой по userId
-        //-------------------------------
         this.whichData()
-
         this.setState({isLoading : false})
     }
 
     private whichData = () => {
         const axios = require('axios').default;
+        //-------------------------------
+        //запрос данных курсовой по userId
+        //-------------------------------
+        
         
         //----------------
         return this.setState({data : courseWorkData[0]})

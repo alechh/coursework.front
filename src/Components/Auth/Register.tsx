@@ -2,6 +2,7 @@ import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Gapped from '@skbkontur/react-ui/Gapped'
 
 interface RegisterViewModel{
     name : string,
@@ -11,13 +12,21 @@ interface RegisterViewModel{
     passwordConfirm : string
 }
 
+interface IUser{
+    firstName?: string,
+    lastName?: string,
+    isCritic?: boolean,
+    role?: string,
+    userId?: number
+}
+
 interface IRegisterState {
     registerData: RegisterViewModel;
     logged: boolean;
 }
 
 interface Props{
-    auth() : void
+    auth(user : IUser, token : string) : void
 }
 
 export default class Register extends React.Component<Props, IRegisterState> {
@@ -74,7 +83,7 @@ export default class Register extends React.Component<Props, IRegisterState> {
                         onChange={e => this.setState({ registerData: {...this.state.registerData, email: e.target.value}})}
                     />
                     <br />
-                    <TextField
+                    <Gapped><TextField
                         required
                         type="password"
                         label="Пароль"
@@ -83,16 +92,16 @@ export default class Register extends React.Component<Props, IRegisterState> {
                         value={registerData.password}
                         onChange={e => this.setState({ registerData: {...this.state.registerData, password: e.target.value}})}
                     />
-                    <br />
+                    {/* <br /> */}
                     <TextField
                         required
                         type="password"
-                        label="Поддвердите пароль"
+                        label="Подтвердите пароль"
                         variant="outlined"
                         margin="normal"
                         value={registerData.passwordConfirm}
                         onChange={e => this.setState({ registerData: {...this.state.registerData, passwordConfirm: e.target.value}})}
-                    />
+                    /></Gapped>
                     <br />
                     <Button size="small" variant="contained" color="primary" type="submit">Зарегистрироваться</Button>
                 </form>
@@ -103,9 +112,7 @@ export default class Register extends React.Component<Props, IRegisterState> {
     private handleSubmit = async () => {
         const {email, password} = this.state.registerData;
 
-        // await ApiSingleton.accountApi.register(this.state.registerData);
-        // await ApiSingleton.authService.login(email, password);
-        // window.location.assign("/");
-        this.props.auth()
+        
+        //this.props.auth()
     }
 }

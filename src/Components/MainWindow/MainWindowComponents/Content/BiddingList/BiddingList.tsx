@@ -17,20 +17,18 @@ interface Idata{
     title?: string,
     id?: number,
     critic?: string,
-    criticId?: number,
-    department?: string
+    criticId?: number
 }
 
 interface ICritic{
     name?: string,
-    position?: string,
     id?: number,
     course?: number,
     department?: string
 }
 
 interface Props{
-    userId?: number
+    token: string
 }
 
 interface State{
@@ -60,7 +58,7 @@ class BiddingList extends React.Component<Props,State>{
     }
 
     private loadingData(){
-        //запрос данных (результаты биддинга) по userId
+        //Результат биддинга (token)
 
         this.setState({data : biddingList, critics : myCritics})
     }
@@ -74,7 +72,7 @@ class BiddingList extends React.Component<Props,State>{
     }
 
     private complete(){
-        // запрос по userId о завершении назначений рецензентов
+        // Завершение биддинга (token)
 
         Toast.push('Рецензенты назначены')
     }
@@ -86,7 +84,10 @@ class BiddingList extends React.Component<Props,State>{
 
         //запрос по courseWorkId и criticId на назначение рецензента на курсовую
 
+        //-------------------------------------------------------------------------
         Toast.push('Курсовой ' + courseWorkId + ' назначен рецензент ' + criticId)
+        //-------------------------------------------------------------------------
+        
         this.closeSidePage()
         this.loadingData()
     }

@@ -10,7 +10,8 @@ interface Props{
     handleCritic() : void,
     isCritic?: boolean,
     role?: string,
-    userId?: number
+    userId?: number,
+    token: string
 }
 
 interface State{
@@ -31,6 +32,7 @@ class MainWindow extends Component<Props,State>{
                     role={this.props.role}    
                 />
                 <Content 
+                    token={this.props.token}
                     role = {this.props.role}
                     page = {this.props.page} 
                     changePage = {this.props.changePage}

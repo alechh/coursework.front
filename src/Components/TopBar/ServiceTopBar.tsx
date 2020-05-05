@@ -4,8 +4,11 @@ import Logotype from "@skbkontur/react-ui/Logotype";
 import {User} from "@skbkontur/react-icons";
 import styles from "./ServiceTopBar.module.css";
 import Toast from "@skbkontur/react-ui/Toast";
-interface Props {
 
+interface Props {
+    firstName?: string,
+    lastName?: string,
+    logout(): void
 }
 
 interface State {
@@ -42,11 +45,17 @@ export default class ServiceTopBar extends Component<Props, State> {
                             <TopBar.ItemStatic active={isAccountTitleHovered}
                             _onClick={this.onAccountTitleClick}>
                                 <User color="#666"/>
-                                &nbsp;Alex Berezhnykh
+                                &nbsp;{this.props.firstName} {this.props.lastName}
                             </TopBar.ItemStatic>
                         </div>
                         <TopBar.Divider/>
-                        <TopBar.Logout onClick={() => alert('Logout!')}/>
+                        <TopBar.Logout onClick={() => {
+                            //-----------------------
+                            // Запрос на выход
+                            //-----------------------
+                            Toast.push("Logout")
+                            this.props.logout()
+                            }}/>
                     </TopBar.End>
                 </TopBar>
         )

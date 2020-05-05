@@ -15,7 +15,6 @@ interface Idata{
     title?: string,
     teacher?: string,
     teacherContacts?: string,
-    scienceArea?: string,
     description?: string, 
     reportFile?: string,
     presentationFile?: string,

@@ -19,9 +19,20 @@ import NewCriticList from './NewCriticsList/NewCriticList'
 import CuratorCurrentWorkDetail from './CuratorCurrentWorkDetail/CuratorCurrentWorkDetail'
 import CuratorSuggestedTopics from './CuratorSuggestedTopics/CuratorSuggestedTopics'
 import BiddingList from './BiddingList/BiddingList'
+import axios from 'axios'
 
 //student
 import activeWork from '../../../../TestData/Student/activeWorkData'
+
+interface ICourseWork{
+    title?: string,
+    teacher?: string,
+    deadline?: string,
+    description?: string,
+    id?: number,
+    student?: string,
+    course?: number
+}
 
 interface Props{
     page?: string,
@@ -29,7 +40,8 @@ interface Props{
     handleCritic() : void,
     isCritic?: boolean,
     role?: string,
-    userId?: number
+    userId?: number,
+    token: string
 }
 
 interface State{
@@ -80,7 +92,7 @@ class Content extends Component<Props,State>{
                 
 
                 if(this.props.page!.indexOf('free') + 1)
-                    return <FreeWorkDetail userId= {this.props.userId} page={this.props.page} role={this.props.role}/>
+                    return <FreeWorkDetail token={this.props.token} page={this.props.page} role={this.props.role}/>
                 
 
                 if(this.props.page!.indexOf('requireCritic') + 1)
@@ -114,7 +126,7 @@ class Content extends Component<Props,State>{
                     return <CourseWorkDetail role={this.props.role} page={this.props.page}/>
                 
                 if(this.props.page!.indexOf('foreign') + 1)
-                    return <FreeWorkDetail userId={this.props.userId} page={this.props.page} role={this.props.role}/>
+                    return <FreeWorkDetail token={this.props.token} page={this.props.page} role={this.props.role}/>
                 
                 if(this.props.page!.indexOf('requireCritic') + 1)
                     return <RequireCriticDetail userId={this.props.userId} role={this.props.role} page={this.props.page}/>
@@ -125,7 +137,10 @@ class Content extends Component<Props,State>{
             }
             case 'curator':{
                 if(this.props.page!.indexOf('current') + 1)
-                    return <CuratorCurrentWorkDetail page={this.props.page} role={this.props.role}/>
+                    return <CuratorCurrentWorkDetail 
+                                page={this.props.page} 
+                                role={this.props.role}
+                                token={this.props.token}/>
 
                 if(this.props.page!.indexOf('curatorBusy') + 1)
                     return <TeachersCurrentWorkDetail 
@@ -161,18 +176,30 @@ class Content extends Component<Props,State>{
                                     isCritic = {this.props.isCritic} 
                                     changePage={this.props.changePage}/>
 
-                    case 'Активные': 
+                    case 'Активные': {
+                        //------------------------------------------------------------
+                        const axios = require('axios').default;
+                        let data : ICourseWork = {}
+                        axios.get('../api/course_works/my/active', this.props.token)
+                        .then((response : ICourseWork) => {
+                            data = response
+                        })
+                        //------------------------------------------------------------
+
                         return <CourseWork 
-                                    data={activeWork[0]} 
+                                    // data={activeWork[0]}
+                                    data={data} 
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='current'/>
+                    }
 
                     case 'Моя курсовая детально': 
-                        return <MyCourseWorkDetail userId = {this.props.userId}/>
+                        return <MyCourseWorkDetail/>
 
                     case 'Завершенные': 
                         return <WorksList 
+                                    token={this.props.token}
                                     userId={this.props.userId}
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
@@ -183,6 +210,7 @@ class Content extends Component<Props,State>{
 
                     case 'Свободные курсовые': 
                         return <WorksList 
+                                    token={this.props.token}
                                     userId={this.props.userId}
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
@@ -207,6 +235,7 @@ class Content extends Component<Props,State>{
 
                     case 'Занятые': 
                         return <WorksList
+                                    token={this.props.token}
                                     userId={this.props.userId} 
                                     changePage={this.props.changePage}
                                     role={this.props.role}
@@ -214,12 +243,14 @@ class Content extends Component<Props,State>{
                                                     
                     case 'Свободные': 
                         return <WorksList
+                                    token={this.props.token}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='free'/>
 
                     case 'Завершенные':
                         return <WorksList
+                                    token={this.props.token}
                                     userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
@@ -233,6 +264,7 @@ class Content extends Component<Props,State>{
 
                     case 'Свободные курсовые':
                         return <WorksList
+                                    token={this.props.token}
                                     userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
@@ -265,6 +297,7 @@ class Content extends Component<Props,State>{
                     
                     case 'Занятые темы':
                         return <WorksList
+                                    token={this.props.token}
                                     userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
@@ -272,6 +305,7 @@ class Content extends Component<Props,State>{
 
                     case 'Предложенные темы':
                         return <CuratorSuggestedTopics
+                                    token={this.props.token}
                                     userId={this.props.userId}
                                     changePage={this.props.changePage}/>
 
@@ -282,7 +316,7 @@ class Content extends Component<Props,State>{
                                     role={this.props.role}/>
 
                     case 'Биддинг':
-                        return <BiddingList userId={this.props.userId}/>
+                        return <BiddingList token={this.props.token}/>
                     default:
                         return this.whichComponent()
                 }

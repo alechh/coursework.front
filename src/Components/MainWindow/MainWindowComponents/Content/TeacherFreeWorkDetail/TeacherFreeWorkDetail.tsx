@@ -19,9 +19,7 @@ interface Idata{
     title?: string,
     teacher?: string,
     teacherContacts?: string,
-    scienceArea?: string,
     description?: string, 
-    status?: string,
     course?: number,
     id?: number,
     studentId?: number
@@ -32,9 +30,7 @@ interface Irequest{
     student?: string,
     course?: number,
     group?: string,
-    scienceArea?: string,
     description?: string,
-    aboutMe?: string,
     id?: number
 }
 

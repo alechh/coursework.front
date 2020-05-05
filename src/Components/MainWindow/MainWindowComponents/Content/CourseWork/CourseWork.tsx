@@ -5,22 +5,11 @@ import Gapped from '@skbkontur/react-ui/Gapped'
 
 type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
-
 interface Idata{
     title?: string,
     teacher?: string,
-    deadline ?: string,
-    scienceArea?: string,
+    deadline?: string,
     description?: string,
-    reportFile?: string,
-    presentationFile?: string,
-    consultantReportFile?: string,
-    link?: string,
-    teacherContacts?: string,
-    consultant?: string,
-    consultantContacts?: string,
-    critic?: string,
-    status?: string,
     id?: number,
     student?: string,
     course?: number

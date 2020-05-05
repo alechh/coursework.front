@@ -3,6 +3,7 @@ import CourseWork from '../CourseWork/CourseWork'
 import Typography from '@material-ui/core/Typography'
 import Spinner from '@skbkontur/react-ui/Spinner'
 import Center from '@skbkontur/react-ui/Center'
+import axios from 'axios'
 import './WorksList.css'
 
 //student
@@ -27,7 +28,8 @@ interface Props{
     role?: string,
     type?: WorkType,
     curatorSelect?: string,
-    userId?: number
+    userId?: number,
+    token: string
 }
 
 interface State{
@@ -67,17 +69,25 @@ class WorksList extends Component<Props,State>{
                 switch(this.props.type){
                     case 'completed':{
                         //--------------------------------
-                        //запрос по userId данных курсовых
+                        const axios = require('axios').default
+                        axios.get('../api/course_works/my/completed', this.props.token)
+                        .then((response : {}[]) => {
+                            this.setState({data: response, type: 'current'})
+                        })
+                        break
                         //--------------------------------
-
-                        return (this.setState({data : completedWorks, type : 'current'}))
+                        //return (this.setState({data : completedWorks, type : 'current'}))
                     }
                     case 'free':{
                         //--------------------------------
-                        //запрос по userId данных курсовых
+                        const axios = require('axios').default
+                        axios.get('../api/course_works/available')
+                        .then((response : {}[]) => {
+                            this.setState({data : response, type: 'free'})
+                        })
+                        break
                         //--------------------------------
-
-                        return (this.setState({data : freeWorks, type : 'free'}))
+                        //return (this.setState({data : freeWorks, type : 'free'}))
                     }
                 }
                 break
@@ -86,31 +96,43 @@ class WorksList extends Component<Props,State>{
                 switch(this.props.type){
                     case 'current':{
                         //--------------------------------
-                        //запрос по userId данных курсовых
+                        const axios = require('axios').default
+                        axios.get('../api/course_works/my/active', this.props.token)
+                        .then((response : {}[]) => {
+                            this.setState({data : response, type: 'current'})
+                        })
+                        break
                         //--------------------------------
-
-                        return (this.setState({data : teacherCurrentWorks, type : 'current'}))
+                        //return (this.setState({data : teacherCurrentWorks, type : 'current'}))
                     }
                     case 'free':{
                         //--------------------------------
-                        //запрос по userId данных курсовых
+                        //Свободные курсовые конкретного препода
                         //--------------------------------
 
                         return (this.setState({data : teacherMyFreeWorks, type : 'free'}))
                     }
                     case 'completed':{
                         //--------------------------------
-                        //запрос по userId данных курсовых
+                        const axios = require('axios').default
+                        axios.get('../api/course_works/my/completed', this.props.token)
+                        .then((response : {}[]) => {
+                            this.setState({data : response, type: 'completed'})
+                        })
+                        break
                         //--------------------------------
-
-                        return (this.setState({data : teacherCompletedWorks, type : 'completed'}))
+                        //return (this.setState({data : teacherCompletedWorks, type : 'completed'}))
                     }
                     case 'foreign':{
                         //--------------------------------
-                        //запрос по userId данных курсовых
+                        const axios = require('axios').default
+                        axios.get('../api/course_works/available')
+                        .then((response : {}[]) => {
+                            this.setState({data : response, type: 'foreign'})
+                        })
+                        break
                         //--------------------------------
-
-                        return (this.setState({data : teacherFreeWorks, type : 'foreign'}))
+                        //return (this.setState({data : teacherFreeWorks, type : 'foreign'}))
                     }
                 }
                 break
@@ -118,21 +140,25 @@ class WorksList extends Component<Props,State>{
             case 'curator':{
                 if(this.props.curatorSelect === 'Занятые темы'){
                     //--------------------------------
-                    //запрос по userId данных курсовых
+                    const axios = require('axios').default
+                    axios.get('../api/course_works/my/active', this.props.token)
+                    .then((response : {}[]) => {
+                        this.setState({data : response, type: 'current'})
+                    })
+                    break
                     //--------------------------------
-
-                    return (this.setState({data : curatorMyCurrentWorks, type : 'current'}))
+                    //return (this.setState({data : curatorMyCurrentWorks, type : 'current'}))
                 }
                 else if (this.props.curatorSelect === 'Свободные темы'){
                     //--------------------------------
-                    //запрос по userId данных курсовых
+                    //Свободные курсовые конкретного куратора
                     //--------------------------------
 
                     return (this.setState({data : curatorMyFreeWorks, type : 'free'}))
                 }
                 else if(this.props.type === 'current'){
                     //--------------------------------
-                    //запрос по userId данных курсовых
+                    //Список всех активных работ
                     //--------------------------------
 
                     this.setState({data : curatorCurrentWorks, type : 'current'})

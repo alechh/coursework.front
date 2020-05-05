@@ -28,7 +28,7 @@ class Notifications extends Component<Props,State>{
         return(
             <div className='notificationItem'>
                 <div className='bidding'><Gapped>
-                    <div style={{minWidth:'30vw'}}><Typography variant='h5'><i>-результат биддинга:</i> {item.title}</Typography></div>
+                    <div style={{minWidth:'30vw'}}><Typography variant='h5'>{item.title}</Typography></div>
                     <button
                         className='buttonMore'
                         value={'bidding_' + item.id!.toString()}
@@ -42,7 +42,7 @@ class Notifications extends Component<Props,State>{
     private renderList(){
         return(
             <div className='notifications'>
-                <div style={{marginLeft : '10px', textDecoration:'underline', marginBottom:'10px'}}><Typography variant='h5'>Уведомления</Typography></div>
+                <div style={{marginLeft : '10px', textDecoration:'underline', marginBottom:'10px'}}><Typography variant='h5'>Результаты биддинга</Typography></div>
                 {this.props.data.map(item => this.renderNotification(item))}
             </div>
         )

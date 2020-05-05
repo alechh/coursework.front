@@ -3,13 +3,9 @@ import Typography from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
 
 interface Idata{
-    title?: string,
     student?: string,
     course?: number,
     group?: string,
-    scienceArea?: string,
-    description?: string,
-    aboutMe?: string,
     id?: number,
     studentId?: number
 }

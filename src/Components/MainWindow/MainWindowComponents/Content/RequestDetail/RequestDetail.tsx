@@ -25,7 +25,6 @@ interface Idata{
     teacher?: string,
     course?: number,
     group?: string,
-    scienceArea?: string,
     description?: string,
     aboutMe?: string,
     id?: number,

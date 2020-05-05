@@ -3,6 +3,7 @@ import Description from './Components/Description'
 import AttachedFiles from './Components/AttachedFiles'
 import Center from '@skbkontur/react-ui/Center'
 import Spinner from '@skbkontur/react-ui/Spinner'
+import axios from 'axios'
 
 //student
 import completedWorks from '../../../../../TestData/Student/completedWorksData'
@@ -48,50 +49,56 @@ class CourseWorkDetail extends Component<Props,State>{
             data : {}, 
             isLoading : false
         }
-       
     }
 
     componentDidMount(){
         this.setState({isLoading:true})
+        this.whichData()
+        this.setState({isLoading:false})
+    }
 
+    private whichData = () => {
         switch(this.props.role){
             case 'student':{
                 if(this.props.page!.indexOf('completed') + 1){
                     const id = Number(this.props.page!.substr(10))
-                    //запрос по id данных о курсовой
+                    const axios = require('axios').default
+                    axios.get('../api/course_works/' + id.toString())
+                    .then((response : Idata) => {
+                        this.setState({data : response})
+                    })
+                    break
 
                     //---------------------------------------------------------- 
                     //eslint-disable-next-line
-                    completedWorks.map(item => {
-                        if(item.id === id) return(this.setState({data : item}))
-                    })
+                    // completedWorks.map(item => {
+                    //     if(item.id === id) return(this.setState({data : item}))
+                    // })
                     //----------------------------------------------------------
-
-                    //return(this.setState({data : data}))
                 }
                 break
             }
             case 'teacher':{
                 if(this.props.page!.indexOf('completed') + 1){
                     const id = Number(this.props.page!.substr(10)) 
-                    //запрос по id данных о курсовой
+                    const axios = require('axios').default
+                    axios.get('../api/course_works/' + id.toString())
+                    .then((response : Idata) => {
+                        this.setState({data : response})
+                    })
+                    break
 
                     //----------------------------------------------------------
                     // eslint-disable-next-line
-                    teacherCompletedWorks.map(item => {
-                        if (item.id === id) return(this.setState({data : item}))
-                    })
+                    // teacherCompletedWorks.map(item => {
+                    //     if (item.id === id) return(this.setState({data : item}))
+                    // })
                     //----------------------------------------------------------
-
-                    //return(this.setState({data : data}))
                 }
                 break
             }
         }
-
-        this.setState({isLoading:false})
     }
-
 
     private renderCourseWorkDetail(){
         return(

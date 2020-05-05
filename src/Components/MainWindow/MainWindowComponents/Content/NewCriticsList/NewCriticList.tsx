@@ -14,7 +14,6 @@ import currentCritics from '../../../../../TestData/Curator/CurrentCritics'
 
 interface Idata{
     name?: string,
-    position?: string,
     course?: number,
     department?: string,
     id?: number

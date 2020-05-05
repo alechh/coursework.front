@@ -4,7 +4,8 @@ import WorkList from '../WorksList/WorksList'
 
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
-    userId?: number
+    userId?: number,
+    token: string
 }
 
 interface selectType{
@@ -39,6 +40,7 @@ class CuratorSuggestedTopics extends React.Component<Props,State>{
                 </div>
 
                 <WorkList
+                    token={this.props.token}
                     userId={this.props.userId}
                     curatorSelect = {this.state.whichTopics?.target?.value}
                     role='curator'

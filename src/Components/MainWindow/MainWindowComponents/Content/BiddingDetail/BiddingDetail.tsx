@@ -7,6 +7,7 @@ import AttachedFiles from './Components/AttachedFiles'
 import Link from '@skbkontur/react-ui/Link'
 import Toast from '@skbkontur/react-ui/Toast'
 import Gapped from '@skbkontur/react-ui/Gapped'
+import axios from 'axios'
 
 //student
 import biddingData from '../../../../../TestData/Student/biddingData'
@@ -18,7 +19,6 @@ interface Idata{
     title?: string,
     teacher?: string,
     teacherContacts?: string,
-    scienceArea?: string,
     description?: string, 
     reportFile?: string,
     presentationFile?: string,
@@ -55,65 +55,83 @@ class BiddingDetailed extends Component<Props,State>{
 
     componentDidMount(){
         this.setState({isLoading:true})
-
-        switch(this.props.role){
-            case 'student':{
-                const id = Number(this.props.page!.substr(8))
-                //запрос по id на данные
-
-                //------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                biddingData.map(item => {
-                    if(item.id === id) return (data = item)
-                })
-                //------------------------------------------------
-
-                this.setState({data : data})
-                break
-            }
-            case 'teacher':{
-                const id = Number(this.props.page!.substr(8))
-                //запрос по id на данные
-
-                //------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                teacherBidding.map(item => {
-                    if(item.id === id) data = item
-                })
-                //------------------------------------------------
-                
-                this.setState({data : data})
-                break
-            }
-        }
-
+        this.whichData()
         this.setState({isLoading : false})
     }
 
-    private attachFile = (fileList: FileList) => {
-        //зарпос по id на добавление рецензии, передаем файл
+    private whichData = () => {
+        switch(this.props.role){
+            case 'student':{
+                const id = Number(this.props.page!.substr(8))
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
+                })
+                break
 
+                //------------------------------------------------
+                // let data : Idata = {} // eslint-disable-next-line
+                // biddingData.map(item => {
+                //     if(item.id === id) return (data = item)
+                // })
+                //this.setState({data : data})
+                //------------------------------------------------
+            }
+            case 'teacher':{
+                const id = Number(this.props.page!.substr(8))
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
+                })
+                break
+
+                //------------------------------------------------
+                // let data : Idata = {} // eslint-disable-next-line
+                // teacherBidding.map(item => {
+                //     if(item.id === id) data = item
+                // })
+                // this.setState({data : data})
+                //------------------------------------------------
+            }
+        }
+    }
+
+    private attachFile = (fileList: FileList) => {
+        const axios = require('axios').default
+        let f = new FormData();
+        f.append("File",fileList[0])
+        axios.post('url', f)
+        //Прикрепление рецензии
+
+        //---------------------------------------
         const newCriticReview = fileList[0].name;
         let newData = this.state.data
         newData.criticReview = newCriticReview
         this.setState({data : newData})
+        //---------------------------------------
+
         Toast.push('Рецензия прикреплена')
     };
 
     private downloadFile(){
-        //запрос по id на скачивание файла
+        //Скачивание рецензии
 
         //-------------------------
-        Toast.push('Скачивание...')
+        Toast.push('Скачивание рецензии')
         //-------------------------
     }
 
     private deleteFile = () => {
-        //запрос по id на удаление рецензии
+        //Удаление рецензии
 
+        //-----------------------------
         let newData = this.state.data
         newData.criticReview = ''
         this.setState({data : newData})
+        //-----------------------------
+        
         Toast.push('Рецензия удалена')
     }
 

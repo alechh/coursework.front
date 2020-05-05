@@ -19,7 +19,7 @@ interface Props{
 class AttachedFiles extends React.Component<Props>{
 
     private downloadReport = () => {
-        //запрос на скачивание отчета по id
+        //запрос на скачивание отчета студента по id
         Toast.push('Скачивание отчета')
     }
 
@@ -35,7 +35,7 @@ class AttachedFiles extends React.Component<Props>{
 
     private downloadConsultantReport = () => {
         //запрос на скачивание отзыва консультанта по id
-        Toast.push('Скачивание отзыыва консультанта')
+        Toast.push('Скачивание отзыва консультанта')
     }
 
     private downloadCriticReport = () => {
