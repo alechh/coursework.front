@@ -105,7 +105,7 @@ class Content extends Component<Props,State>{
                 break
             }
             case 'teacher':{
-                if(this.props.page!.indexOf('st') === 0){
+                if(this.props.page!.indexOf('request') + 1){
                     return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role} />
                 }
 
@@ -155,7 +155,7 @@ class Content extends Component<Props,State>{
                                 role={this.props.role}
                                 changePage={this.props.changePage}/>
 
-                if(this.props.page!.indexOf('curatorSt') + 1){
+                if(this.props.page!.indexOf('request') + 1){
                     return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role} />
                 }
             }

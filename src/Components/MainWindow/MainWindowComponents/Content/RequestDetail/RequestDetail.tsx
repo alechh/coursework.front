@@ -23,12 +23,12 @@ interface Idata{
     title?: string,
     student?: string,
     teacher?: string,
-    course?: number,
+    //course?: number,
     group?: string,
     description?: string,
     aboutMe?: string,
     id?: number,
-    studentId?: number
+    //studentId?: number
 }
 
 interface Props{
@@ -76,37 +76,39 @@ class RequestDetail extends Component<Props,State>{
                 break
             }
             case 'teacher':{
-                let studentId = Number(this.props.page?.substr(2,(this.props.page.indexOf('request')-3)))
-                let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
+                let requestId = Number(this.props.page!.substr(7))
+                console.log(requestId)
+                
                 //---------------------------
                 // Запрос по id данных заявки
                 //---------------------------
 
                 //--------------------------------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                teacherRequest.map(item => {
-                    if(item.id === requestId && item.studentId === studentId) data = item
-                })
+                // let data : Idata = {} // eslint-disable-next-line
+                // teacherRequest.map(item => {
+                //     if(item.id === requestId && item.studentId === studentId) data = item
+                // })
+                //this.setState({data : data})
                 //--------------------------------------------------------------------------
 
-                this.setState({data : data})
+
                 break
             }
             case 'curator':{
-                let studentId = Number(this.props.page?.substr(9,(this.props.page.indexOf('request')-10)))
-                let requestId = Number(this.props.page!.substr(this.props.page!.indexOf('request')+7))
+                let requestId = Number(this.props.page!.substr(7))
                 //---------------------------
                 // Запрос по id данных заявки
                 //---------------------------
 
                 //--------------------------------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                curatorRequest.map(item => {
-                    if(item.id === requestId && item.studentId === studentId) data = item
-                })
+                // let data : Idata = {} // eslint-disable-next-line
+                // curatorRequest.map(item => {
+                //     if(item.id === requestId && item.studentId === studentId) data = item
+                // })
+                // this.setState({data : data})
                 //--------------------------------------------------------------------------
 
-                this.setState({data : data})
+
                 break
             }
         }
@@ -210,7 +212,7 @@ class RequestDetail extends Component<Props,State>{
                 <div className='requestTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
                 <Description data={this.state.data} role={this.props.role}/>
 
-                {(this.props.role === 'teacher' || this.props.role === 'curator')? <div className='ml30'><Typography variant='h6'>Студент: {this.state.data.student}, {this.state.data.group} группа, {this.state.data.course} курс</Typography></div> : null}
+                {(this.props.role === 'teacher' || this.props.role === 'curator')? <div className='ml30'><Typography variant='h6'>Студент: {this.state.data.student}, {this.state.data.group} группа</Typography></div> : null}
                 <div className='aboutMeDiv'>
                     <div id='aboutMeTitle'><Typography variant='h6'>{this.props.role === 'student'? 'Мое резюме' : 'Резюме студента'}:</Typography></div>
                     <div className='aboutMe'><Typography>{this.state.data.aboutMe}</Typography></div>

@@ -15,12 +15,12 @@ import curatorRequests from '../../../../../TestData/Curator/requestsData'
 
 interface Idata{
     title?: string,
-    student?: string,
-    course?: number,
-    teacher?: string,
-    description?: string,
+    //student?: string,
+    //course?: number,
+    //teacher?: string,
+    //description?: string,
     id?: number,
-    studentId?: number
+    //studentId?: number
 }
 
 interface Props{
@@ -79,11 +79,16 @@ class RequestsList extends Component<Props,State>{
     private renderTitle(item : Idata){
         switch(this.props.role){
             case 'student':
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.teacher}</Typography></div>
-            case 'teacher':
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
-            case 'curator':
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
+            case 'teacher':{
+                //return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
+            }
+                
+            case 'curator':{
+                //return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
+            }
         }
     }
 
@@ -91,10 +96,12 @@ class RequestsList extends Component<Props,State>{
         switch(this.props.role){
             case 'student':
                 return 'request_' + item.id?.toString()
-            case 'teacher':
-                return 'st' + item.studentId?.toString() + '_request' + item.id!.toString()
+            case 'teacher':{
+                //return 'st' + item.studentId?.toString() + '_request' + item.id!.toString()
+                return 'request' + item.id!.toString()
+            }
             case 'curator':
-                return 'curatorSt' + item.studentId?.toString() + '_request' + item.id!.toString()
+                return 'request' + item.id!.toString()
         }
     }
 
