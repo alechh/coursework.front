@@ -8,6 +8,7 @@ import Ok from '@skbkontur/react-icons/Ok'
 import Delete from '@skbkontur/react-icons/Delete'
 import Spinner from '@skbkontur/react-ui/Spinner'
 import Center from '@skbkontur/react-ui/Center'
+import axios from 'axios'
 
 import newCritics from '../../../../../TestData/Curator/newCritics'
 import currentCritics from '../../../../../TestData/Curator/CurrentCritics'
@@ -55,14 +56,14 @@ class NewCriticList extends Component<Props, State>{
             // запрос по userId на данные новых рецензентов
             //----------------------------------------------
 
-            this.setState({data : newCritics})
+            //this.setState({data : newCritics})
         }
         else{
             //----------------------------------------------
             // запрос по userId на данные текущих рецензентов
             //----------------------------------------------
 
-            this.setState({data : currentCritics})
+            //this.setState({data : currentCritics})
         }
     }
 
@@ -74,13 +75,13 @@ class NewCriticList extends Component<Props, State>{
                 onClick={() => {
                     if(this.props.type === 'not-selected'){
                         //----------------------------------------------------
-                        //запрос на добавление рецензента по userId и criticId
+                        // Поменить рецензента "своим" criticId
                         //----------------------------------------------------
                         Toast.push('Рецензент назначен')
                     }
                     else{
                         //----------------------------------------------------
-                        //запрос на удаление рецензента по userId и criticId
+                        // Поменить рецензента "чужим" criticId
                         //----------------------------------------------------
                         Toast.push('Рецензент удален')
                     }

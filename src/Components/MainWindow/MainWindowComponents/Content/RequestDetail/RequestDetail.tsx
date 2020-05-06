@@ -9,6 +9,7 @@ import Gapped from '@skbkontur/react-ui/Gapped'
 import Button from '@skbkontur/react-ui/Button'
 import Ok from '@skbkontur/react-icons/Ok'
 import Delete from '@skbkontur/react-icons/Delete'
+import axios from 'axios'
 
 //student
 import requestsData from '../../../../../TestData/Student/requestsData'
@@ -34,7 +35,7 @@ interface Idata{
 interface Props{
     role?: string,
     page?: string,
-    userId?: number
+    token : string
 }
 
 interface State{
@@ -61,55 +62,54 @@ class RequestDetail extends Component<Props,State>{
         switch(this.props.role){
             case 'student':{
                 const id = Number(this.props.page!.substr(8))
-                //---------------------------
-                // Запрос по id данных заявки
-                //---------------------------
-
-                //-----------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                requestsData.map(item =>{
-                    if(item.id === id) return(data = item)
+                const axios = require('axios').default
+                axios.get('../api/student/applications/' + id.toString(), this.props.token)
+                .then((response : Idata) => {
+                    this.setState({data : response})
                 })
-                //-----------------------------------------------
-
-                this.setState({data : data})
                 break
+
+                //-----------------------------------------------
+                // let data : Idata = {} // eslint-disable-next-line
+                // requestsData.map(item =>{
+                //     if(item.id === id) return(data = item)
+                // })
+                // this.setState({data : data})
+                //-----------------------------------------------
             }
             case 'teacher':{
-                let requestId = Number(this.props.page!.substr(7))
-                console.log(requestId)
-                
-                //---------------------------
-                // Запрос по id данных заявки
-                //---------------------------
+                let id = Number(this.props.page!.substr(7))
+                const axios = require('axios').default
+                axios.get('../api/lecturer/applications/' + id.toString(), this.props.token)
+                .then((response : Idata) => {
+                    this.setState({data : response})
+                })
+                break
 
                 //--------------------------------------------------------------------------
                 // let data : Idata = {} // eslint-disable-next-line
                 // teacherRequest.map(item => {
-                //     if(item.id === requestId && item.studentId === studentId) data = item
+                //     if(item.id === id) data = item
                 // })
-                //this.setState({data : data})
+                // this.setState({data : data})
                 //--------------------------------------------------------------------------
-
-
-                break
             }
             case 'curator':{
-                let requestId = Number(this.props.page!.substr(7))
-                //---------------------------
-                // Запрос по id данных заявки
-                //---------------------------
+                let id = Number(this.props.page!.substr(7))
+                const axios = require('axios').default
+                axios.get('../api/lecturer/applications/' + id.toString(), this.props.token)
+                .then((response : Idata) => {
+                    this.setState({data : response})
+                })
+                break
 
                 //--------------------------------------------------------------------------
                 // let data : Idata = {} // eslint-disable-next-line
                 // curatorRequest.map(item => {
-                //     if(item.id === requestId && item.studentId === studentId) data = item
+                //     if(item.id === requestId) data = item
                 // })
                 // this.setState({data : data})
                 //--------------------------------------------------------------------------
-
-
-                break
             }
         }
     }
@@ -117,23 +117,26 @@ class RequestDetail extends Component<Props,State>{
     private cancelRequest = () => {
         switch(this.props.role){
             case 'student':{
-                //----------------------------------------------------
-                // Запрос на отмену заявки для студента по userId и id (id заявки)    
-                //----------------------------------------------------
+                const axios = require('axios').default
+                axios.delete('../api/student/applications/' + this.state.data.id?.toString(), this.props.token)
+                //.then(...)
+
                 Toast.push('Заявка отменена')
                 break
             }
             case 'teacher':{
-                //---------------------------------------------------------
-                // Запрос на отмену заявки для преподавателя по userId и id (id заявки)      
-                //---------------------------------------------------------
+                const axios = require('axios').default
+                axios.delete('../api/lecturer/applications/' + this.state.data.id?.toString() + '/reject', this.props.token)
+                //.then(...)
+
                 Toast.push('Заявка отклонена')
                 break
             }
             case 'curator':{
-                //----------------------------------------------------
-                // Запрос на отмену заявки для куратора по userId и id (id заявки)    
-                //----------------------------------------------------
+                const axios = require('axios').default
+                axios.delete('../api/lecturer/applications/' + this.state.data.id?.toString() + '/reject', this.props.token)
+                //.then(...)
+
                 Toast.push('Заявка отклонена')
             }
         }
@@ -143,16 +146,18 @@ class RequestDetail extends Component<Props,State>{
     private acceptRequest = () => {
         switch(this.props.role){
             case 'teacher':{
-                //------------------------------------------------------------
-                // Запрос на принятие заявки для преподавателя по userId и id
-                //------------------------------------------------------------
+                const axios = require('axios').default
+                axios.post('../api/lecturer/applications/' + this.state.data.id?.toString() + '/accept', this.props.token)
+                //.then(...)
+
                 Toast.push('Заявка принята')
                 break
             }
             case 'curator':{
-                //------------------------------------------------------
-                // Запрос на принятие заявки для куратора по userId и id
-                //------------------------------------------------------
+                const axios = require('axios').default
+                axios.post('../api/lecturer/applications/' + this.state.data.id?.toString() + '/accept', this.props.token)
+                //.then(...)
+
                 Toast.push('Заявка принята')
                 break
             }

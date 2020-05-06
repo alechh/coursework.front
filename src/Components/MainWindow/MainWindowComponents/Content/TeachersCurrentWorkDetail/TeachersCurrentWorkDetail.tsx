@@ -7,6 +7,7 @@ import AttachedFiles from './Components/AttachedFiles'
 import Link from '@skbkontur/react-ui/Link'
 import Toast from '@skbkontur/react-ui/Toast'
 import Gapped from '@skbkontur/react-ui/Gapped'
+import axios from 'axios'
 
 //teacher
 import teacherCurrentWorks from '../../../../../TestData/Teacher/currentWorks'
@@ -36,12 +37,11 @@ interface Idata{
 interface Props{
     page?: string,
     role?: string,
-    userId?: number
+    token : string
 }
 
 interface State{
     isLoading?: boolean,
-    review?: string,
     data : Idata
 }
 
@@ -50,7 +50,6 @@ class BiddingDetailed extends Component<Props,State>{
         super(props);
         this.state={
             isLoading : false,
-            review: '',
             data : {}
         }
     }
@@ -65,46 +64,51 @@ class BiddingDetailed extends Component<Props,State>{
         switch(this.props.role){
             case 'teacher':{
                 const id = Number(this.props.page!.substr(8))
-                //--------------------------------------------
-                // Запрос по userId и id на данные по курсовой
-                //--------------------------------------------
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
+                })
+                break
 
                 //-------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                teacherCurrentWorks.map(item => {
-                    if(item.id === id) return (data = item)
-                })
+                // let data : Idata = {} // eslint-disable-next-line
+                // teacherCurrentWorks.map(item => {
+                //     if(item.id === id) return (data = item)
+                // })
+                
+                // this.setState({data : data, review : data.review})
                 //--------------------------------------------------
-
-                this.setState({data : data, review : data.review})
-                break
             }
             case 'curator':{
                 const id = Number(this.props.page!.substr(12))
-                //--------------------------------------------
-                // Запрос по userId и id на данные по курсовой
-                //--------------------------------------------
-
-                //-------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                curatorCurrentWorks.map(item => {
-                    if(item.id === id) return (data = item)
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
                 })
-                //-------------------------------------------------
+                break
 
-                this.setState({data : data, review : data.review})
+                //-------------------------------------------------
+                // let data : Idata = {} // eslint-disable-next-line
+                // curatorCurrentWorks.map(item => {
+                //     if(item.id === id) return (data = item)
+                // })
+                // this.setState({data : data, review : data.review})
+                //-------------------------------------------------
             }
         }
     }
 
     private attachFile = (fileList: FileList) => {
-        //------------------------------------------
-        // Передача файла на сервер по userId и id
-        //------------------------------------------
+        const axios = require('axios').default
+        let f = new FormData();
+        f.append("File",fileList[0])
+        axios.post('url', f)
 
         //----------------------------------
-        const newReview = fileList[0].name;
-        this.setState({review : newReview})
+        // const newReview = fileList[0].name;
+        // this.setState({review : newReview})
         //----------------------------------
 
         Toast.push('Отзыв прикреплен')
@@ -124,7 +128,7 @@ class BiddingDetailed extends Component<Props,State>{
         //----------------------------------------------------
         
         //--------------------------
-        this.setState({review : ''})
+        // this.setState({review : ''})
         //--------------------------
 
         Toast.push('Отзыв удален')
@@ -136,12 +140,12 @@ class BiddingDetailed extends Component<Props,State>{
             <div>
                 <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
                 <Description data={this.state.data}/>
-                <AttachedFiles userId={this.props.userId} data={this.state.data}/>
+                <AttachedFiles data={this.state.data}/>
                 <hr/>
-                {this.state.review !== ''?
+                {this.state.data.review !== ''?
                     <div style={{marginLeft:'20px', marginBottom:'10px'}}>
                         <Gapped>
-                            <Typography variant='h5'>Отзыв: {<Link onClick={this.downloadFile} use='success'>{this.state.review}</Link>}</Typography>
+                            <Typography variant='h5'>Отзыв: {<Link onClick={this.downloadFile} use='success'>{this.state.data.review}</Link>}</Typography>
                             <Link use='grayed' onClick={this.deleteFile}>Удалить</Link>
                         </Gapped>
                     </div>    

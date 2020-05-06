@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import Center from '@skbkontur/react-ui/Center'
 import Spinner from '@skbkontur/react-ui/Spinner'
 import './RequestsList.css'
+import axios from 'axios'
 
 //student
 import requestsData from '../../../../../TestData/Student/requestsData'
@@ -14,23 +15,25 @@ import teacherRequests from '../../../../../TestData/Teacher/requestsData'
 import curatorRequests from '../../../../../TestData/Curator/requestsData'
 
 interface Idata{
-    title?: string,
+    courseWorkTitle?: string,
     //student?: string,
     //course?: number,
     //teacher?: string,
     //description?: string,
     id?: number,
     //studentId?: number
+    date?: string,
+    courseWorkId?: number
 }
 
 interface Props{
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
     role?:string,
-    userId?: number
+    token : string
 }
 
 interface State{
-    data : {}[],
+    data : Idata[],
     isLoading?: boolean
 }
 
@@ -52,25 +55,34 @@ class RequestsList extends Component<Props,State>{
     private whichData = () => {
         switch(this.props.role){
             case 'student':{
-                //--------------------------------------------
-                // Запрос на список заявок студента по userId
-                //--------------------------------------------
+                const axios = require('axios').default
+                axios.get('../api/course_works/applications/active', this.props.token)
+                .then((response : Idata[]) => {
+                    this.setState({data : response})
+                })
+                break
 
-                return (this.setState({data : requestsData}))
+                //return (this.setState({data : requestsData}))
             }
             case 'teacher':{
-                //----------------------------------------------------
-                // Запрос на список заявок для проподавателя по userId
-                //----------------------------------------------------
-
-                return (this.setState({data : teacherRequests}))
+                const axios = require('axios').default
+                axios.get('../api/course_works/applications/active', this.props.token)
+                .then((response : Idata[]) => {
+                    this.setState({data : response})
+                })
+                break
+                
+                //return (this.setState({data : teacherRequests}))
             }
             case 'curator':{
-                //-------------------------------------------
-                // Запрос на список заявок куратора по userId
-                //-------------------------------------------
+                const axios = require('axios').default
+                axios.get('../api/course_works/applications/active', this.props.token)
+                .then((response : Idata[]) => {
+                    this.setState({data : response})
+                })
+                break
 
-                return (this.setState({data : curatorRequests}))
+                //return (this.setState({data : curatorRequests}))
             }
         }
     }
@@ -79,15 +91,15 @@ class RequestsList extends Component<Props,State>{
     private renderTitle(item : Idata){
         switch(this.props.role){
             case 'student':
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.courseWorkTitle}</Typography></div>
             case 'teacher':{
                 //return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.courseWorkTitle}</Typography></div>
             }
                 
             case 'curator':{
                 //return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
-                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.courseWorkTitle}</Typography></div>
             }
         }
     }

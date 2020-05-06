@@ -6,6 +6,7 @@ import Button from '@skbkontur/react-ui/Button'
 import Toast from '@skbkontur/react-ui/Toast'
 import Center from '@skbkontur/react-ui/Center'
 import Spinner from '@skbkontur/react-ui/Spinner'
+import axios from 'axios'
 
 //teacher
 import teacherRequest from '../../../../../TestData/Teacher/requestsData'
@@ -26,11 +27,11 @@ interface Idata{
 }
 
 interface Irequest{
-    title?: string,
+    //title?: string,
     student?: string,
-    course?: number,
+    //course?: number,
     group?: string,
-    description?: string,
+    //description?: string,
     id?: number
 }
 
@@ -38,11 +39,10 @@ interface Props{
     page?:string,
     role?: string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
-    userId?: number
+    token : string
 }
 
 interface State{
-    isDelete?: boolean
     data : Idata,
     requests?: Irequest[],
     isLoading?: boolean
@@ -52,7 +52,6 @@ class FreeWorkDetail extends Component<Props,State>{
     constructor(props : Props){
         super(props);
         this.state={
-            isDelete: false,
             data : {},
             requests : [{}],
             isLoading : false
@@ -69,67 +68,69 @@ class FreeWorkDetail extends Component<Props,State>{
         switch(this.props.role){
             case 'teacher':{
                 const id = Number(this.props.page!.substr(5))
-                //---------------------------------------------------------------------------------
-                // Запрос по userId и id на данные о курсовой и на данные и заявках на эту курсовую
-                //---------------------------------------------------------------------------------
-
-                //---------------------------------------------
-                let validRequests : Irequest[]
-                validRequests = [] // eslint-disable-next-line
-                teacherRequest.map(item =>{
-                    if(item.id === id)
-                        validRequests.push(item)
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
                 })
-                let data : Idata = {} // eslint-disable-next-line
-                teacherMyFreeWorks.map(item => {
-                    if(item.id === id) return (data = item)
-                })
-                //---------------------------------------------
 
-                this.setState({data : data, requests : validRequests})
+                axios.get('../api/lecturer/course_works/' + id.toString() + '/applications', this.props.token)
+                .then((response : Irequest[]) => {
+                    this.setState({requests : response})
+                })
                 break
+
+                //---------------------------------------------
+                // let validRequests : Irequest[]
+                // validRequests = [] // eslint-disable-next-line
+                // teacherRequest.map(item =>{
+                //     if(item.id === id)
+                //         validRequests.push(item)
+                // })
+                // let data : Idata = {} // eslint-disable-next-line
+                // teacherMyFreeWorks.map(item => {
+                //     if(item.id === id) return (data = item)
+                // })
+                // this.setState({data : data, requests : validRequests})
+                //---------------------------------------------
             }
             case 'curator':{
                 const id = Number(this.props.page!.substr(12))
-                //---------------------------------------------------------------------------------
-                // Запрос по userId и id на данные о курсовой и на данные и заявках на эту курсовую
-                //---------------------------------------------------------------------------------
-
-                //-------------------------------------------------
-                let validRequests : Irequest[]
-                validRequests = [] // eslint-disable-next-line
-                curatorRequest.map(item => {
-                    if(item.id === id)
-                        validRequests.push(item)
+                const axios = require('axios').default
+                axios.get('../api/course_works/' + id.toString())
+                .then((response : Idata) => {
+                    this.setState({data : response})
                 })
-                let data : Idata = {} // eslint-disable-next-line
-                curatorMyFreeWorks.map(item => {
-                    if(item.id === id) return (data = item)
-                })
-                //-------------------------------------------------
 
-                this.setState({data : data, requests : validRequests})
+                axios.get('../api/lecturer/course_works/' + id.toString() + '/applications', this.props.token)
+                .then((response : Irequest[]) => {
+                    this.setState({requests : response})
+                })
                 break
+
+                //-------------------------------------------------
+                // let validRequests : Irequest[]
+                // validRequests = [] // eslint-disable-next-line
+                // curatorRequest.map(item => {
+                //     if(item.id === id)
+                //         validRequests.push(item)
+                // })
+                // let data : Idata = {} // eslint-disable-next-line
+                // curatorMyFreeWorks.map(item => {
+                //     if(item.id === id) return (data = item)
+                // })
+                // this.setState({data : data, requests : validRequests})
+                //-------------------------------------------------
             }
         }
     }
 
     private deleteWork = () => {
-        const newStatus = !this.state.isDelete
-        this.setState({isDelete : newStatus})
-        if(!this.state.isDelete){
-            //-----------------------------------------------------------
-            // Запрос по userId и id на удаление своей добавленной работы
-            //-----------------------------------------------------------
+            const axios = require('axios').default
+            axios.delete('../api/lecturer/course_works/' + this.state.data.id?.toString() + '/delete', this.props.token)
+            //.then(...)
 
             Toast.push('Курсовая работа удалена')
-        }else{
-            //-------------------------------------------------
-            // Запрос на отмену удаления работы по userId и id
-            //-------------------------------------------------
-
-            Toast.push('Удаление работы отменено')
-        }
     }
 
     private renderFreeWorkDetail(){
@@ -143,9 +144,9 @@ class FreeWorkDetail extends Component<Props,State>{
                 <hr/>
                 <div className='ml30'>
                     <Button
-                        use={!this.state.isDelete? 'danger' : 'success'}
+                        use='danger'
                         onClick={this.deleteWork}
-                    ><Typography variant='button'>{!this.state.isDelete? 'Удалить курсовую' : 'Отменить удаление'}</Typography></Button>
+                    ><Typography variant='button'>Удалить курсовую</Typography></Button>
                 </div>
             </div>
         )

@@ -77,7 +77,7 @@ export default class Login extends React.Component<Props, ILoginState> {
             firstName : 'Aleksandr',
             lastName : 'Semenov',
             isCritic : false,
-            role: 'teacher',
+            role: 'curator',
             userId : 1
         }
 

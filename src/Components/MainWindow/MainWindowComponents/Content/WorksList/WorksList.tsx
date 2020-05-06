@@ -28,7 +28,7 @@ interface Props{
     role?: string,
     type?: WorkType,
     curatorSelect?: string,
-    userId?: number,
+   //userId?: number,
     token: string
 }
 
@@ -48,9 +48,10 @@ class WorksList extends Component<Props,State>{
         }
     }
 
-    componentDidUpdate(prevProps : Props){
+    componentDidUpdate = (prevProps : Props) => {
         if(this.props.type !== prevProps.type){
-            this.whichData()  
+            this.setState({data : [{}]})
+            this.componentDidMount()  
         }
         if(this.props.curatorSelect !== prevProps.curatorSelect)
             this.whichData()
@@ -110,7 +111,7 @@ class WorksList extends Component<Props,State>{
                         //Свободные курсовые конкретного препода
                         //--------------------------------
 
-                        return (this.setState({data : teacherMyFreeWorks, type : 'free'}))
+                        //return (this.setState({data : teacherMyFreeWorks, type : 'free'}))
                     }
                     case 'completed':{
                         //--------------------------------
@@ -154,14 +155,14 @@ class WorksList extends Component<Props,State>{
                     //Свободные курсовые конкретного куратора
                     //--------------------------------
 
-                    return (this.setState({data : curatorMyFreeWorks, type : 'free'}))
+                    //return (this.setState({data : curatorMyFreeWorks, type : 'free'}))
                 }
                 else if(this.props.type === 'current'){
                     //--------------------------------
                     //Список всех активных работ
                     //--------------------------------
 
-                    this.setState({data : curatorCurrentWorks, type : 'current'})
+                    //this.setState({data : curatorCurrentWorks, type : 'current'})
                 }
             }
         }
@@ -189,6 +190,13 @@ class WorksList extends Component<Props,State>{
     }
 
     private renderEmptyList(){
+        if(this.props.role === 'curator'){
+            return(
+                <div style={{textAlign:"center", marginTop: '10vh'}}>
+                    <Typography variant='h5'>{this.props.curatorSelect === 'Занятые темы'? 'Нет занятых работ' : 'Нет свободных работ'}</Typography>
+                </div>
+            )
+        }else
         return(
             <div style={{textAlign:"center", marginTop: '10vh'}}>
                 <Typography variant='h5'>Нет курсовых работ</Typography>

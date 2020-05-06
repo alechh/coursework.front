@@ -60,7 +60,7 @@ class BiddingList extends React.Component<Props,State>{
     private loadingData(){
         //Результат биддинга (token)
 
-        this.setState({data : biddingList, critics : myCritics})
+        //this.setState({data : biddingList, critics : myCritics})
     }
 
     private openSidePage = (courseWorkId : number) => {
@@ -172,11 +172,12 @@ class BiddingList extends React.Component<Props,State>{
 
     private renderEmptyList(){
         return(
-            <div style={{textAlign:"center"}}>
+            <div style={{textAlign:"center", marginTop:'10vh'}}>
                 <Typography variant='h5'>Нет результатов биддинга</Typography>
             </div>
         )
     }
+
 
     render(){
         return(

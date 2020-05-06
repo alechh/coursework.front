@@ -60,14 +60,14 @@ class RequireCriticList extends Component<Props,State>{
                 // Запрос списка работ, требующих рецензии, по userId
                 //---------------------------------------------------
 
-                return (this.setState({data : requireData}))
+                //return (this.setState({data : requireData}))
             }
             case 'teacher':{
                 //---------------------------------------------------
                 // Запрос списка работ, требующих рецензии, по userId
                 //---------------------------------------------------
 
-                return (this.setState({data : teacherRequireCritic}))
+                //return (this.setState({data : teacherRequireCritic}))
             }
         }
     }

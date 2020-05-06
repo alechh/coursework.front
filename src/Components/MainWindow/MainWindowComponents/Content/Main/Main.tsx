@@ -41,8 +41,8 @@ class Main extends Component<Props,State>{
                 //---------------------------------
                 // Запрос результатов биддинга
                 //---------------------------------
-
-                return biddingData
+                return [{}]
+                //return biddingData
             }
             case 'teacher':{
                 const axios = require('axios').default
@@ -50,8 +50,8 @@ class Main extends Component<Props,State>{
                 //---------------------------------
                 // Запрос результатов биддинга
                 //---------------------------------
-
-                return teacherBiddingData
+                return [{}]
+                //return teacherBiddingData
             }
         }
     }

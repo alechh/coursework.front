@@ -4,10 +4,10 @@ import Gapped from '@skbkontur/react-ui/Gapped'
 
 interface Idata{
     student?: string,
-    course?: number,
+    //course?: number,
     group?: string,
     id?: number,
-    studentId?: number
+    //studentId?: number
 }
 
 interface Props{
@@ -27,9 +27,7 @@ class RequestsList extends Component<Props,State>{
 
     private buttonValue(item : Idata){
         return(
-            this.props.role === 'teacher'?
-                'st' + item.studentId?.toString() + '_request' + item.id!.toString()
-            :   'curatorSt' + item.studentId?.toString() + '_request' + item.id!.toString()
+            'request' + item.id!.toString()
         )
     }
 
@@ -37,7 +35,7 @@ class RequestsList extends Component<Props,State>{
         return(
             <div style={{marginBottom:'10px'}}>
                <Gapped>
-                    <div style={{width:'auto', minWidth:'20vw', textDecoration:'underline'}}><Typography>{item.student}, {item.course} курс, {item.group} группа</Typography></div>
+                    <div style={{width:'auto', minWidth:'20vw', textDecoration:'underline'}}><Typography>{item.student}, {item.group} группа</Typography></div>
                     <button
                         onClick={this.props.changePage}
                         value={this.buttonValue(item)}

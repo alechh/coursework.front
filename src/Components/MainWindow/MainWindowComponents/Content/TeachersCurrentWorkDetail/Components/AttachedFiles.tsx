@@ -17,7 +17,7 @@ interface Props{
         criticRiview?: string,
         id?: number
     },
-    userId?: number
+    //  userId?: number
 }
 
 class AttachedFiles extends React.Component<Props>{

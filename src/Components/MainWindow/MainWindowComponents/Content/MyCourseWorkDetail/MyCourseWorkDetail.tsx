@@ -9,6 +9,7 @@ import InputLink from './Components/InputLink'
 import AttachFiles from './Components/AttachFiles'
 import DeleteFiles from './Components/DeleteFiles'
 import Description from './Components/Description'
+import axios from 'axios'
 
 import courseWorkData from '../../../../../TestData/Student/activeWorkData'
 
@@ -80,8 +81,10 @@ class MyCourseWork extends Component<Props,State>{
         if(this.state.newLink === '')
             Toast.push('Введите ссылку')
         else{
+            const axios = require('axios').default
+            //axios.post....
             //------------------------------------------------------------------------
-            //запрос на прикрепление ссылки на курсовую (передаю userId, id, newLink)
+            // Прикрепление ссылки
             //------------------------------------------------------------------------
 
             //----------------------------
@@ -89,6 +92,7 @@ class MyCourseWork extends Component<Props,State>{
             arr.link = this.state.newLink;
             this.setState({data:arr})
             //----------------------------
+
             Toast.push('Ссылка прикреплена');
             this.whichData()
         }
@@ -98,8 +102,10 @@ class MyCourseWork extends Component<Props,State>{
         if(this.state.data.link === '')
             Toast.push('Ссылки нет')
         else{
+            const axios = require('axios').default
+            //axios.post...
             //----------------------------------------
-            //запрос по userId и id на удаление ссылки
+            // Удаление ссылки
             //----------------------------------------
 
             //---------------------------
@@ -107,16 +113,18 @@ class MyCourseWork extends Component<Props,State>{
             arr.link =''
             this.setState({data:arr})
             //--------------------------
+
             Toast.push("Ссылка удалена")
             this.whichData()
         }
     }
 
     private attachFile = (fileList: FileList) => {
+        //-------------------------------
         const filename = fileList[0].name;
-        console.log(fileList[0]);
-        
         const arr = this.state.data;
+        //-------------------------------
+
         const target = this.state.attachSelect.target!.value;
         switch(target){
             case 'Отчет': {
@@ -132,12 +140,13 @@ class MyCourseWork extends Component<Props,State>{
                 //---------------------
                 arr.reportFile = filename;
                 //---------------------
+
                 Toast.push('Отчет прикреплен')
                 break;
             }
             case 'Презентацию':{
                 //-----------------------------------------
-                // Передаю файл на сервер (по userId и id)
+                // Прикрепление презентации
                 //-----------------------------------------
 
                 //--------------------------
@@ -148,7 +157,7 @@ class MyCourseWork extends Component<Props,State>{
             }
             case 'Отзыв консультанта':{
                 //-----------------------------------------
-                // Передаю файл на сервер (по userId и id)
+                // Прикрепление отзыва консультанта
                 //-----------------------------------------
 
                 //------------------------------
@@ -167,15 +176,18 @@ class MyCourseWork extends Component<Props,State>{
     };
 
     private deleteFile = () => {
+        //--------------------------
         const arr =this.state.data;
+        //--------------------------
+
         const target = this.state.deleteSelect.target!.value;
         switch(target){
             case 'Отчет':{
-                if(arr.reportFile === '') 
+                if(this.state.data.reportFile === '') 
                     Toast.push('Отчета нет')
                 else{
                     //----------------------------------------
-                    //запрос по userId и id на удаление отчета
+                    // Удаление отчета
                     //----------------------------------------
 
                     //------------------
@@ -187,11 +199,11 @@ class MyCourseWork extends Component<Props,State>{
                 break;
             }
             case 'Презентацию':{
-                if(arr.presentationFile === '') 
+                if(this.state.data.presentationFile === '') 
                     Toast.push('Презентации нет')
                 else{
                     //---------------------------------------------
-                    //Запрос на удаление презентации по id и userId
+                    // Удаление презентации
                     //---------------------------------------------
 
                     //------------------------
@@ -203,10 +215,11 @@ class MyCourseWork extends Component<Props,State>{
                 break;
             }
             case 'Отзыв консультанта':{
-                if(arr.consultantReportFile === '') Toast.push('Отзыва консультанта нет')
+                if(this.state.data.consultantReportFile === '')
+                    Toast.push('Отзыва консультанта нет')
                 else{
                     //-----------------------------------------------------
-                    //Запрос на удаление отзыва консультанта по id и userId
+                    // Удаление отзыва консультанта
                     //-----------------------------------------------------
 
                     //----------------------------

@@ -88,7 +88,7 @@ class Content extends Component<Props,State>{
                     return <CourseWorkDetail role={this.props.role} page = {this.props.page}/>
                 
                 if(this.props.page!.indexOf('request') + 1)
-                    return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role}/>
+                    return <RequestDetail token={this.props.token} page={this.props.page} role={this.props.role}/>
                 
 
                 if(this.props.page!.indexOf('free') + 1)
@@ -106,18 +106,18 @@ class Content extends Component<Props,State>{
             }
             case 'teacher':{
                 if(this.props.page!.indexOf('request') + 1){
-                    return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role} />
+                    return <RequestDetail token={this.props.token} page={this.props.page} role={this.props.role} />
                 }
 
                 if(this.props.page!.indexOf('current') + 1)
                     return <TeachersCurrentWorkDetail 
                                 page={this.props.page} 
                                 role={this.props.role}
-                                userId={this.props.userId}/>
+                                token={this.props.token}/>
                 
                 if(this.props.page!.indexOf('free') + 1)
                     return <TeacherFreeWorksDetail 
-                                userId = {this.props.userId}
+                                token={this.props.token}
                                 page={this.props.page} 
                                 changePage={this.props.changePage}
                                 role={this.props.role}/>
@@ -146,17 +146,17 @@ class Content extends Component<Props,State>{
                     return <TeachersCurrentWorkDetail 
                                 page={this.props.page} 
                                 role={this.props.role}
-                                userId={this.props.userId}/>
+                                token={this.props.token}/>
 
                 if(this.props.page!.indexOf('curatorFree') + 1)
                     return <TeacherFreeWorksDetail 
-                                userId={this.props.userId}
+                                token={this.props.token}
                                 page={this.props.page} 
                                 role={this.props.role}
                                 changePage={this.props.changePage}/>
 
                 if(this.props.page!.indexOf('request') + 1){
-                    return <RequestDetail userId={this.props.userId} page={this.props.page} role={this.props.role} />
+                    return <RequestDetail token={this.props.token} page={this.props.page} role={this.props.role} />
                 }
             }
         }
@@ -200,18 +200,16 @@ class Content extends Component<Props,State>{
                     case 'Завершенные': 
                         return <WorksList 
                                     token={this.props.token}
-                                    userId={this.props.userId}
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='completed'/>
 
                     case 'Мои заявки': 
-                        return <RequestsList userId={this.props.userId} changePage={this.props.changePage} role={this.props.role}/>
+                        return <RequestsList token={this.props.token} changePage={this.props.changePage} role={this.props.role}/>
 
                     case 'Свободные курсовые': 
                         return <WorksList 
                                     token={this.props.token}
-                                    userId={this.props.userId}
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='free'/>
@@ -236,7 +234,6 @@ class Content extends Component<Props,State>{
                     case 'Занятые': 
                         return <WorksList
                                     token={this.props.token}
-                                    userId={this.props.userId} 
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='current'/>
@@ -251,21 +248,19 @@ class Content extends Component<Props,State>{
                     case 'Завершенные':
                         return <WorksList
                                     token={this.props.token}
-                                    userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='completed'/>
 
                     case 'Заявки': 
                         return <RequestsList
-                                    userId={this.props.userId}
+                                    token={this.props.token}
                                     changePage = {this.props.changePage}
                                     role={this.props.role}/>
 
                     case 'Свободные курсовые':
                         return <WorksList
                                     token={this.props.token}
-                                    userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='foreign'/>
@@ -298,7 +293,6 @@ class Content extends Component<Props,State>{
                     case 'Занятые темы':
                         return <WorksList
                                     token={this.props.token}
-                                    userId={this.props.userId}
                                     changePage={this.props.changePage}
                                     role={this.props.role}
                                     type='current'/>
@@ -306,12 +300,11 @@ class Content extends Component<Props,State>{
                     case 'Предложенные темы':
                         return <CuratorSuggestedTopics
                                     token={this.props.token}
-                                    userId={this.props.userId}
                                     changePage={this.props.changePage}/>
 
                     case 'Заявки': 
                         return <RequestsList
-                                    userId={this.props.userId}
+                                    token={this.props.token}
                                     changePage = {this.props.changePage}
                                     role={this.props.role}/>
 
