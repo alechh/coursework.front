@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import './Main.css'
-import Notifications from './Components/Notifications/Notifications'
-import AddWork from './Components/SidePage/SidePage'
+import BiddingResults from './Components/BiddingResults/BiddingResults'
+import AddWork from './Components/AddNewTopic/AddNewTopic'
 import Button from '@skbkontur/react-ui/Button'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import {Add, Briefcase, Delete} from '@skbkontur/react-icons'
-
+import axios from 'axios'
 
 //student
 import biddingData from '../../../../../TestData/Student/biddingData'
@@ -14,11 +14,11 @@ import biddingData from '../../../../../TestData/Student/biddingData'
 import teacherBiddingData from '../../../../../TestData/Teacher/biddingData'
 
 interface Props{
-    userId?: number,
     isCritic?: boolean,
     handleCritic() : void,
     changePage(event : React.MouseEvent<HTMLButtonElement>): void,
-    role?: string
+    role?: string,
+    token: string
 }
 
 interface State{
@@ -36,15 +36,19 @@ class Main extends Component<Props,State>{
     private whichData(){
         switch(this.props.role){
             case 'student':{
+                const axios = require('axios').default
+                axios.get('url', this.props.token)
                 //---------------------------------
-                //запрос по userId (если рецензент)
+                // Запрос результатов биддинга
                 //---------------------------------
 
                 return biddingData
             }
             case 'teacher':{
+                const axios = require('axios').default
+                axios.get('url', this.props.token)
                 //---------------------------------
-                //запрос по userId (если рецензент)
+                // Запрос результатов биддинга
                 //---------------------------------
 
                 return teacherBiddingData
@@ -70,7 +74,7 @@ class Main extends Component<Props,State>{
             <div>
                 {this.state.opened?
                 <AddWork
-                    userId={this.props.userId}
+                    token={this.props.token}
                     closeSidePage={this.closeSidePage}
                 />
                 :null}
@@ -104,7 +108,7 @@ class Main extends Component<Props,State>{
     private renderMain(){
         return(
             <div>
-                {this.props.isCritic? <Notifications changePage={this.props.changePage} role={this.props.role} data={this.whichData()!}/> : null}
+                {this.props.isCritic? <BiddingResults changePage={this.props.changePage} role={this.props.role} data={this.whichData()!}/> : null}
                 <div className='ml20'>
                     <Gapped>
                         {this.props.role !== 'curator'? this.criticButton() : null}

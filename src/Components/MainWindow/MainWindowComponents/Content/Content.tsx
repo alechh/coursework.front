@@ -170,7 +170,7 @@ class Content extends Component<Props,State>{
                 switch(this.props.page){
                     case 'Главная': 
                         return <Main
-                                    userId = {this.props.userId}
+                                    token={this.props.token}
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
@@ -227,7 +227,7 @@ class Content extends Component<Props,State>{
                 switch(this.props.page){
                     case 'Главная': 
                         return <Main
-                                    userId = {this.props.userId}
+                                    token={this.props.token}
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
@@ -283,7 +283,7 @@ class Content extends Component<Props,State>{
                 switch(this.props.page){
                     case 'Главная':
                         return <Main
-                                    userId = {this.props.userId}
+                                    token={this.props.token}
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
