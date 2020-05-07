@@ -15,7 +15,7 @@ import teacherRequests from '../../../../../TestData/Teacher/requestsData'
 import curatorRequests from '../../../../../TestData/Curator/requestsData'
 
 interface Idata{
-    courseWorkTitle?: string,
+    title?: string,
     //student?: string,
     //course?: number,
     //teacher?: string,
@@ -91,15 +91,15 @@ class RequestsList extends Component<Props,State>{
     private renderTitle(item : Idata){
         switch(this.props.role){
             case 'student':
-                return <div className='inline req_title'><Typography variant='h6'>{item.courseWorkTitle}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
             case 'teacher':{
                 //return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
-                return <div className='inline req_title'><Typography variant='h6'>{item.courseWorkTitle}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
             }
                 
             case 'curator':{
                 //return <div className='inline req_title'><Typography variant='h6'>{item.title}, {item.student}, {item.course} курс</Typography></div>
-                return <div className='inline req_title'><Typography variant='h6'>{item.courseWorkTitle}</Typography></div>
+                return <div className='inline req_title'><Typography variant='h6'>{item.title}</Typography></div>
             }
         }
     }

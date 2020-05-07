@@ -75,7 +75,7 @@ class BiddingDetailed extends Component<Props,State>{
                 // biddingData.map(item => {
                 //     if(item.id === id) return (data = item)
                 // })
-                //this.setState({data : data})
+                // this.setState({data : data})
                 //------------------------------------------------
             }
             case 'teacher':{
@@ -139,7 +139,8 @@ class BiddingDetailed extends Component<Props,State>{
     private renderBiddingDetailed(){
         return(
             <div>
-                <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
+                <div style={{marginLeft:'20px', marginTop:'1vh'}}><Typography variant='h5'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
                 <Description data={this.state.data}/>
                 <AttachedFiles data={this.state.data}/>
                 <hr/>

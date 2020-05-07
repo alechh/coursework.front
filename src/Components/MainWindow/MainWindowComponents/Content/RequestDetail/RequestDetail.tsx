@@ -215,7 +215,7 @@ class RequestDetail extends Component<Props,State>{
         return(
             <div>
                 <div className='requestTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
-                <Description data={this.state.data} role={this.props.role}/>
+                {/* <Description data={this.state.data} role={this.props.role}/> */}
 
                 {(this.props.role === 'teacher' || this.props.role === 'curator')? <div className='ml30'><Typography variant='h6'>Студент: {this.state.data.student}, {this.state.data.group} группа</Typography></div> : null}
                 <div className='aboutMeDiv'>

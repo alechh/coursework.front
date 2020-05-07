@@ -164,7 +164,7 @@ class Content extends Component<Props,State>{
     }
 
     private whichContent(){
-        
+        let myCourseWorkId: number = 0
         switch(this.props.role){
             case 'student':{
                 switch(this.props.page){
@@ -183,11 +183,12 @@ class Content extends Component<Props,State>{
                         axios.get('../api/course_works/my/active', this.props.token)
                         .then((response : ICourseWork) => {
                             data = response
+                            myCourseWorkId = response.id!
                         })
                         //------------------------------------------------------------
 
                         return <CourseWork 
-                                    // data={activeWork[0]}
+                                    //data={activeWork[0]}
                                     data={data} 
                                     changePage={this.props.changePage} 
                                     role={this.props.role}
@@ -195,7 +196,7 @@ class Content extends Component<Props,State>{
                     }
 
                     case 'Моя курсовая детально': 
-                        return <MyCourseWorkDetail/>
+                        return <MyCourseWorkDetail workId={myCourseWorkId}/>
 
                     case 'Завершенные': 
                         return <WorksList 

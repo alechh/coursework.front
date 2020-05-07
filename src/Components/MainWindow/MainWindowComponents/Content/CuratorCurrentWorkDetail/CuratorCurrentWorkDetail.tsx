@@ -79,6 +79,7 @@ class BiddingDetailed extends Component<Props,State>{
         .then((response : Idata) => {
             this.setState({data : response})
         })
+
         //------------------------------------------------
         // let data : Idata = {} // eslint-disable-next-line
         // currentWorks.map(item => {
@@ -188,8 +189,9 @@ class BiddingDetailed extends Component<Props,State>{
     private renderBiddingDetailed(){
         return(
             <div>
-                <div style={{marginLeft:'20px'}}>
-                    <Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
+                <div style={{marginLeft:'20px', marginTop:'1vh'}}>
+                    <Typography variant='h6'>{this.state.data.student}, {this.state.data.course} курс</Typography>
                 </div>
                 <Description data={this.state.data}/>
                 <AttachedFiles data={this.state.data}/>

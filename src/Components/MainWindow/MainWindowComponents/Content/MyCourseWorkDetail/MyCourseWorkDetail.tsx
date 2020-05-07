@@ -9,12 +9,14 @@ import InputLink from './Components/InputLink'
 import AttachFiles from './Components/AttachFiles'
 import DeleteFiles from './Components/DeleteFiles'
 import Description from './Components/Description'
+import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 
 import courseWorkData from '../../../../../TestData/Student/activeWorkData'
 
 interface Props{
-    // token : string
+    // token : string,
+    workId : number
 }
 
 interface Idata{
@@ -63,14 +65,15 @@ class MyCourseWork extends Component<Props,State>{
     }
 
     private whichData = () => {
-        const axios = require('axios').default;
-        //-------------------------------
-        //запрос данных курсовой по userId
-        //-------------------------------
+        const axios = require('axios').default
+        axios.get('../api/course_works/' + this.props.workId.toString())
+        .then((response : Idata) => {
+            this.setState({data : response})
+        })
         
-        
-        //----------------
-        return this.setState({data : courseWorkData[0]})
+        //------------------------------------------------
+        //return this.setState({data : courseWorkData[0]})
+        //------------------------------------------------
     }
 
     private handleNewLink = (event : React.ChangeEvent<HTMLInputElement>, value:string) => {
@@ -82,6 +85,7 @@ class MyCourseWork extends Component<Props,State>{
             Toast.push('Введите ссылку')
         else{
             const axios = require('axios').default
+
             //axios.post....
             //------------------------------------------------------------------------
             // Прикрепление ссылки
@@ -250,6 +254,7 @@ class MyCourseWork extends Component<Props,State>{
     private renderContentBar(){
        return(
             <div className='informationWindow'>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
                 <Description data={this.state.data}/>
                 <AttachedFiles data = {this.state.data}/>
                 <div className='gapped'>

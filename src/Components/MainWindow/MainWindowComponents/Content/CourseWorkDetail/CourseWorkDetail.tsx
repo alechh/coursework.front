@@ -3,6 +3,7 @@ import Description from './Components/Description'
 import AttachedFiles from './Components/AttachedFiles'
 import Center from '@skbkontur/react-ui/Center'
 import Spinner from '@skbkontur/react-ui/Spinner'
+import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 
 //student
@@ -103,6 +104,7 @@ class CourseWorkDetail extends Component<Props,State>{
     private renderCourseWorkDetail(){
         return(
             <div className='informationWindow'>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
                 <Description data={this.state.data} role={this.props.role}/>
                 <AttachedFiles data={this.state.data} role={this.props.role}/>
             </div>

@@ -7,6 +7,7 @@ import TextArea from '@skbkontur/react-ui/Textarea'
 import Typograph from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import Toast from '@skbkontur/react-ui/Toast'
+import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 
 //student
@@ -96,7 +97,7 @@ class FreeWorkDetail extends Component<Props,State>{
         this.setState({aboutMe : event.target.value})
     }
 
-    private submit(){
+    private submit = () => {
         let body : CreateApplicationViewModel = {
             message : this.state.aboutMe,
             courseWorkId : this.state.data.id
@@ -136,6 +137,7 @@ class FreeWorkDetail extends Component<Props,State>{
     private renderFreeWork(){
         return(
             <div>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
                 <Description data={this.state.data}/>
                 <hr/>
                 {this.needCV()}

@@ -65,14 +65,13 @@ class RequireCriticDetail extends Component<Props,State>{
                 //---------------------------------------------------------
 
                 //-------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                requireData.map(item => {
-                    if(item.id === id) data = item
-                })
+                // let data : Idata = {} // eslint-disable-next-line
+                // requireData.map(item => {
+                //     if(item.id === id) data = item
+                // })
+                // this.setState({data : data})
+                // break
                 //-------------------------------------------------
-
-                this.setState({data : data})
-                break
             }
             case 'teacher':{
                 const id = Number(this.props.page!.substr(14))
@@ -81,14 +80,13 @@ class RequireCriticDetail extends Component<Props,State>{
                 //-------------------------------------------------------
 
                 //-------------------------------------------------
-                let data : Idata = {} // eslint-disable-next-line
-                teacherRequireCritic.map(item => {
-                    if(item.id === id) data = item
-                })
+                // let data : Idata = {} // eslint-disable-next-line
+                // teacherRequireCritic.map(item => {
+                //     if(item.id === id) data = item
+                // })
+                // this.setState({data : data})
+                // break
                 //-------------------------------------------------
-
-                this.setState({data : data})
-                break
             }
         }
     }
@@ -97,7 +95,8 @@ class RequireCriticDetail extends Component<Props,State>{
     private renderRequireCriticDetail(){
         return(
             <div>
-                <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
+                <div style={{marginLeft:'20px',marginTop:'1vh'}}><Typography variant='h6'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
                 <Description data={this.state.data}/>
                 <AttachedFiles data={this.state.data}/>
                 <hr/>

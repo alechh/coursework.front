@@ -50,6 +50,7 @@ class Main extends Component<Props,State>{
                 //---------------------------------
                 // Запрос результатов биддинга
                 //---------------------------------
+                
                 return [{}]
                 //return teacherBiddingData
             }

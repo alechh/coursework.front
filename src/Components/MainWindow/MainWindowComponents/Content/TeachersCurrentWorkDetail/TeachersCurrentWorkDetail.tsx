@@ -76,8 +76,7 @@ class BiddingDetailed extends Component<Props,State>{
                 // teacherCurrentWorks.map(item => {
                 //     if(item.id === id) return (data = item)
                 // })
-                
-                // this.setState({data : data, review : data.review})
+                // this.setState({data : data})
                 //--------------------------------------------------
             }
             case 'curator':{
@@ -94,7 +93,7 @@ class BiddingDetailed extends Component<Props,State>{
                 // curatorCurrentWorks.map(item => {
                 //     if(item.id === id) return (data = item)
                 // })
-                // this.setState({data : data, review : data.review})
+                // this.setState({data : data})
                 //-------------------------------------------------
             }
         }
@@ -138,7 +137,8 @@ class BiddingDetailed extends Component<Props,State>{
     private renderCurrentWorkDetail(){
         return(
             <div>
-                <div style={{marginLeft:'20px'}}><Typography variant='h4'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
+                <div style={{marginLeft:'20px', marginTop:'1vh'}}><Typography variant='h6'>{this.state.data.student}, {this.state.data.course} курс</Typography></div>
                 <Description data={this.state.data}/>
                 <AttachedFiles data={this.state.data}/>
                 <hr/>

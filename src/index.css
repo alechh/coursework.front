@@ -89,3 +89,7 @@ button:hover{
   transform: scale(1.02);
   background: rgb(103, 170, 103);
 }
+
+.workTitle{
+  margin-left: calc(1vh + 1vw);         
+}

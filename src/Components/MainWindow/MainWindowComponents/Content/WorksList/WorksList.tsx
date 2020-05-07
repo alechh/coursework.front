@@ -69,26 +69,28 @@ class WorksList extends Component<Props,State>{
             case 'student':{
                 switch(this.props.type){
                     case 'completed':{
-                        //--------------------------------
                         const axios = require('axios').default
                         axios.get('../api/course_works/my/completed', this.props.token)
                         .then((response : {}[]) => {
                             this.setState({data: response, type: 'current'})
                         })
                         break
-                        //--------------------------------
+                        
+                        //----------------------------------------------------------------
                         //return (this.setState({data : completedWorks, type : 'current'}))
+                        //-----------------------------------------------------------------
                     }
                     case 'free':{
-                        //--------------------------------
                         const axios = require('axios').default
                         axios.get('../api/course_works/available')
                         .then((response : {}[]) => {
                             this.setState({data : response, type: 'free'})
                         })
                         break
-                        //--------------------------------
+
+                        //-------------------------------------------------------
                         //return (this.setState({data : freeWorks, type : 'free'}))
+                        //-------------------------------------------------------
                     }
                 }
                 break
@@ -96,15 +98,16 @@ class WorksList extends Component<Props,State>{
             case 'teacher':{
                 switch(this.props.type){
                     case 'current':{
-                        //--------------------------------
                         const axios = require('axios').default
                         axios.get('../api/course_works/my/active', this.props.token)
                         .then((response : {}[]) => {
                             this.setState({data : response, type: 'current'})
                         })
                         break
-                        //--------------------------------
+
+                        //----------------------------------------------------------------------
                         //return (this.setState({data : teacherCurrentWorks, type : 'current'}))
+                        //----------------------------------------------------------------------
                     }
                     case 'free':{
                         //--------------------------------
@@ -114,41 +117,44 @@ class WorksList extends Component<Props,State>{
                         //return (this.setState({data : teacherMyFreeWorks, type : 'free'}))
                     }
                     case 'completed':{
-                        //--------------------------------
                         const axios = require('axios').default
                         axios.get('../api/course_works/my/completed', this.props.token)
                         .then((response : {}[]) => {
                             this.setState({data : response, type: 'completed'})
                         })
                         break
-                        //--------------------------------
+
+                        //--------------------------------------------------------------------------
                         //return (this.setState({data : teacherCompletedWorks, type : 'completed'}))
+                        //--------------------------------------------------------------------------
                     }
                     case 'foreign':{
-                        //--------------------------------
                         const axios = require('axios').default
                         axios.get('../api/course_works/available')
                         .then((response : {}[]) => {
                             this.setState({data : response, type: 'foreign'})
                         })
                         break
-                        //--------------------------------
+
+                        //----------------------------------------------------------------
                         //return (this.setState({data : teacherFreeWorks, type : 'foreign'}))
+                        //-----------------------------------------------------------------
                     }
                 }
                 break
             }
             case 'curator':{
                 if(this.props.curatorSelect === 'Занятые темы'){
-                    //--------------------------------
                     const axios = require('axios').default
                     axios.get('../api/course_works/my/active', this.props.token)
                     .then((response : {}[]) => {
                         this.setState({data : response, type: 'current'})
                     })
                     break
-                    //--------------------------------
+
+                    //------------------------------------------------------------------------
                     //return (this.setState({data : curatorMyCurrentWorks, type : 'current'}))
+                    //------------------------------------------------------------------------
                 }
                 else if (this.props.curatorSelect === 'Свободные темы'){
                     //--------------------------------

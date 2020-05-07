@@ -136,6 +136,7 @@ class FreeWorkDetail extends Component<Props,State>{
     private renderFreeWorkDetail(){
         return(
             <div>
+                <div className='workTitle'><Typography variant='h4'>{this.state.data.title}</Typography></div>
                 <Description data={this.state.data}/>
                 <RequestsList 
                     data={this.state.requests} 
