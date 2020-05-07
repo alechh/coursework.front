@@ -31,14 +31,8 @@ class App extends Component<Props,State> {
         super(props);
         this.state = {
             page : 'Главная',
-            user : {
-                firstName : 'Aleksandr',
-                lastName : 'Semenov',
-                isCritic : false,
-                role: 'curator',
-                userId : 1
-            },
-            logged : true,
+            user : {},
+            logged : false,
             token : ''
         }
     }
