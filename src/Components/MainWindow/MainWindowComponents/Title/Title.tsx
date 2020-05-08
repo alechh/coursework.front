@@ -12,37 +12,18 @@ interface Props{
 }
 
 interface State{
-    title?: string,
-    isLoading?: boolean
+    title?: string
 }
 
 class Title extends Component<Props,State>{
     constructor(props:Props){
         super(props);
         this.state = {
-            title: '',
-            isLoading : false
+            title: ''
         }
     }
 
     componentDidMount(){
-        this.setState({isLoading : true})
-        this.whichTitle()
-        this.setState({isLoading : false})
-    }
-
-    componentDidUpdate(prevProps : Props){
-        if(this.props !== prevProps){
-            this.componentDidMount()  
-        }
-    }
-
-
-    private renderTitle(){
-        return <p className='title-text'>{this.state.title}</p>
-    }
-
-    private whichTitle = () => {
         switch(this.props.role){
             case 'student':{
                 if(this.props.page === 'Моя курсовая детально'){
@@ -92,7 +73,6 @@ class Title extends Component<Props,State>{
                             return this.setState({title : 'Текущая курсовая'})
                         }
                     
-
                         if(this.props.page!.indexOf('free') + 1){
                             return this.setState({title : 'Моя свободная курсовая'})
                         }
@@ -145,9 +125,17 @@ class Title extends Component<Props,State>{
                 return this.setState({title : this.props.page})
             }
         }
-
     }
 
+    componentDidUpdate(prevProps : Props){
+        if(this.props !== prevProps){
+            this.componentDidMount()  
+        }
+    }
+
+    private renderTitle(){
+        return <p className='title-text'>{this.state.title}</p>
+    }
 
     render(){
     return(

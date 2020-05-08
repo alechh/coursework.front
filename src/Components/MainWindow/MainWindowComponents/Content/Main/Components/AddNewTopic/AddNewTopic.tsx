@@ -9,6 +9,7 @@ import Select from '@skbkontur/react-ui/Select'
 import Toast from '@skbkontur/react-ui/Toast'
 import Spinner from '@skbkontur/react-ui/Spinner'
 import {Ok, Delete} from '@skbkontur/react-icons'
+import TextField from '@material-ui/core/TextField'
 import axios from 'axios'
 
 import './AddNewTopic.css'
@@ -101,20 +102,19 @@ private clickButton = () => {
 
 private renderSidePage() {
   let items = ['1', '2', '3', '4', '5','6'];
-  let radioItems = ['Нет', 'Да'];
     return (
         <SidePage onClose={this.props.closeSidePage} blockBackground>
-        <div className='sideTitle'><SidePage.Header>Предложить тему курсовой работы</SidePage.Header></div>
+          <div className='sideTitle'>
+            <SidePage.Header>Предложить тему курсовой работы</SidePage.Header>
+          </div>
         <SidePage.Body>
             <SidePage.Container>
-              <Gapped gap={20}>
-                <div className='topicTitle'><Typography variant='h5'>Название темы</Typography></div>
-                <Input
+                <TextField
+                  label='Название темы'
                   value={this.state.title}
                   onChange={item => this.setState({title: item.currentTarget.value})}
-                  />
-              </Gapped>
-              <br/>
+                />
+                <br/>
 
               <div className='topicDescription'>
                 <Typography variant='h6'>Описание работы</Typography>

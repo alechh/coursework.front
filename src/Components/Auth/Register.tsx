@@ -44,13 +44,18 @@ export default class Register extends React.Component<Props, IRegisterState> {
         };
     }
 
+    private handleSubmit = async () => {
+        const {email, password, name, surname} = this.state.registerData;
+        //-------------------
+        // Запрос регистрации
+        //-------------------
+
+        
+        //this.props.auth()
+    }
+
     public render(): JSX.Element {
         const {registerData, logged} = this.state;
-
-        if (logged) {
-            return <p>logged in</p>
-        }
-
         return (
             <div className="container">
                 <Typography variant="h6" gutterBottom>Регистрация</Typography>
@@ -107,12 +112,5 @@ export default class Register extends React.Component<Props, IRegisterState> {
                 </form>
             </div>
         );
-    }
-
-    private handleSubmit = async () => {
-        const {email, password} = this.state.registerData;
-
-        
-        //this.props.auth()
     }
 }
