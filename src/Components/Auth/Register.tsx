@@ -1,6 +1,6 @@
 import * as React from "react";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import Button from "@skbkontur/react-ui/Button";
 import Typography from "@material-ui/core/Typography";
 import Gapped from '@skbkontur/react-ui/Gapped'
 
@@ -108,7 +108,7 @@ export default class Register extends React.Component<Props, IRegisterState> {
                         onChange={e => this.setState({ registerData: {...this.state.registerData, passwordConfirm: e.target.value}})}
                     /></Gapped>
                     <br />
-                    <Button size="small" variant="contained" color="primary" type="submit">Зарегистрироваться</Button>
+                    <Button size="small" use="primary" type="submit">Зарегистрироваться</Button>
                 </form>
             </div>
         );

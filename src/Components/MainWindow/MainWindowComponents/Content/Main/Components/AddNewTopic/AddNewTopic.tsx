@@ -29,7 +29,12 @@ interface State{
   teacherName: string,
   teacherContacts : string,
   consultantName : string,
-  consultantContacts : string
+  consultantContacts : string,
+  titleError : boolean,
+  descriptionError : boolean,
+  teacherNameError : boolean,
+  teacherContactsError : boolean,
+  courseError : boolean
 }
 
 interface CreateCourseWorkViewMode{
@@ -56,7 +61,12 @@ class AddWork extends Component<Props,State>{
           teacherName : '',
           teacherContacts : '',
           consultantName : '',
-          consultantContacts : ''
+          consultantContacts : '',
+          titleError : false,
+          descriptionError : false,
+          teacherNameError : false,
+          teacherContactsError : false,
+          courseError : false
         }
     }
 
@@ -65,18 +75,23 @@ private setCourse = (newAttachSelect : {target:{value:{}}}) => {
 }
 
 private clickButton = () => {
-  if(this.state.title === ''){
-    alert('Введите название темы')
-    return
-  }
-  if(this.state.description === ''){
-    alert('Введите описание темы')
-    return
-  }
+  if(this.state.title === '')
+    return(this.setState({titleError : true}))
+  
+  if(this.state.description === '')
+    return(this.setState({descriptionError : true}))
+  
+  if(this.state.teacherName === '')
+    return(this.setState({teacherNameError : true}))
+
+  if(this.state.teacherContacts === '')
+    return(this.setState({teacherContactsError : true}))
+
   if(this.state.course === 0){
     alert('Выберите курс')
     return
   }
+
   this.setState({isSending:true})
 
   const axios = require('axios').default
@@ -109,76 +124,95 @@ private renderSidePage() {
           </div>
         <SidePage.Body>
             <SidePage.Container>
+              <br/>
+              <div style={{width:'75%'}}>
                 <TextField
+                  autoFocus={true}
+                  size='medium'
+                  fullWidth
+                  required
+                  variant='outlined'
                   label='Название темы'
+                  error={this.state.titleError}
                   value={this.state.title}
                   onChange={item => this.setState({title: item.currentTarget.value})}
                 />
-                <br/>
-
-              <div className='topicDescription'>
-                <Typography variant='h6'>Описание работы</Typography>
               </div>
-              <TextArea
-                    autoResize={true}
-                    width='35vw'
-                    value={this.state.description}
-                    onChange={item => this.setState({description : item.currentTarget.value})}
-                />
               <br/>
-
-              <div className='topicDescription'><Typography variant='h6'>Требования к работе</Typography></div>
-              <TextArea
-                autoResize={true}
-                width='20vw'
+              <br/>
+              <TextField
+                fullWidth
+                multiline
+                required
+                error={this.state.descriptionError}
+                rowsMax={10}
+                color='secondary'
+                variant='outlined'
+                label='Описание работы'
+                value={this.state.description}
+                onChange={item => this.setState({description : item.currentTarget.value})}
+              />
+              <br/>
+              <br/>
+              <div className='course'>
+                <Gapped>
+                    <Typography variant='subtitle1'>Курс: </Typography>
+                    <Select
+                      items={items}
+                      onChange={this.setCourse}
+                    />
+                </Gapped>
+              </div>
+              <br/>
+              <TextField
+                fullWidth
+                multiline
+                rowsMax={10}
+                color='secondary'
+                variant='outlined'
+                label='Требования к работе'
                 value={this.state.requirements}
                 onChange={item => this.setState({requirements : item.currentTarget.value})}
               />
 
-              <div style={{marginTop:'2vh'}}>
-                <Gapped>
-                  <Typography variant='h6'>Имя</Typography>
-                  <Input
-                    width='15vw'
+              <div style={{marginTop:'4vh', width : '50%'}}>
+                  <TextField
+                    label='Имя преподавателя'
+                    fullWidth
+                    required
+                    error={this.state.teacherNameError}
                     value={this.state.teacherName}
                     onChange={item => this.setState({teacherName : item.currentTarget.value})}
                   />
-                </Gapped>
-              </div>
-              <div style={{marginTop:'2vh'}}>
-                <Gapped>
-                  <Typography variant='h6'>Контакты</Typography>
-                  <Input
-                    width='15vw'
+                  <br/>
+                  <br/>
+                  <TextField
+                    fullWidth
+                    required
+                    error={this.state.teacherContactsError}
+                    label='Контакты'
                     value={this.state.teacherContacts}
                     onChange={item => this.setState({teacherContacts : item.currentTarget.value})}
                   />
-                </Gapped>
               </div>
 
 
-              <div style={{marginBottom:'1vh', marginTop:'8vh'}}>
-                <hr/>
-                <div >
-                  <Typography variant='h6'>Консультант (если есть)</Typography>
-                </div>
-                <Gapped>
-                  <div className='minW10'><Typography variant='body1'>Имя консультанта</Typography></div>
-                  <Input
-                    value={this.state.consultantName}
-                    onChange={item => this.setState({consultantName : item.currentTarget.value})}
-                  />
-                </Gapped>
+              <div style={{marginBottom:'1vh', marginTop:'4vh', width:'50%'}}>
+                <Typography variant='h6'>Консультант (если есть)</Typography>
+                <TextField
+                  fullWidth
+                  label='Имя консультанта'
+                  value={this.state.consultantName}
+                  onChange={item => this.setState({consultantName : item.currentTarget.value})}
+                />
                 <br/>
-
-                <Gapped>
-                  <div className='minW10'><Typography variant='body1'>Контакты консультанта</Typography></div>
-                  <Input
-                    value={this.state.consultantContacts}
-                    onChange={item => this.setState({consultantContacts : item.currentTarget.value})}
-                  />
-                </Gapped>
-                <hr/>
+                <br/>
+                <TextField
+                  fullWidth
+                  label='Контакты консультанта'
+                  value={this.state.consultantContacts}
+                  onChange={item => this.setState({consultantContacts : item.currentTarget.value})}
+                />
               </div>
 
               
@@ -190,15 +224,6 @@ private renderSidePage() {
           </SidePage.Body>
           <SidePage.Footer panel>
             <Gapped>
-              <div className='course'>
-                <Gapped>
-                    <Typography variant='body1'>Курс: </Typography>
-                    <Select
-                      items={items}
-                      onChange={this.setCourse}
-                    />
-                </Gapped>
-              </div>
               <Button
                 icon={<Ok/>} 
                 use='success' 
