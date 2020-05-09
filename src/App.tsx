@@ -31,14 +31,8 @@ class App extends Component<Props,State> {
         super(props);
         this.state = {
             page : 'Главная',
-            user : {
-                firstName : 'Aleksandr',
-                lastName : '',
-                isCritic : false,
-                role: 'teacher',
-                userId : 1
-            },
-            logged : true,
+            user : {},
+            logged : false,
             token : ''
         }
     }
@@ -104,10 +98,12 @@ class App extends Component<Props,State> {
         else
             return(
                 <div>
-                    <div className='topBar'><ServiceTopBar
-                                                logout={this.logout}
-                                                firstName={this.state.user.firstName}
-                                                lastName={this.state.user.lastName}/></div>
+                    <div className='topBar'>
+                        <ServiceTopBar
+                            logout={this.logout}
+                            firstName={this.state.user.firstName}
+                            lastName={this.state.user.lastName}/>
+                    </div>
                     <Menu 
                         role={this.state.user.role}
                         page={this.state.page} 

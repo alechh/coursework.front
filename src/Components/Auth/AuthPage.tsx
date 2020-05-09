@@ -36,7 +36,7 @@ export default class AuthPage extends React.Component<Props, State>{
                 <div className='authTitle'>
                     <Typography variant='h5'>HwProj Course Work - сервис курсовых работ</Typography>
                 </div>
-                <div>
+                <div style={{marginTop:'10vh'}}>
                     <Center>
                         <Switcher
                             size='small'
