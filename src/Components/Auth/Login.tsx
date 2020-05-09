@@ -80,7 +80,7 @@ export default class Login extends React.Component<Props, State> {
             firstName : 'Aleksandr',
             lastName : '',
             isCritic : false,
-            role: 'student',
+            role: 'teacher',
             userId : 1
         }
 
