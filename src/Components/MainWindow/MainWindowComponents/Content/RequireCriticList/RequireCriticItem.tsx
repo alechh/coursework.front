@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import './RequireCriticList.css'
 import Switcher from '@skbkontur/react-ui/Switcher'
 import Gapped from '@skbkontur/react-ui/Gapped'
+import Button from '@skbkontur/react-ui/Button'
 
 interface Idata{
     title?: string,
@@ -23,7 +24,7 @@ interface Idata{
 
 interface Props{
     data: Idata,
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage (newPage : string) : void,
     userId?: number
 }
 
@@ -48,16 +49,21 @@ class RequireCriticItem extends Component<Props,State>{
         //----------------------------------------------
     }
 
+    private renderButton(id?: number){
+        return(
+            <Button
+                onClick={e => this.props.newChangePage('requireCritic_' + id?.toString())}
+                use='success'
+            >Подробнее</Button>
+        )
+    }
+
     render(){
         return(
             <div className='requireItem'>
                 <div className='requireTitle'><Typography variant='h6'>{this.props.data.title}, преподаватель {this.props.data.teacher}</Typography></div>
                 <Gapped gap={50}>
-                    <button
-                        className='buttonMore'
-                        value={'requireCritic_' + this.props.data.id?.toString()}
-                        onClick={this.props.changePage}
-                    ><Typography variant='button'>Подробнее</Typography></button>
+                    {this.renderButton(this.props.data.id)}
                     <Switcher
                         items={['Да','Мб','Нет']}
                         value={this.props.data.switcher}

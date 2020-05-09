@@ -3,7 +3,7 @@ import Select from '@skbkontur/react-ui/Select'
 import WorkList from '../WorksList/WorksList'
 
 interface Props{
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage(newPage : string) : void
     //userId?: number,
     token: string
 }
@@ -43,7 +43,7 @@ class CuratorSuggestedTopics extends React.Component<Props,State>{
                     token={this.props.token}
                     curatorSelect = {this.state.whichTopics?.target?.value}
                     role='curator'
-                    changePage = {this.props.changePage}
+                    newChangePage={this.props.newChangePage}
                     type={this.state.whichTopics?.target?.value === 'Занятые темы'? 'current' : 'free'}
                 />
             </div>

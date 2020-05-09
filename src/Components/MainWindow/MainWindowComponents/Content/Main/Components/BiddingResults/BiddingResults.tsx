@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
 import './BiddingResults.css'
+import Button from '@skbkontur/react-ui/Button'
 
 interface Idata{
     title?: string,
@@ -9,7 +10,7 @@ interface Idata{
 }
 
 interface Props{
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage (newPage : string) : void,
     role?: string,
     data : Idata[]
 }
@@ -23,17 +24,21 @@ class Notifications extends Component<Props,State>{
         this.state={}
     }
 
+    private renderButton(id?: number){
+        return(
+            <Button
+                onClick={e => this.props.newChangePage('bidding_' + id!.toString())}
+                use='success'
+            >Подробнее</Button>
+        )
+    }
 
     private renderNotification(item : Idata){
         return(
             <div className='notificationItem'>
                 <div className='bidding'><Gapped>
                     <div style={{minWidth:'30vw'}}><Typography variant='h5'>{item.title}</Typography></div>
-                    <button
-                        className='buttonMore'
-                        value={'bidding_' + item.id!.toString()}
-                        onClick={this.props.changePage}
-                    ><Typography variant='button'>Подробнее</Typography></button>
+                    {this.renderButton(item.id)}
                 </Gapped></div>
             </div>
         )

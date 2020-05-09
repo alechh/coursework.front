@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
+import Button from '@skbkontur/react-ui/Button'
 
 interface Idata{
     student?: string,
@@ -12,7 +13,7 @@ interface Idata{
 
 interface Props{
     data?: Idata[],
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage(newPage : string): void,
     role?:string,
 }
 
@@ -25,9 +26,18 @@ class RequestsList extends Component<Props,State>{
         this.state={}
     }
 
-    private buttonValue(item : Idata){
+    private buttonValue(id?: number){
         return(
-            'request' + item.id!.toString()
+            'request' + id!.toString()
+        )
+    }
+
+    private renderButton(id?: number){
+        return(
+            <Button
+                use='success'
+                onClick={e => this.props.newChangePage(this.buttonValue(id))}
+            >Подробнее</Button>
         )
     }
 
@@ -36,10 +46,7 @@ class RequestsList extends Component<Props,State>{
             <div style={{marginBottom:'10px'}}>
                <Gapped>
                     <div style={{width:'auto', minWidth:'20vw', textDecoration:'underline'}}><Typography>{item.student}, {item.group} группа</Typography></div>
-                    <button
-                        onClick={this.props.changePage}
-                        value={this.buttonValue(item)}
-                    ><Typography >Подробнее</Typography></button>
+                    {this.renderButton(item.id)}
                 </Gapped>
             </div>
             

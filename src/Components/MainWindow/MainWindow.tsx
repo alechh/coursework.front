@@ -7,6 +7,7 @@ import Content from './MainWindowComponents/Content/Content'
 interface Props{
     page?:string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage(newPage : string) : void,
     handleCritic() : void,
     isCritic?: boolean,
     role?: string,
@@ -32,6 +33,7 @@ class MainWindow extends Component<Props,State>{
                     role={this.props.role}    
                 />
                 <Content 
+                    newChangePage={this.props.newChangePage}
                     token={this.props.token}
                     role = {this.props.role}
                     page = {this.props.page} 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Center from '@skbkontur/react-ui/Center'
 import Spinner from '@skbkontur/react-ui/Spinner'
+import Button from '@skbkontur/react-ui/Button'
 import './RequestsList.css'
 import axios from 'axios'
 
@@ -27,7 +28,7 @@ interface Idata{
 }
 
 interface Props{
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage (newPage : string) : void,
     role?:string,
     token : string
 }
@@ -104,29 +105,33 @@ class RequestsList extends Component<Props,State>{
         }
     }
 
-    private buttonValue(item : Idata){
-        switch(this.props.role){
-            case 'student':
-                return 'request_' + item.id?.toString()
-            case 'teacher':{
-                //return 'st' + item.studentId?.toString() + '_request' + item.id!.toString()
-                return 'request' + item.id!.toString()
-            }
-            case 'curator':
-                return 'request' + item.id!.toString()
-        }
+    private renderButton(id?: number){
+        return(
+            <Button
+                use='success'
+                onClick={e => this.props.newChangePage('request_' + id?.toString())}
+            >Подробнее</Button>
+        )
     }
+
+    // private buttonValue(id?: number){
+    //     switch(this.props.role){
+    //         case 'student':
+    //             return 'request_' + id?.toString()
+    //         case 'teacher':{
+    //             //return 'st' + item.studentId?.toString() + '_request' + item.id!.toString()
+    //             return 'request' + id!.toString()
+    //         }
+    //         case 'curator':
+    //             return 'request' + id!.toString()
+    //     }
+    // }
 
     private renderItem(item : Idata){
         return(
             <div className='requestItem'>
                 {this.renderTitle(item)}
-                <button
-                    className='buttonMore inline'
-                    value={this.buttonValue(item)} 
-                    onClick={this.props.changePage} 
-                ><Typography variant='button'>Подробнее</Typography>
-                </button>
+                {this.renderButton(item.id)}
             </div>
             )
     }

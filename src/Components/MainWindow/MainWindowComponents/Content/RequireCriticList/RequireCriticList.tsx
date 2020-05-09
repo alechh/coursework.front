@@ -29,7 +29,7 @@ interface Idata{
 
 interface Props{
     role?: string,
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChagnePage (newPage : string) : void,
     userId?: number
 }
 
@@ -77,9 +77,9 @@ class RequireCriticList extends Component<Props,State>{
             <div>
                 {this.state.data?.map(item => {
                     return <RequireCriticItem 
-                        userId = {this.props.userId}
-                        data={item} 
-                        changePage={this.props.changePage}
+                                userId = {this.props.userId}
+                                data={item} 
+                                newChangePage={this.props.newChagnePage}
                     />})}
                 <hr/>
             </div>

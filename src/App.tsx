@@ -67,6 +67,10 @@ class App extends Component<Props,State> {
         return(this.setState({page:newPage}))
     }
 
+    private newChangePage = (newPage : string) => {
+        return(this.setState({page : newPage}))
+    }
+
     handleCritic = () => {
         //-----------------------------------------------
         // Запрос на становление рецензентом или наоборот
@@ -111,6 +115,7 @@ class App extends Component<Props,State> {
                         isCritic={this.state.user.isCritic}
                     />
                     <MainWindow
+                        newChangePage={this.newChangePage}
                         token={this.state.token}
                         role={this.state.user.role}
                         page={this.state.page} 

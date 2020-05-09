@@ -24,7 +24,7 @@ import curatorMyCurrentWorks from '../../../../../TestData/Curator/myCurrentWork
 type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
 interface Props{
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage?(newPage : string): void,
     role?: string,
     type?: WorkType,
     curatorSelect?: string,
@@ -178,8 +178,8 @@ class WorksList extends Component<Props,State>{
         return (
             <div className='workItem'>
                 <CourseWork 
+                    newChangePage={this.props.newChangePage}
                     data={work} 
-                    changePage={this.props.changePage} 
                     role={this.props.role}
                     type={this.props.type}
                     curatorSelect = {(this.props.curatorSelect === 'Занятые темы' || this.props.curatorSelect === 'Свободные темы')? this.props.curatorSelect : ''}/>

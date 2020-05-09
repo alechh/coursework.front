@@ -16,7 +16,7 @@ import teacherBiddingData from '../../../../../TestData/Teacher/biddingData'
 interface Props{
     isCritic?: boolean,
     handleCritic() : void,
-    changePage(event : React.MouseEvent<HTMLButtonElement>): void,
+    newChangePage (newPage : string) : void,
     role?: string,
     token: string
 }
@@ -41,8 +41,8 @@ class Main extends Component<Props,State>{
                 //---------------------------------
                 // Запрос результатов биддинга
                 //---------------------------------
-                return [{}]
-                //return biddingData
+                //return [{}]
+                return biddingData
             }
             case 'teacher':{
                 const axios = require('axios').default
@@ -51,8 +51,8 @@ class Main extends Component<Props,State>{
                 // Запрос результатов биддинга
                 //---------------------------------
                 
-                return [{}]
-                //return teacherBiddingData
+                //return [{}]
+                return teacherBiddingData
             }
         }
     }
@@ -109,7 +109,12 @@ class Main extends Component<Props,State>{
     private renderMain(){
         return(
             <div>
-                {this.props.isCritic? <BiddingResults changePage={this.props.changePage} role={this.props.role} data={this.whichData()!}/> : null}
+                {this.props.isCritic? 
+                    <BiddingResults 
+                        newChangePage={this.props.newChangePage} 
+                        role={this.props.role} 
+                        data={this.whichData()!}/> 
+                : null}
                 <div className='ml20'>
                     <Gapped>
                         {this.props.role !== 'curator'? this.criticButton() : null}

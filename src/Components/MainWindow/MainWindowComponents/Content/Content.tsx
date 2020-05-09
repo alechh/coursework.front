@@ -37,6 +37,7 @@ interface ICourseWork{
 interface Props{
     page?: string,
     changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage(newPage : string) : void,
     handleCritic() : void,
     isCritic?: boolean,
     role?: string,
@@ -117,9 +118,9 @@ class Content extends Component<Props,State>{
                 
                 if(this.props.page!.indexOf('free') + 1)
                     return <TeacherFreeWorksDetail 
+                                newChangePage={this.props.newChangePage}
                                 token={this.props.token}
                                 page={this.props.page} 
-                                changePage={this.props.changePage}
                                 role={this.props.role}/>
                 
                 if(this.props.page!.indexOf('completed') + 1)
@@ -150,10 +151,10 @@ class Content extends Component<Props,State>{
 
                 if(this.props.page!.indexOf('curatorFree') + 1)
                     return <TeacherFreeWorksDetail 
+                                newChangePage={this.props.newChangePage}
                                 token={this.props.token}
                                 page={this.props.page} 
-                                role={this.props.role}
-                                changePage={this.props.changePage}/>
+                                role={this.props.role}/>
 
                 if(this.props.page!.indexOf('request') + 1){
                     return <RequestDetail token={this.props.token} page={this.props.page} role={this.props.role} />
@@ -174,7 +175,7 @@ class Content extends Component<Props,State>{
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
-                                    changePage={this.props.changePage}/>
+                                    newChangePage={this.props.newChangePage}/>
 
                     case 'Активные': {
                         //------------------------------------------------------------
@@ -190,7 +191,7 @@ class Content extends Component<Props,State>{
                         return <CourseWork 
                                     //data={activeWork[0]}
                                     data={data} 
-                                    changePage={this.props.changePage} 
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}
                                     type='current'/>
                     }
@@ -200,23 +201,29 @@ class Content extends Component<Props,State>{
 
                     case 'Завершенные': 
                         return <WorksList 
+                                    newChangePage={this.props.newChangePage}
                                     token={this.props.token}
-                                    changePage={this.props.changePage} 
                                     role={this.props.role}
                                     type='completed'/>
 
                     case 'Мои заявки': 
-                        return <RequestsList token={this.props.token} changePage={this.props.changePage} role={this.props.role}/>
+                        return <RequestsList 
+                                    token={this.props.token} 
+                                    newChangePage={this.props.newChangePage} 
+                                    role={this.props.role}/>
 
                     case 'Свободные курсовые': 
                         return <WorksList 
                                     token={this.props.token}
-                                    changePage={this.props.changePage} 
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}
                                     type='free'/>
 
                     case 'Требуют рецензии': 
-                        return <RequireCriticList userId={this.props.userId} role={this.props.role} changePage={this.props.changePage}/>
+                        return <RequireCriticList 
+                                    userId={this.props.userId} 
+                                    role={this.props.role} 
+                                    newChagnePage={this.props.newChangePage}/>
 
                     default:
                         return this.whichComponent()
@@ -230,39 +237,39 @@ class Content extends Component<Props,State>{
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
-                                    changePage={this.props.changePage}/>
+                                    newChangePage={this.props.newChangePage}/>
 
                     case 'Занятые': 
                         return <WorksList
                                     token={this.props.token}
-                                    changePage={this.props.changePage}
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}
                                     type='current'/>
                                                     
                     case 'Свободные': 
                         return <WorksList
                                     token={this.props.token}
-                                    changePage={this.props.changePage}
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}
                                     type='free'/>
 
                     case 'Завершенные':
                         return <WorksList
                                     token={this.props.token}
-                                    changePage={this.props.changePage}
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}
                                     type='completed'/>
 
                     case 'Заявки': 
                         return <RequestsList
                                     token={this.props.token}
-                                    changePage = {this.props.changePage}
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}/>
 
                     case 'Свободные курсовые':
                         return <WorksList
                                     token={this.props.token}
-                                    changePage={this.props.changePage}
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}
                                     type='foreign'/>
 
@@ -270,7 +277,7 @@ class Content extends Component<Props,State>{
                         return <RequireCriticList
                                     userId={this.props.userId}
                                     role={this.props.role}
-                                    changePage={this.props.changePage}/>
+                                    newChagnePage={this.props.newChangePage}/>
                     default:
                         return this.whichComponent()
                 }
@@ -283,7 +290,7 @@ class Content extends Component<Props,State>{
                                     role={this.props.role} 
                                     handleCritic={this.props.handleCritic} 
                                     isCritic = {this.props.isCritic} 
-                                    changePage={this.props.changePage}/>
+                                    newChangePage={this.props.newChangePage}/>
 
                     case 'Новые рецензенты':
                         return <NewCriticList userId={this.props.userId} type='not-selected'/>
@@ -294,19 +301,19 @@ class Content extends Component<Props,State>{
                     case 'Занятые темы':
                         return <WorksList
                                     token={this.props.token}
-                                    changePage={this.props.changePage}
+                                    newChangePage={this.props.newChangePage}
                                     role={this.props.role}
                                     type='current'/>
 
                     case 'Предложенные темы':
                         return <CuratorSuggestedTopics
                                     token={this.props.token}
-                                    changePage={this.props.changePage}/>
+                                    newChangePage={this.props.newChangePage}/>
 
                     case 'Заявки': 
                         return <RequestsList
                                     token={this.props.token}
-                                    changePage = {this.props.changePage}
+                                    newChangePage={this.props.newChangePage} 
                                     role={this.props.role}/>
 
                     case 'Биддинг':

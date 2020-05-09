@@ -38,7 +38,7 @@ interface Irequest{
 interface Props{
     page?:string,
     role?: string,
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage (newPage : string) : void,
     token : string
 }
 
@@ -140,7 +140,7 @@ class FreeWorkDetail extends Component<Props,State>{
                 <Description data={this.state.data}/>
                 <RequestsList 
                     data={this.state.requests} 
-                    changePage={this.props.changePage}
+                    newChangePage={this.props.newChangePage}
                     role={this.props.role}/>
                 <hr/>
                 <div className='ml30'>

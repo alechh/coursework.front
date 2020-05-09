@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import './CourseWork.css'
 import Typography from '@material-ui/core/Typography'
 import Gapped from '@skbkontur/react-ui/Gapped'
+import Button from '@skbkontur/react-ui/Button'
+import Info from '@skbkontur/react-icons/Info' 
 
 type WorkType = 'current' | 'completed' | 'free' | 'request' | 'foreign'
 
@@ -16,7 +18,7 @@ interface Idata{
 }
 
 interface Props{
-    changePage(event : React.MouseEvent<HTMLButtonElement>) : void,
+    newChangePage?(newPage : string) :void,
     data : Idata,
     role?: string,
     type?: WorkType,
@@ -65,7 +67,20 @@ class CourseWork extends Component<Props,State>{
         :   null
     }
 
-    private buttonValue(id?: number):string{
+    private renderButton(){
+        return(
+            <div style={{marginLeft:'2vw', marginBottom:'2vh'}}>
+                <Button
+                    icon={<Info/>}
+                    use='success'
+                    onClick={e => this.props.newChangePage!(this.buttonValue())}
+                >Подробнее</Button>
+            </div>
+        )
+    }
+
+    private buttonValue():string{
+        const id = this.props.data.id
         switch(this.props.role){
             case 'student':{
                if(this.props.type === 'current')
@@ -108,12 +123,8 @@ class CourseWork extends Component<Props,State>{
             <div className='courseWork'>
                 {this.courseWorkTitle()} 
                 {this.renderDescription()}
-                <Gapped gap={20}>
-                    <button 
-                        value={this.buttonValue(this.props.data.id)}
-                        onClick={this.props.changePage} 
-                        className='buttonMore'
-                    ><div style={{width :'auto', height : 'auto'}}><Typography variant='button'>Подробнее</Typography></div></button>
+                <Gapped gap={10}>
+                    {this.renderButton()}
                     {this.renderDeadline()}
                 </Gapped>
             </div>
