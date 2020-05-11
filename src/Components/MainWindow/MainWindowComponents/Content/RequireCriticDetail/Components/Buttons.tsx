@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import Gapped from '@skbkontur/react-ui/Gapped'
-import Typography from '@material-ui/core/Typography'
+import Button from '@skbkontur/react-ui/Button'
 import './Buttons.css'
 import Toast from '@skbkontur/react-ui/Toast'
+import Ok from '@skbkontur/react-icons/Ok'
+import OkDouble from '@skbkontur/react-icons/OkDouble'
+import Delete from '@skbkontur/react-icons/Delete'
+
 
 interface Props{
     userId?: number,
@@ -18,54 +22,51 @@ class Buttons extends Component<Props,State>{
         this.state={}
     }
 
-    private handleButton = (event : React.MouseEvent<HTMLButtonElement>) => {
-        switch(event.currentTarget.value){
-            case 'yes': {
-                //---------------------------------------------
-                // Запрос "Буду рецензировать" по userId и id
-                //---------------------------------------------
+    private buttonYes = () => {
+        //---------------------------------------------
+        // Запрос "Буду рецензировать" по userId и id
+        //---------------------------------------------
 
-                Toast.push('Выбрано: Буду рецензировать') 
-                break
-            }
-            case 'maybe': {
-                //---------------------------------------------
-                // Запрос "Могу рецензировать" по userId и id
-                //---------------------------------------------
-
-                Toast.push('Выбрано: Могу рецензировать') 
-                break
-            }
-            case 'no': {
-                //---------------------------------------------
-                // Запрос "Не могу рецензировать" по userId и id
-                //---------------------------------------------
-
-                Toast.push('Выбрано: Не могу рецензировать')
-                break
-            }
-        }
+        Toast.push('Выбрано: Буду рецензировать') 
     }
+
+    private buttonMayBe = () => {
+        //---------------------------------------------
+        // Запрос "Могу рецензировать" по userId и id
+        //---------------------------------------------
+
+        Toast.push('Выбрано: Могу рецензировать') 
+    }
+
+    private buttonNo = () => {
+        //---------------------------------------------
+        // Запрос "Не могу рецензировать" по userId и id
+        //---------------------------------------------
+
+        Toast.push('Выбрано: Не могу рецензировать')
+    }
+
 
     private renderButtons(){
         return(
             <div style={{marginLeft: '20px'}}>
                 <Gapped>
-                <button
-                    className='requireCriticButton yes'
-                    value='yes'
-                    onClick={this.handleButton}
-                ><Typography variant='button'>Хочу рецензировать</Typography></button>
-                <button
-                    className='requireCriticButton maybe'
-                    value='maybe'
-                    onClick={this.handleButton}
-                ><Typography variant='button'>Могу рецензировать</Typography></button>
-                <button
-                    className='requireCriticButton no'
-                    value='no'
-                    onClick={this.handleButton}
-                ><Typography variant='button'>Не могу рецензировать</Typography></button>
+                    <Button
+                        icon={<OkDouble/>}
+                        use='success'
+                        onClick={this.buttonYes}
+                    >Буду рецензировать</Button>
+
+                    <Button
+                        icon={<Ok/>}
+                        onClick={this.buttonMayBe}
+                    >Могу рецензировать</Button>
+
+                    <Button
+                        icon={<Delete/>}
+                        use='danger'
+                        onClick={this.buttonNo}
+                    >Не буду рецензировать</Button>
                 </Gapped>
             </div>
         )

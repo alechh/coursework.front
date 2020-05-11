@@ -3,6 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@skbkontur/react-ui/Button";
 import Typography from "@material-ui/core/Typography";
 import Gapped from '@skbkontur/react-ui/Gapped'
+import UserAdd from '@skbkontur/react-icons/UserAdd'
 
 interface RegisterViewModel{
     name : string,
@@ -108,7 +109,12 @@ export default class Register extends React.Component<Props, IRegisterState> {
                         onChange={e => this.setState({ registerData: {...this.state.registerData, passwordConfirm: e.target.value}})}
                     /></Gapped>
                     <br />
-                    <Button size="small" use="primary" type="submit">Зарегистрироваться</Button>
+                    <Button 
+                        size="small" 
+                        use="primary" 
+                        type="submit"
+                        icon={<UserAdd/>}
+                    >Зарегистрироваться</Button>
                 </form>
             </div>
         );

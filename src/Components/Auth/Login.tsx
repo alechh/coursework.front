@@ -7,13 +7,16 @@ import Modal from '@skbkontur/react-ui/Modal'
 import Ok from '@skbkontur/react-icons/Ok'
 import Delete from '@skbkontur/react-icons/Delete'
 import Gapped from '@skbkontur/react-ui/Gapped'
+import LoginIcon from '@skbkontur/react-icons/Login'
 
 interface State {
     email: string;
     password: string;
     needMoreInformation: boolean,
     user : IUser,
-    token : string
+    token : string,
+    loginError : boolean,
+    passwordError : boolean
 }
 
 interface IUser{
@@ -36,7 +39,9 @@ export default class Login extends React.Component<Props, State> {
             password: "",
             needMoreInformation : false,
             user : {},
-            token : ''
+            token : '',
+            loginError : false,
+            passwordError : false
         };
     }
 
@@ -70,6 +75,15 @@ export default class Login extends React.Component<Props, State> {
     }
 
     private handleSubmit = () => {
+        if(this.state.email === '')
+            return(this.setState({loginError : true}))
+
+        this.setState({loginError : false})
+
+        if(this.state.password === '')
+            return(this.setState({passwordError : true}))
+
+        this.setState({passwordError : false})
         //-----------------------------
         // login-запрос, получаю токен
         //-----------------------------
@@ -78,9 +92,9 @@ export default class Login extends React.Component<Props, State> {
         //let user : {} = jwt_decode(token);
         let USER = {
             firstName : 'Aleksandr',
-            lastName : '',
+            lastName : 'Semenov',
             isCritic : false,
-            role: 'teacher',
+            role: 'student',
             userId : 1
         }
 
@@ -94,21 +108,22 @@ export default class Login extends React.Component<Props, State> {
     render(): JSX.Element {
         return (
             <div className="container">
-                <Typography variant="h6" gutterBottom>Войти</Typography>
+                <Typography variant="h6" gutterBottom>Вход</Typography>
                 {this.state.needMoreInformation && this.renderModal()}
-                <div>
-                    <TextField
-                        required
-                        type="email"
-                        label="Email"
-                        variant="outlined"
-                        margin="normal"
-                        name={this.state.email}
-                        onChange={e => this.setState({ email: e.target.value })}
-                    />
-                </div>
                 <TextField
                     required
+                    error={this.state.loginError}
+                    type="email"
+                    label="Email"
+                    variant="outlined"
+                    margin="normal"
+                    name={this.state.email}
+                    onChange={e => this.setState({ email: e.target.value })}
+                />
+                <br/>
+                <TextField
+                    required
+                    error={this.state.passwordError}
                     type="password"
                     label="Password"
                     variant="outlined"
@@ -117,7 +132,12 @@ export default class Login extends React.Component<Props, State> {
                     onChange={e => this.setState({ password: e.target.value})}
                 />
                 <br />
-                <Button size="small" use="primary" onClick={this.handleSubmit}>Войти</Button>
+                <Button 
+                    size="small" 
+                    use="primary" 
+                    onClick={this.handleSubmit}
+                    icon={<LoginIcon/>}
+                >Войти</Button>
             </div>
         );
     }
